@@ -18,7 +18,6 @@ public class UsuarioInserirDTO {
 	private List<Postagem> postagem;
 	private Set<Relacionamento> relacionamentos;
 
-
 	public String getNome() {
 		return nome;
 	}

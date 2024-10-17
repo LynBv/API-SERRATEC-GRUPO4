@@ -15,6 +15,18 @@ public class PostagemDTO {
 	private List<Comentario> comentarios;
 	private Usuario usuario;
 
+	public PostagemDTO() {
+	}
+
+	public PostagemDTO(Long id, String conteudo, LocalDate dataCriacao, List<Comentario> comentarios, Usuario usuario) {
+		super();
+		this.id = id;
+		this.conteudo = conteudo;
+		this.dataCriacao = dataCriacao;
+		this.comentarios = comentarios;
+		this.usuario = usuario;
+	}
+
 	public PostagemDTO(Postagem postagem) {
 		this.id = postagem.getId();
 		this.conteudo = postagem.getConteudo();
