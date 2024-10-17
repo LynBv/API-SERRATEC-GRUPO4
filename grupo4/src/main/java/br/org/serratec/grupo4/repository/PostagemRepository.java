@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import br.org.serratec.grupo4.domain.Postagem;
 
-
 @Repository
 public interface PostagemRepository extends JpaRepository<Postagem, Long> {
 
