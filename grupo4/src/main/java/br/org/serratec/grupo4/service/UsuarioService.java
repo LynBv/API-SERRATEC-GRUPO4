@@ -13,6 +13,7 @@ import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.exception.EmailException;
 import br.org.serratec.grupo4.exception.SenhaException;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -27,13 +28,14 @@ public class UsuarioService {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario;
     }
-
+  
 	public List<UsuarioDTO> buscarTodos() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
-		return usuariosDTO;
+		return usuariosDTO; 
 	}
 
+	@Transactional
     public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws SenhaException, EmailException {
 		if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
 			throw new SenhaException("Senha e Confirma Senha não são iguais");

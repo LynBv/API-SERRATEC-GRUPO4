@@ -9,23 +9,12 @@ import br.org.serratec.grupo4.domain.Relacionamento;
 
 public class UsuarioInserirDTO {
 
-	private Long id;
 	private String nome;
 	private String sobrenome;
 	private String email;
 	private String senha;
 	private String confirmaSenha;
 	private LocalDate dataNascimento;
-	private List<Postagem> postagem;
-	private Set<Relacionamento> relacionamentos;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -65,22 +54,6 @@ public class UsuarioInserirDTO {
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}
-
-	public List<Postagem> getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
-	}
-
-	public Set<Relacionamento> getRelacionamentos() {
-		return relacionamentos;
-	}
-
-	public void setRelacionamentos(Set<Relacionamento> relacionamentos) {
-		this.relacionamentos = relacionamentos;
 	}
 
 	public String getConfirmaSenha() {
