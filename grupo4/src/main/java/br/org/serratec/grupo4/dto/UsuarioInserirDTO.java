@@ -15,8 +15,6 @@ public class UsuarioInserirDTO {
 	private String senha;
 	private String confirmaSenha;
 	private LocalDate dataNascimento;
-	private List<Postagem> postagem;
-	private Set<Relacionamento> relacionamentos;
 
 	public String getNome() {
 		return nome;
@@ -56,22 +54,6 @@ public class UsuarioInserirDTO {
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}
-
-	public List<Postagem> getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
-	}
-
-	public Set<Relacionamento> getRelacionamentos() {
-		return relacionamentos;
-	}
-
-	public void setRelacionamentos(Set<Relacionamento> relacionamentos) {
-		this.relacionamentos = relacionamentos;
 	}
 
 	public String getConfirmaSenha() {
