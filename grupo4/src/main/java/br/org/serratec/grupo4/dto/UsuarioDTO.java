@@ -19,7 +19,10 @@ public class UsuarioDTO {
 	private LocalDate dataNascimento;
 	private List<Postagem> postagem;
 	private Set<Relacionamento> relacionamentos;
-	
+
+	public UsuarioDTO() {
+	}
+
 	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
@@ -30,38 +33,47 @@ public class UsuarioDTO {
 		this.postagem = new ArrayList<Postagem>();
 		this.relacionamentos = new HashSet<Relacionamento>();
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getSobrenome() {
 		return sobrenome;
 	}
+
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getSenha() {
 		return senha;
 	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
@@ -81,10 +93,9 @@ public class UsuarioDTO {
 	public Set<Relacionamento> getRelacionamentos() {
 		return relacionamentos;
 	}
+
 	public void setRelacionamentos(Set<Relacionamento> relacionamentos) {
 		this.relacionamentos = relacionamentos;
 	}
-	
-	
+
 }
- 
