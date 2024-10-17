@@ -1,16 +1,14 @@
 package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import br.org.serratec.grupo4.domain.Postagem;
 import br.org.serratec.grupo4.domain.Relacionamento;
-import br.org.serratec.grupo4.domain.Usuario;
 
-public class UsuarioDTO {
+public class UsuarioInserirDTO {
+
 	private Long id;
 	private String nome;
 	private String sobrenome;
@@ -20,16 +18,6 @@ public class UsuarioDTO {
 	private List<Postagem> postagem;
 	private Set<Relacionamento> relacionamentos;
 	
-	public UsuarioDTO(Usuario usuario) {
-		this.id = usuario.getId();
-		this.nome = usuario.getNome();
-		this.sobrenome = usuario.getSobrenome();
-		this.email = usuario.getEmail();
-		this.senha = usuario.getSenha();
-		this.dataNascimento = usuario.getDataNascimento();
-		this.postagem = new ArrayList<Postagem>();
-		this.relacionamentos = new HashSet<Relacionamento>();
-	}
 	
 	public Long getId() {
 		return id;
@@ -61,23 +49,18 @@ public class UsuarioDTO {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
-
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
 	public List<Postagem> getPostagem() {
 		return postagem;
 	}
-
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-
 	public Set<Relacionamento> getRelacionamentos() {
 		return relacionamentos;
 	}
@@ -86,5 +69,5 @@ public class UsuarioDTO {
 	}
 	
 	
+	
 }
- 
