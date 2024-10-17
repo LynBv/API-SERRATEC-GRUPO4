@@ -22,4 +22,22 @@ public class UsuarioService {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario;
     }
+
+    /*public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws RuntimeException {
+		if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmarSenha())) {
+			throw new SenhaException("Senha e Confirma Senha não são iguais");
+		}
+		if (usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
+			throw new EmailException("Email já existente");
+		}
+		Usuario usuario = new Usuario();
+		usuario.setNome(usuarioInserirDTO.getNome());
+		usuario.setEmail(usuarioInserirDTO.getEmail());
+		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
+		
+		usuario = usuarioRepository.save(usuario);
+		
+		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
+		return usuarioDTO;}*/
+	
 }
