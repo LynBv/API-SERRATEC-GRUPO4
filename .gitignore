@@ -37,6 +37,7 @@ build/
 ### Eclipse ###
 .apt_generated
 .classpath
+.metadata
 .factorypath
 .project
 .settings
