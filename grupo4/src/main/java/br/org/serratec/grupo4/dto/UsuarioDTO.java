@@ -20,6 +20,26 @@ public class UsuarioDTO {
 	private List<Postagem> postagem;
 	private Set<Relacionamento> relacionamentos;
 	
+	public UsuarioDTO() {
+    }
+	
+	
+	
+	public UsuarioDTO(Long id, String nome, String sobrenome, String email, String senha, LocalDate dataNascimento,
+			List<Postagem> postagem, Set<Relacionamento> relacionamentos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.email = email;
+		this.senha = senha;
+		this.dataNascimento = dataNascimento;
+		this.postagem = postagem;
+		this.relacionamentos = relacionamentos;
+	}
+
+
+
 	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
