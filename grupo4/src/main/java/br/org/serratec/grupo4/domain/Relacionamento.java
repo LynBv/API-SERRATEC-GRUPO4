@@ -29,5 +29,4 @@ public class Relacionamento {
 	@Column
 	private LocalDate dataInicioSeguimento;
 
-
 }
