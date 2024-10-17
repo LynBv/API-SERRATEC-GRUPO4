@@ -27,11 +27,11 @@ public class UsuarioService {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario;
     }
-
+  
 	public List<UsuarioDTO> buscarTodos() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
-		return usuariosDTO;
+		return usuariosDTO; 
 	}
 
     public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws SenhaException, EmailException {
