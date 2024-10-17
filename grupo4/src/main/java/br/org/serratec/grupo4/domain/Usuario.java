@@ -1,6 +1,7 @@
 package br.org.serratec.grupo4.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
@@ -31,13 +32,12 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private LocalDate dataNascimento;
-	
+
 	@JsonManagedReference
-	@OneToMany(mappedBy = "postagem") 
-	private List<Postagem> Postagens;
-	
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Postagem> postagens = new ArrayList<>();
+
 	@OneToMany(mappedBy = "id.usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<UsuarioRelacionamento> usuarioPerfis = new HashSet<>();
-		
 
 }

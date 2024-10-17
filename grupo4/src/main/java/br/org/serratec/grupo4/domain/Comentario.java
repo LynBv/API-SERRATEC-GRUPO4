@@ -2,9 +2,6 @@ package br.org.serratec.grupo4.domain;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,21 +18,28 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode
 public class Comentario {
-	
-	@Id	
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotNull(message ="Comenário não pode estar vazio!!")
+
+	@NotNull(message = "Comenário não pode estar vazio!!")
 	@Column(name = "comentario", length = 400)
 	private String texto;
-	
-	@NotBlank(message= "Preencha à Data do Comentário.")
-	@Column(name= "data_criacao", nullable= false)
+
+	@NotBlank(message = "Preencha à Data do Comentário.")
+	@Column(name = "data_criacao", nullable = false)
 	private LocalDate dataCriacao;
 
-	@JsonBackReference 
-	@ManyToOne 
-	@JoinColumn(name = "id_postagem")
+	/*
+	 * @JsonBackReference
+	 * 
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name = "id_postagem") private Postagem postagem;
+	 */
+
+	@ManyToOne
+	@JoinColumn(name = "id_postagem", nullable = false)
 	private Postagem postagem;
 }
