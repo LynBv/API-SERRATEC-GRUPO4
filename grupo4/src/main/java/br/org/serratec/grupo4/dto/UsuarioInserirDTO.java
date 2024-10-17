@@ -9,7 +9,6 @@ import br.org.serratec.grupo4.domain.Relacionamento;
 
 public class UsuarioInserirDTO {
 
-	private Long id;
 	private String nome;
 	private String sobrenome;
 	private String email;
@@ -19,13 +18,6 @@ public class UsuarioInserirDTO {
 	private List<Postagem> postagem;
 	private Set<Relacionamento> relacionamentos;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;

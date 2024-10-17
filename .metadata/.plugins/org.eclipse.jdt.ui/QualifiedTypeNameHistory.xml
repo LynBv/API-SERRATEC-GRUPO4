@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="br.org.serratec.grupo4.repository.UsuarioRepository"/>
+    <fullyQualifiedTypeName name="br.org.serratec.grupo4.dto.UsuarioInserirDTO"/>
+    <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
+</qualifiedTypeNameHistroy>
