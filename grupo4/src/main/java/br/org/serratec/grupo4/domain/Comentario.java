@@ -2,6 +2,8 @@ package br.org.serratec.grupo4.domain;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -17,6 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode
+@Valid
 public class Comentario {
 
 	@Id
@@ -29,17 +33,12 @@ public class Comentario {
 
 	@NotBlank(message = "Preencha à Data do Comentário.")
 	@Column(name = "data_criacao", nullable = false)
+	@UpdateTimestamp
 	private LocalDate dataCriacao;
-
-	/*
-	 * @JsonBackReference
-	 * 
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "id_postagem") private Postagem postagem;
-	 */
 
 	@ManyToOne
 	@JoinColumn(name = "id_postagem", nullable = false)
 	private Postagem postagem;
+	
+	
 }
