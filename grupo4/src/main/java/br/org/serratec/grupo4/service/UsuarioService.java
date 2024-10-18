@@ -23,6 +23,8 @@ public class UsuarioService {
     @Autowired
 	private BCryptPasswordEncoder encoder;
 
+    
+    
     public Optional<Usuario> buscarPorId(Long id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario;
