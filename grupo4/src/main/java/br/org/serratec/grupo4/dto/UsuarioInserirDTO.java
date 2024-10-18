@@ -1,11 +1,6 @@
 package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-
-import br.org.serratec.grupo4.domain.Postagem;
-import br.org.serratec.grupo4.domain.Relacionamento;
 
 public class UsuarioInserirDTO {
 
