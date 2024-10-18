@@ -73,7 +73,7 @@ public class Usuario implements UserDetails, Serializable {
 	private List<Postagem> postagens = new ArrayList<>();
 
 	@OneToMany(mappedBy = "id.usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<UsuarioRelacionamento> usuarioPerfis = new HashSet<>();
+	private Set<UsuarioRelacionamento> usuarioRelacionamento = new HashSet<>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
