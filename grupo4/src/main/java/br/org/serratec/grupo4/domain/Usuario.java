@@ -40,6 +40,7 @@ public class Usuario implements UserDetails, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
+	@Column(name="d_usuario")
 	private Long id;
 
 	@NotBlank(message = "Nome não pode estar em branco!!")
