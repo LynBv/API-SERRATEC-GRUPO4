@@ -23,7 +23,7 @@ public class ComentarioService {
         return comentario;
     }
 
-    public List<ComentarioDTO> buscarTodos(Long id) {
+    public List<ComentarioDTO> buscarTodos() {
         List<Comentario> comentarios = comentarioRepository.findAll();
 		List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
 		return comentariosDTO; 
