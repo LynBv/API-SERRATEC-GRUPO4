@@ -23,7 +23,7 @@ public class PostagemService {
         return postagem;
     }
 
-    public List<PostagemDTO> buscarTodos(Long id) {
+    public List<PostagemDTO> buscarTodos() {
         List<Postagem> postagems = postagemRepository.findAll();
 		List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
 		return postagemsDTO; 
@@ -31,8 +31,8 @@ public class PostagemService {
 
     public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO){
         Postagem postagem = new Postagem();
-        postagem.setDataCriacao(postagemInserirDTO.getDataCriacao());
         postagem.setConteudo(postagemInserirDTO.getConteudo());
+        postagem.setDataCriacao(postagemInserirDTO.getDataCriacao());
         postagem.setUsuario(postagemInserirDTO.getUsuario());
 
         postagem = postagemRepository.save(postagem);
