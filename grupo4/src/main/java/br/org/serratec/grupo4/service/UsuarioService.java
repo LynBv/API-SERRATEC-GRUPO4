@@ -13,7 +13,6 @@ import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.exception.EmailException;
 import br.org.serratec.grupo4.exception.SenhaException;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -35,7 +34,6 @@ public class UsuarioService {
 		return usuariosDTO; 
 	}
 
-	@Transactional
     public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws SenhaException, EmailException {
 		if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
 			throw new SenhaException("Senha e Confirma Senha não são iguais");
@@ -46,6 +44,8 @@ public class UsuarioService {
 		Usuario usuario = new Usuario();
 		usuario.setNome(usuarioInserirDTO.getNome());
 		usuario.setEmail(usuarioInserirDTO.getEmail());
+		usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
+		usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
 		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
 		
 		usuario = usuarioRepository.save(usuario);
