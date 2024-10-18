@@ -35,7 +35,6 @@ public class Postagem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
-		
 	
 	@NotBlank(message = "Conteudo não pode estar em branco!!")
 	@Size(max = 400, message = "Conteudo não pode ultraprassar o limite de (max) caracteres!!")

@@ -15,24 +15,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.org.serratec.grupo4.domain.Postagem;
+import br.org.serratec.grupo4.dto.PostagemDTO;
+import br.org.serratec.grupo4.dto.PostagemInserirDTO;
 import br.org.serratec.grupo4.repository.PostagemRepository;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import br.org.serratec.grupo4.service.PostagemService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/postagem")
 public class PostagemController {
 	@Autowired
-	private PostagemRepository postagemRepository;
+	private PostagemService postagemService;
+	
+	@Autowired
+	private PostagemRepository postagemRepository; 
 
 	@GetMapping
-	public ResponseEntity<List<Postagem>> listar() {
-		return ResponseEntity.ok(postagemRepository.findAll());
+	public ResponseEntity<List<PostagemDTO>> listar() {
+		return ResponseEntity.ok(postagemService.buscarTodos());
 	}
 
 	@GetMapping("/pagina")
@@ -42,18 +48,19 @@ public class PostagemController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> buscar(@PathVariable Long id) {
-		Optional<Postagem> postagemOpt = postagemRepository.findById(id);
+	public ResponseEntity<PostagemDTO> buscar(@PathVariable Long id) {
+		Optional<Postagem> postagemOpt = postagemService.buscarPorId(id);
 		if (postagemOpt.isPresent()) {
-			return ResponseEntity.ok(postagemOpt.get());
+			PostagemDTO postagemDTO = new PostagemDTO(postagemOpt.get());
+			return ResponseEntity.ok(postagemDTO);
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@PostMapping
-	public ResponseEntity<Postagem> inserir(@Valid @RequestBody Postagem postagem) {
-		Postagem postagemDTO = postagemRepository.save(postagem);
+	public ResponseEntity<PostagemDTO> inserir(@Valid @RequestBody PostagemInserirDTO postagem) {
+		PostagemDTO postagemDTO = postagemService.inserir(postagem);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
@@ -64,17 +71,17 @@ public class PostagemController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Postagem> atualizar(@PathVariable Long id, @Valid @RequestBody Postagem postagem) {
+	public ResponseEntity<PostagemDTO> atualizar(@PathVariable Long id, @Valid @RequestBody PostagemInserirDTO postagem) {
 		if (postagemRepository.existsById(id)) {
-			postagem.setId(id);
-			return ResponseEntity.ok(postagemRepository.save(postagem));
+			
+			return ResponseEntity.ok(postagemService.inserir(postagem));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Postagem> deletar(@PathVariable Long id) {
+	public ResponseEntity<PostagemDTO> deletar(@PathVariable Long id) {
 		if (postagemRepository.existsById(id)) {
 			postagemRepository.deleteById(id);
 			return ResponseEntity.noContent().build();
