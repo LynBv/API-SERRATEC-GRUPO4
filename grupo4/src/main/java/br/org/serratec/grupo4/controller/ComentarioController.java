@@ -15,22 +15,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.org.serratec.grupo4.domain.Comentario;
+import br.org.serratec.grupo4.dto.ComentarioDTO;
+import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
+
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import br.org.serratec.grupo4.service.ComentarioService;
+
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/comentarios")
 public class ComentarioController {
 
+	@Autowired
+	private ComentarioService comentarioService;
+	
 	@Autowired
 	private ComentarioRepository comentarioRepository;
 	
@@ -46,8 +54,8 @@ public class ComentarioController {
 		}
 	)
 	@GetMapping
-	public ResponseEntity<List<Comentario>> listar(){
-		return ResponseEntity.ok(comentarioRepository.findAll());
+	public ResponseEntity<List<ComentarioDTO>> listar(){
+		return ResponseEntity.ok(comentarioService.buscarTodos());
 	}
 	
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
@@ -76,10 +84,11 @@ public class ComentarioController {
 			}
 		)
 	@GetMapping("/{id}")
-	public ResponseEntity<Comentario>buscar(@PathVariable Long id){
-		Optional<Comentario>comentarioOpt = comentarioRepository.findById(id);
+	public ResponseEntity<ComentarioDTO>buscar(@PathVariable Long id){
+		Optional<Comentario>comentarioOpt = comentarioService.buscarPorId(id);
 		if (comentarioOpt.isPresent()) {
-			return ResponseEntity.ok(comentarioOpt.get());
+			ComentarioDTO comentarioDTO = new ComentarioDTO(comentarioOpt.get());
+			return ResponseEntity.ok(comentarioDTO);
 		}
 		else {
 			return ResponseEntity.notFound().build();
@@ -96,8 +105,8 @@ public class ComentarioController {
 			}
 		)
 	@PostMapping
-	public ResponseEntity<Comentario>inserir(@Valid @RequestBody Comentario comentario){
-		Comentario comentarioDTO = comentarioRepository.save(comentario);
+	public ResponseEntity<ComentarioDTO>inserir(@Valid @RequestBody ComentarioInserirDTO comentario){
+		ComentarioDTO comentarioDTO =  comentarioService.inserir(comentario);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
@@ -116,10 +125,9 @@ public class ComentarioController {
 			}
 		)
 	@PutMapping("/{id}")
-	public ResponseEntity<Comentario> atualizar(@PathVariable Long id, @Valid @RequestBody Comentario comentario){
+	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioInserirDTO comentario){
        if (comentarioRepository.existsById(id)) {
-    	   comentario.setId(id);
-    	   return ResponseEntity.ok(comentarioRepository.save(comentario));
+    	   return ResponseEntity.ok(comentarioService.inserir(comentario));
        }else {
     	   return ResponseEntity.notFound().build();
        }
@@ -135,7 +143,7 @@ public class ComentarioController {
 			}
 		)
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Comentario> deletar(@PathVariable Long id){
+	public ResponseEntity<ComentarioDTO> deletar(@PathVariable Long id){
 		if (comentarioRepository.existsById(id)){
 			comentarioRepository.deleteById(id);
 			return ResponseEntity.noContent().build();
