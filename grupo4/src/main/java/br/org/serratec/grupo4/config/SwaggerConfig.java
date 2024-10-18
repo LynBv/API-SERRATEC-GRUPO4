@@ -18,31 +18,24 @@ public class SwaggerConfig {
 	@Value("${dominio.openapi.dev-url}")
 	private String devUrl;
 	
-	@Value("${dominio.openapi.prod-url}")
-	private String prodUrl;
-	
 	@Bean
 	public OpenAPI myOpenAPI() {
 		Server devServer = new Server();
 		devServer.setUrl(devUrl);
-		devServer.setDescription("URL do servidor de desenvolvimento");
-		
-		Server prodServer = new Server();
-		prodServer.setUrl(prodUrl);
-		prodServer.setDescription("URL do servidor de produção");
+		devServer.setDescription("URL do servidor do Grupo 4");
 		
 		Contact contact = new Contact();
-		contact.setEmail("contato@meudominio.com.br");
-		contact.setName("Fulano");
-		contact.setUrl("https://www.meudominio.com.br");
+		contact.setEmail("contato@g4dominio.com.br 📧");
+		contact.setName("Grupo 4.0");
+		contact.setUrl("https://www.g4dominio.com.br");
 		
 		License apacheLicense = new License().name("Apache License")
 				.url("https://www.apache.org/license/LICENSE-2.0");
 		
-		Info info = new Info().title("Grupo 4").version("1.0").contact(contact)
-				.description("API para testes no H2").termsOfService("https://www.meudominio.com.br/termos")
+		Info info = new Info().title("Grupo 4 👨‍💻 👩‍💻").version("1.0").contact(contact)
+				.description("Trabalho Final do Grupo 4.0").termsOfService("https://https://www.g4dominio.com.br/termos")
 				.license(apacheLicense);
 		
-		return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+		return new OpenAPI().info(info).servers(List.of(devServer));
 	}
 }
