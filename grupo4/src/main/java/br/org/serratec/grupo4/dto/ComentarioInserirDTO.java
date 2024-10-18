@@ -6,18 +6,9 @@ import br.org.serratec.grupo4.domain.Postagem;
 
 public class ComentarioInserirDTO {
 
-	private Long id;
 	private String texto;
 	private LocalDate dataCriacao;
 	private Postagem postagem;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getTexto() {
 		return texto;

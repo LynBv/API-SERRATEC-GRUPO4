@@ -11,12 +11,24 @@ public class ComentarioDTO {
 	private String texto;
 	private LocalDate dataCriacao;
 	private Postagem postagem;
-	
+
+	public ComentarioDTO() {
+	}
+
+	public ComentarioDTO(Long id, String texto, LocalDate dataCriacao, Postagem postagem) {
+		super();
+		this.id = id;
+		this.texto = texto;
+		this.dataCriacao = dataCriacao;
+		this.postagem = postagem;
+	}
+
 	public ComentarioDTO(Comentario comentario) {
 		this.id = comentario.getId();
-        this.texto = comentario.getTexto();
-        this.dataCriacao = comentario.getDataCriacao();
-        this.postagem = comentario.getPostagem();;
+		this.texto = comentario.getTexto();
+		this.dataCriacao = comentario.getDataCriacao();
+		this.postagem = comentario.getPostagem();
+		;
 	}
 
 	public Long getId() {
@@ -50,5 +62,5 @@ public class ComentarioDTO {
 	public void setPostagem(Postagem postagem) {
 		this.postagem = postagem;
 	}
-	
+
 }
