@@ -32,8 +32,6 @@ public class PostagemService {
     public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO){
         Postagem postagem = new Postagem();
         postagem.setConteudo(postagemInserirDTO.getConteudo());
-        postagem.setDataCriacao(postagemInserirDTO.getDataCriacao());
-        postagem.setUsuario(postagemInserirDTO.getUsuario());
 
         postagem = postagemRepository.save(postagem);
 
