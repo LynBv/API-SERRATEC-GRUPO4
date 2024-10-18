@@ -11,7 +11,6 @@ public class PostagemDTO {
 
 	private Long id;
 	private String conteudo;
-	private LocalDate dataCriacao;
 	private List<Comentario> comentarios;
 	private Usuario usuario;
 
@@ -22,7 +21,6 @@ public class PostagemDTO {
 		super();
 		this.id = id;
 		this.conteudo = conteudo;
-		this.dataCriacao = dataCriacao;
 		this.comentarios = comentarios;
 		this.usuario = usuario;
 	}
@@ -30,7 +28,6 @@ public class PostagemDTO {
 	public PostagemDTO(Postagem postagem) {
 		this.id = postagem.getId();
 		this.conteudo = postagem.getConteudo();
-		this.dataCriacao = postagem.getDataCriacao();
 		this.comentarios = postagem.getComentarios();
 		this.usuario = postagem.getUsuario();
 	}
@@ -43,20 +40,20 @@ public class PostagemDTO {
 		this.id = id;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public String getConteudo() {
 		return conteudo;
 	}
 
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
-	}
-
-	public LocalDate getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(LocalDate dataCriacao) {
-		this.dataCriacao = dataCriacao;
 	}
 
 	public List<Comentario> getComentarios() {
@@ -67,11 +64,11 @@ public class PostagemDTO {
 		this.comentarios = comentarios;
 	}
 
-	public Usuario getUsuario() {
+	public Usuario getIdUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setIdUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
