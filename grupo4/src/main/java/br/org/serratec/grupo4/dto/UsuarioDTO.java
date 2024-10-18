@@ -9,7 +9,6 @@ public class UsuarioDTO {
 	private String nome;
 	private String sobrenome;
 	private String email;
-	private String senha;
 	private LocalDate dataNascimento;
 
 	public UsuarioDTO() {
@@ -21,7 +20,6 @@ public class UsuarioDTO {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.email = email;
-		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -30,7 +28,6 @@ public class UsuarioDTO {
 		this.nome = usuario.getNome();
 		this.sobrenome = usuario.getSobrenome();
 		this.email = usuario.getEmail();
-		this.senha = usuario.getSenha();
 		this.dataNascimento = usuario.getDataNascimento();
 	}
 
@@ -64,14 +61,6 @@ public class UsuarioDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public LocalDate getDataNascimento() {
