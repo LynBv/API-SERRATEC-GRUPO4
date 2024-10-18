@@ -50,4 +50,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
 	
+	@ExceptionHandler(RelacionamentoException.class)
+	private ResponseEntity<Object> handleRelacionamentoException(RelacionamentoException ex){
+		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+	}
+	
 }
