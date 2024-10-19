@@ -65,7 +65,7 @@ public class Usuario implements UserDetails, Serializable {
 	@Column(nullable = false)
 	private String senha;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	
 	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
 
