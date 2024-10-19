@@ -59,7 +59,6 @@ public class PostagemService {
         }
         postagem.setUsuario(usuarioOPT.get());
 
-
         postagem = postagemRepository.save(postagem);
 
         PostagemDTO postagemDTO = new PostagemDTO(postagem);

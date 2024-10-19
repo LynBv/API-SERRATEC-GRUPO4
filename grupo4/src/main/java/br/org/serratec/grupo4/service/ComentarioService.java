@@ -31,7 +31,6 @@ public class ComentarioService {
 
     public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO){
         Comentario comentario = new Comentario();
-        comentario.setDataCriacao(comentarioInserirDTO.getDataCriacao());
         comentario.setPostagem(comentarioInserirDTO.getPostagem());
         comentario.setTexto(comentarioInserirDTO.getTexto());
 
