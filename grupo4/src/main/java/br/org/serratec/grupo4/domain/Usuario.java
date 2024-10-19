@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -70,7 +70,7 @@ public class Usuario implements UserDetails, Serializable {
 	@Schema(description="Senha do Usuario")
 	private String senha;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "data_nascimento")
 	@Schema(description="Data_de_Nascimento do Usuario")
 	private LocalDate dataNascimento;
