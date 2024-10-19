@@ -24,7 +24,13 @@ import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import br.org.serratec.grupo4.service.UsuarioService;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -37,17 +43,48 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	
+	@Operation(summary = "📝 Lista todos os usuarios", description = "Todos os Usuarios")
+	@ApiResponses(
+		value = {
+			@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") 
+		}
+	)
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> listar() {
 		return ResponseEntity.ok(usuarioService.buscarTodos());
 	}
 
+	
+	
+	@Operation(summary = "📖 Lista Paginado", description = ":)")
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+					@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+					@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+					@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") 
+			}
+		)
 	@GetMapping("/pagina")
 	public ResponseEntity<Page<Usuario>> listarPaginado(
 			@PageableDefault(direction = Sort.Direction.ASC, page = 0, size = 8) Pageable pageable) {
 		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
 	}
 
+	
+	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+					@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+					@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+					@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") 
+			}
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> buscar(@PathVariable Long id) {
 		Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
@@ -60,6 +97,15 @@ public class UsuarioController {
 		}
 	}
 
+	@Operation(summary = "📚 Inserir um novo usuario", description = ":)")
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+					@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+					@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+					@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|")  
+			}
+		)
 	@PostMapping
 	public ResponseEntity<UsuarioDTO> inserir(@Valid @RequestBody UsuarioInserirDTO usuario) {
 		UsuarioDTO usuarioDTO = usuarioService.inserir(usuario);
@@ -71,6 +117,15 @@ public class UsuarioController {
 		return ResponseEntity.created(uri).body(usuarioDTO);
 	}
 
+	@Operation(summary = "🔢 Atualiza o usuario pelo id", description = "Verifique se o id está correto :)")
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+					@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+					@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+					@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") 
+			}
+		)
 	@PutMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario) {
 		if (usuarioRepository.existsById(id)) {
@@ -81,6 +136,15 @@ public class UsuarioController {
 		}
 	}
 
+	@Operation(summary = "❌ Deleta o usuario pelo id", description = "Verifique se o id está correto :)")
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+					@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+					@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+					@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|")  
+			}
+		)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> deletar(@PathVariable Long id) {
 		if (usuarioRepository.existsById(id)) {

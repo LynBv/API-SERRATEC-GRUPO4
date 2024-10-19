@@ -11,5 +11,4 @@ public class PostagemInserirDTO {
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
 	}
-	
 }
