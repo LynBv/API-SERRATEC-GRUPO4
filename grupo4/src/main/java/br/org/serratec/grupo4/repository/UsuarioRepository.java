@@ -9,7 +9,7 @@ import br.org.serratec.grupo4.domain.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Usuario findByEmail(String email);
-    Usuario findByNome(String nome);
+    //Usuario findiByNome	(String nome);
     
     /*//QUERY PARA BUSCAR SEGUIDORES POR EMAIL
     @Query("SELECT ur.id.usuario FROM UsuarioRelacionamento ur WHERE ur.id.relacionamento.usuario.email = :email")

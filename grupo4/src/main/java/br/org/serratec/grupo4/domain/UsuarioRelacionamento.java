@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
     @Column(name = "data_relacionamento")
     private LocalDate dataRelacionamento;
     
-	public UsuarioRelacionamento(Usuario usuario, Relacionamento relacionamento, LocalDate dataRelacinamento) {
+	public UsuarioRelacionamento(Usuario usuario, Relacionamento relacionamento, LocalDate dataRelacionamento) {
 
 		this.id.setUsuario(usuario);
 		this.id.setRelacionamento(relacionamento);

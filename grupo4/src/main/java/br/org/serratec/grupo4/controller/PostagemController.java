@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -102,8 +103,8 @@ public class PostagemController {
 			}
 		)
 	@PostMapping
-	public ResponseEntity<PostagemDTO> inserir(@Valid @RequestBody PostagemInserirDTO postagem) {
-		PostagemDTO postagemDTO = postagemService.inserir(postagem);
+	public ResponseEntity<PostagemDTO> inserir(@Valid @RequestBody PostagemInserirDTO postagem, @RequestHeader("Authorization") String bearerToken) {
+		PostagemDTO postagemDTO = postagemService.inserir(postagem, bearerToken);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
@@ -123,10 +124,10 @@ public class PostagemController {
 			}
 		)
 	@PutMapping("/{id}")
-	public ResponseEntity<PostagemDTO> atualizar(@PathVariable Long id, @Valid @RequestBody PostagemInserirDTO postagem) {
+	public ResponseEntity<PostagemDTO> atualizar(@PathVariable Long id, @Valid @RequestBody PostagemInserirDTO postagem, @RequestHeader("Authorization") String token) {
 		if (postagemRepository.existsById(id)) {
 			
-			return ResponseEntity.ok(postagemService.inserir(postagem));
+			return ResponseEntity.ok(postagemService.inserir(postagem, token));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
