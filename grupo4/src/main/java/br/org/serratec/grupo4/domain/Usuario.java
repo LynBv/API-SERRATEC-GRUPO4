@@ -46,8 +46,7 @@ public class Usuario implements UserDetails, Serializable {
 	private Long id;
 
 	@NotBlank(message = "Nome não pode estar em branco!!")
-	@Size(max = 100, message = "Nome não pode ultraprassar o limite de (max) caracteres!!")
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 100) 
 	@Schema(description="Nome do Usuario")
 	private String nome;
 
