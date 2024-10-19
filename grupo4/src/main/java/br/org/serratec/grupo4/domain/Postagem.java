@@ -59,5 +59,7 @@ public class Postagem {
 	@JoinColumn(name = "id_usuario", nullable = false)
 	@Schema(description="Usuario")
 	private Usuario usuario;
+	
+	
 
 }

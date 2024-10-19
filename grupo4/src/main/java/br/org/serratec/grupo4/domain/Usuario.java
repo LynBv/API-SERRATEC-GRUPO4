@@ -41,12 +41,12 @@ public class Usuario implements UserDetails, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
+	@Column(name="d_usuario")
 	@Schema(description="Id do Usuario")
 	private Long id;
 
 	@NotBlank(message = "Nome não pode estar em branco!!")
-	@Size(max = 100, message = "Nome não pode ultraprassar o limite de (max) caracteres!!")
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 100) 
 	@Schema(description="Nome do Usuario")
 	private String nome;
 
@@ -70,7 +70,6 @@ public class Usuario implements UserDetails, Serializable {
 	@Schema(description="Senha do Usuario")
 	private String senha;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "data_nascimento")
 	@Schema(description="Data_de_Nascimento do Usuario")
 	private LocalDate dataNascimento;

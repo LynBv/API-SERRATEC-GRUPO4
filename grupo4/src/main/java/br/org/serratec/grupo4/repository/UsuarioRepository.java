@@ -11,4 +11,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByEmail(String email);
     //Usuario findiByNome	(String nome);
     
+    /*//QUERY PARA BUSCAR SEGUIDORES POR EMAIL
+    @Query("SELECT ur.id.usuario FROM UsuarioRelacionamento ur WHERE ur.id.relacionamento.usuario.email = :email")
+    public List<Usuario> findSeguidoresByEmail(@Param("email") String email);*/
+
+	
+    
 }
