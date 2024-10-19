@@ -23,12 +23,17 @@ public class UsuarioService {
     @Autowired
 	private BCryptPasswordEncoder encoder;
 
-    
-    
     public Optional<Usuario> buscarPorId(Long id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario;
     }
+/* 
+	public Optional<UsuarioDTOT> buscarporidDto(Long id) {
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+		Optional<UsuarioDTO> usuariodto = new UsuarioDTO(usuario.get());
+		return usuariodto;
+	} */
   
 	public List<UsuarioDTO> buscarTodos() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
