@@ -1,6 +1,7 @@
 package br.org.serratec.grupo4.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +56,8 @@ public class UsuarioService {
 		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 		return usuarioDTO;
 	}
+    
+    public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
+        return usuarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
+    }
 }
