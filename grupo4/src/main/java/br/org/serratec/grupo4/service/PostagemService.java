@@ -1,6 +1,5 @@
 package br.org.serratec.grupo4.service;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -21,46 +20,73 @@ import br.org.serratec.grupo4.security.JwtUtil;
 public class PostagemService {
 
     @Autowired
-    PostagemRepository  postagemRepository;
+    PostagemRepository postagemRepository;
 
     @Autowired
     UsuarioRepository usuarioRepository;
 
     @Autowired
-	private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
-    @Autowired 
-    UsuarioService usuarioService;
-
-     public Optional<Postagem> buscarPorId(Long id) {
+    public Optional<PostagemDTO> buscarPorId(Long id) {
         Optional<Postagem> postagem = postagemRepository.findById(id);
-        return postagem;
+        Optional<PostagemDTO> postagemDto = Optional.ofNullable(new PostagemDTO(postagem.get()));
+        return postagemDto;
     }
 
     public List<PostagemDTO> buscarTodos() {
         List<Postagem> postagems = postagemRepository.findAll();
-		List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
-		return postagemsDTO; 
+        List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
+        return postagemsDTO;
     }
 
-    public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO, String bearerToken) throws  IdUsuarioInvalido{
+    public List<PostagemDTO> ListarTodasPorUsuario(Long id) throws IdUsuarioInvalido {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isEmpty()) {
+            throw new IdUsuarioInvalido("Usuário não encontrado");
+        }
+        List<Postagem> postagems = usuario.get().getPostagens();
+        List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
+        return postagemsDTO;
+    }
+
+    public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO, String bearerToken)
+            throws IdUsuarioInvalido {
 
         Postagem postagem = new Postagem();
         postagem.setConteudo(postagemInserirDTO.getConteudo());
-        postagem.setDataCriacao( LocalDate.now());
-        String token = bearerToken.substring(7);
-        Long id = jwtUtil.getId(token);
-        System.out.println(id);
+        postagem.setDataCriacao(LocalDate.now());
 
+        Long id = jwtUtil.getId(bearerToken);
         Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
 
         if (usuarioOPT.isEmpty()) {
             throw new IdUsuarioInvalido("Usuário não encontrado");
-          
         }
+
         postagem.setUsuario(usuarioOPT.get());
+        postagem = postagemRepository.save(postagem);
 
+        PostagemDTO postagemDTO = new PostagemDTO(postagem);
+        return postagemDTO;
+    }
 
+    public PostagemDTO atualizar(Long id, PostagemInserirDTO postagemInserirDTO, String bearerToken)
+            throws RuntimeException {
+
+        Optional<Postagem> postagemOPT = postagemRepository.findById(id);
+        if (postagemOPT.isEmpty()) {
+            throw new RuntimeException("Postagem não encontrada");
+        }
+
+        Long idtoken = jwtUtil.getId(bearerToken);
+        Postagem postagem = postagemOPT.get();
+        if (!postagem.getUsuario().getId().equals(idtoken)) {
+            throw new RuntimeException("Voce so pode alterar suas proprias postagens");
+        }
+
+        postagem.setId(id);
+        postagem.setConteudo(postagemInserirDTO.getConteudo());
         postagem = postagemRepository.save(postagem);
 
         PostagemDTO postagemDTO = new PostagemDTO(postagem);
