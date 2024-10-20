@@ -12,6 +12,7 @@ import br.org.serratec.grupo4.domain.Postagem;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.PostagemDTO;
 import br.org.serratec.grupo4.dto.PostagemInserirDTO;
+import br.org.serratec.grupo4.exception.IdUsuarioInvalido;
 import br.org.serratec.grupo4.repository.PostagemRepository;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
 import br.org.serratec.grupo4.security.JwtUtil;
@@ -42,7 +43,7 @@ public class PostagemService {
 		return postagemsDTO; 
     }
 
-    public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO, String bearerToken) /*throws  IdUsuarioInvalido*/{
+    public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO, String bearerToken) throws  IdUsuarioInvalido{
 
         Postagem postagem = new Postagem();
         postagem.setConteudo(postagemInserirDTO.getConteudo());
@@ -54,10 +55,11 @@ public class PostagemService {
         Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
 
         if (usuarioOPT.isEmpty()) {
-           // throw new IdUsuarioInvalido("Usuário não encontrado");
-           System.out.println(usuarioOPT.get());
+            throw new IdUsuarioInvalido("Usuário não encontrado");
+          
         }
         postagem.setUsuario(usuarioOPT.get());
+
 
         postagem = postagemRepository.save(postagem);
 

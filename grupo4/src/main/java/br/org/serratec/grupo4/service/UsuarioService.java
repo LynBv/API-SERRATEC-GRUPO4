@@ -23,19 +23,32 @@ public class UsuarioService {
     @Autowired
 	private BCryptPasswordEncoder encoder;
 
-    public Optional<Usuario> buscarPorId(Long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return usuario;
-    }
-/* 
-	public Optional<UsuarioDTOT> buscarporidDto(Long id) {
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
 
-		Optional<UsuarioDTO> usuariodto = new UsuarioDTO(usuario.get());
-		return usuariodto;
+	/* public List<Usuario> ListarSeguidoresUsuario(Long id) {
+	
+		List<Usuario> seguidores =  buscarPorId(id).get().getSeguidores();
+		List<UsuarioDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
 	} */
+
+	public Optional<UsuarioDTO> buscarPorNomeDto(String nome) {
+		Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByNome(nome));
+		Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
+		return usuariodto;
+	} 
+
+	public Optional<UsuarioDTO> buscarPorEmailDto(String email) {
+		Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByEmail(email));
+		Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
+		return usuariodto;
+	} 
+
+	public Optional<UsuarioDTO> buscarPorId(Long id) {
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
+		return usuariodto;
+	} 
   
-	public List<UsuarioDTO> buscarTodos() {
+	public List<UsuarioDTO> ListarTodos() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
 		return usuariosDTO; 
