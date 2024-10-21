@@ -59,7 +59,7 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> listar() {
-		return ResponseEntity.ok(usuarioService.listar());
+		return ResponseEntity.ok(usuarioService.ListarUsuarios());
 	}
 	
 	
@@ -83,16 +83,6 @@ public class UsuarioController {
 		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
 		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
 	}
-	
-	
-	
-
-	
-
-
-	
-
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// comentando para o codigo continuar rodando pq mudei a classe service
@@ -106,12 +96,10 @@ public class UsuarioController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Long id) {
-		Optional<UsuarioDTO> usuarioOpt = usuarioService.buscarPorId(id);
-		if (usuarioOpt.isPresent()) {
-			return ResponseEntity.ok(usuarioOpt.get());
-		} else {
+		UsuarioDTO usuarioOpt = usuarioService.buscarPorId(id);
+	
+		
 			return ResponseEntity.notFound().build();
-		}
 	}
 	@GetMapping("/email/{email}")
 	public ResponseEntity<Optional<UsuarioDTO>> buscarPorEmail(@PathVariable String email){
@@ -141,7 +129,7 @@ public class UsuarioController {
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<UsuarioDTO> inserirFoto(@RequestPart MultipartFile file,
 			@RequestPart UsuarioInserirDTO usuario) throws IOException {
-		return ResponseEntity.ok(usuarioService.inserirFoto(usuario, file));
+		return ResponseEntity.ok(usuarioService.inserir(usuario, file));
 	}
 	
 	
@@ -154,11 +142,11 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 	
-	@PutMapping("/{id}")
+	@PutMapping(value ="/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario,
-												@RequestHeader("Authorization") String token) {
+												@RequestHeader("Authorization") String token, @RequestPart MultipartFile file) {
 		
-			UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token);
+			UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
 			if(usuarioDTO == null) {
 			return ResponseEntity.ok(usuarioDTO);
 			}
