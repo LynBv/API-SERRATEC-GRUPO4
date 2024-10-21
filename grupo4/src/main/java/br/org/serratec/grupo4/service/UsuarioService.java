@@ -74,7 +74,6 @@ public class UsuarioService {
         usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
         usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
         usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-
         usuario = usuarioRepository.save(usuario);
 
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
@@ -118,8 +117,7 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-
-		public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
-			return usuarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
-		}
+    public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
+        return usuarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
+    }
 }
