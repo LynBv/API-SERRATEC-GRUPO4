@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.org.serratec.grupo4.domain.Usuario;
+import jakarta.persistence.Column;
 
 
 public class UsuarioDTO {
@@ -20,6 +21,7 @@ public class UsuarioDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataNascimento;
 	
+	@Column(name = "url")
 	private String url;
 
 	public UsuarioDTO() {
@@ -42,6 +44,7 @@ public class UsuarioDTO {
 		this.dataNascimento = usuario.getDataNascimento();
 		this.url = usuario.getUrl();
 	}
+	
 
 	public Long getId() {
 		return id;
