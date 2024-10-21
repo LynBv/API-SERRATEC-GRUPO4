@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,150 +23,91 @@ import br.org.serratec.grupo4.security.JwtUtil;
 @Service
 public class UsuarioService {
 
-	@Autowired
-	private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-	@Autowired
-	private BCryptPasswordEncoder encoder;
-	
-	@Autowired
-	private JwtUtil jwtUtil;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
-	@Autowired
-	private FotoService fotoService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
+    @Autowired
+    private FotoService fotoService;
 
-	public List<UsuarioDTO> listar() {
-		List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(f -> adicionarImagemUri(f)).toList();
-		return usuarios;
-	}
+    public List<UsuarioDTO> listarUsuariosFoto() {
+        List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(f -> adicionarImagemUri(f)).toList();
+        return usuarios;
+    }
 
-	
-	 public List<UsuarioDTO> ListarTodos() {
-	        List<Usuario> usuarios = usuarioRepository.findAll();
-	        List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
-	        return usuariosDTO;
-	    }
-	
-	 //////////////////////////////////////////////////////////////////////
-	 
-	 public ResponseEntity<Optional< UsuarioDTO>> buscar(Long id) {
-		 Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-		 if (usuarioOpt.isEmpty()) {
-			 return null;
-		 }
-		 //return adicionarImagemUri(usuarioOpt.get());
-		 return null;
-	 }
-	 
-	    public Optional<UsuarioDTO> buscarPorNome(String nome) {
-	        Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByNome(nome));
-	        Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
-	        return usuariodto;
-	    }
+    public List<UsuarioDTO> ListarUsuarios() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
+        return usuariosDTO;
+    }
 
-	    public Optional<UsuarioDTO> buscarPorEmail(String email) {
-	        Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByEmail(email));
-	        Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
-	        return usuariodto;
-	    }
+    public UsuarioDTO buscarPorId(Long id) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            throw new IdUsuarioInvalido("Id do usuario não encontrado");
+        }
 
-	    public Optional<UsuarioDTO> buscarPorId(Long id) {
-	        Optional<Usuario> usuario = usuarioRepository.findById(id);
-	        Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
-	        
-	        if (usuariodto.isPresent()) {
-				//adicionarImagemUri(usuariodto.get());
-	        	return usuariodto;
-			}
-	    return null;
-	        
-	    }
-	
-	/////////////////////////////////////////////////////////////////
+        Usuario usuario = usuarioOpt.get();
+        UsuarioDTO usuarioDto = new UsuarioDTO(usuario);
 
-	public UsuarioDTO inserir(Usuario usuario, MultipartFile file) throws IOException {
-		usuario = usuarioRepository.save(usuario);
-		fotoService.inserir(usuario, file);
-		return adicionarImagemUri(usuario);
-	}
-	
-	  public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO)
-	            throws SenhaException, EmailException {
+        if (usuario.getFoto() == null){
+            return usuarioDto;
+        }
+        usuarioDto = adicionarImagemUri(usuario);
 
-	        if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
-	            throw new SenhaException("Senha e Confirma Senha não são iguais");
-	        }
-	        if (usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
-	            throw new EmailException("Email já existente");
-	        }
-	        Usuario usuario = new Usuario();
-	        usuario.setNome(usuarioInserirDTO.getNome());
-	        usuario.setEmail(usuarioInserirDTO.getEmail());
-	        usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
-	        usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
-	        usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-	        usuario.setUrl(usuarioInserirDTO.getUrl());
-	        usuario = usuarioRepository.save(usuario);
+        return usuarioDto;
+    }
 
-	        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
-	        return usuarioDTO;
-	    }
-	
-	  public UsuarioDTO inserirFoto(UsuarioInserirDTO usuarioInserirDTO, MultipartFile file)
-				throws IOException, SenhaException, EmailException {
-			if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
-				throw new SenhaException("Senha e Confirma Senha não são iguais");
-			}
-			if (usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
-				throw new EmailException("Email já existente");
-			}
+    public Optional<UsuarioDTO> buscarPorNome(String nome) {
+        Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByNome(nome));
+        Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
+        return usuariodto;
+    }
 
-			Usuario usuario = new Usuario();
-			usuario.setNome(usuarioInserirDTO.getNome());
-			usuario.setEmail(usuarioInserirDTO.getEmail());
-			usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
-			usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
-			usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-			usuario.setUrl(usuarioInserirDTO.getUrl());
-			
-
-			usuario = usuarioRepository.save(usuario);
-			fotoService.inserir(usuario, file);
-
-			return adicionarImagemUri(usuario);
-		}
-	
-	
-
-	///////////////////////////////////////////////////////////////////
-
-	public UsuarioDTO adicionarImagemUri(Usuario usuario) {
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.path("/usuario/{id}/foto")
-				.buildAndExpand(usuario.getId())
-				.toUri();
-		UsuarioDTO dto = new UsuarioDTO();
-		dto.setId(usuario.getId());
-		dto.setNome(usuario.getNome());
-		dto.setSobrenome(usuario.getSobrenome());
-		dto.setEmail(usuario.getEmail());
-		dto.setDataNascimento(usuario.getDataNascimento());
-		dto.setUrl(uri.toString());
-		return dto;
-	}
- ////////////////////////////////////////////////////////////////////////
-
-    /* public List<Usuario> ListarSeguidoresUsuario(Long id) {
-	
-		List<Usuario> seguidores =  buscarPorId(id).get().getSeguidores();
-		List<UsuarioDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
-	} */
+    public Optional<UsuarioDTO> buscarPorEmail(String email) {
+        Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByEmail(email));
+        Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
+        return usuariodto;
+    }
 
 
 
-    public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken)
+    public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO, MultipartFile file)
+            throws IOException, SenhaException, EmailException {
+        if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
+            throw new SenhaException("Senha e Confirma Senha não são iguais");
+        }
+        if (usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
+            throw new EmailException("Email já existente");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioInserirDTO.getNome());
+        usuario.setEmail(usuarioInserirDTO.getEmail());
+        usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
+        usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
+        usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
+        usuario = usuarioRepository.save(usuario);
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
+
+        if (file == null) {
+            usuarioRepository.save(usuario);
+            return usuarioDTO;
+        }
+
+        fotoService.inserir(usuario, file);
+        usuarioDTO = adicionarImagemUri(usuario);
+        usuarioRepository.save(usuario);
+
+        return usuarioDTO;
+    }
+
+    public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file)
             throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
@@ -190,18 +130,53 @@ public class UsuarioService {
                 && usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
             throw new EmailException("Email já existente");
         }
-
         usuario.setId(id);
         usuario.setNome(usuarioInserirDTO.getNome());
         usuario.setEmail(usuarioInserirDTO.getEmail());
         usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
         usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
         usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-
-        usuario = usuarioRepository.save(usuario);
-
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
+        if (file == null) {
+            usuarioRepository.save(usuario);
+            return usuarioDTO;
+        }
+
+        try {
+            usuario.setFoto(fotoService.inserir(usuario, file));
+        } catch (IOException e) {
+            throw new RuntimeException("erro ao salvar imagem");
+        }
+
+        usuarioRepository.save(usuario);
+        usuarioDTO = adicionarImagemUri(usuario);
+
         return usuarioDTO;
     }
+
+    public UsuarioDTO adicionarImagemUri(Usuario usuario) {
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/usuario/{id}/foto")
+                .buildAndExpand(usuario.getId())
+                .toUri();
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setSobrenome(usuario.getSobrenome());
+        dto.setEmail(usuario.getEmail());
+        dto.setDataNascimento(usuario.getDataNascimento());
+        dto.setUrl(uri.toString());
+        return dto;
+    }
+
+
+////////////////////////////////////////////////////////////////////////
+
+    /* public List<Usuario> ListarSeguidoresUsuario(Long id) {
+	
+		List<Usuario> seguidores =  buscarPorId(id).get().getSeguidores();
+		List<UsuarioDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
+	} */
     
 }
