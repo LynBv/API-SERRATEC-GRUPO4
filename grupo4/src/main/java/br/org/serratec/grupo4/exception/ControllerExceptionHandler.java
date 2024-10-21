@@ -54,5 +54,21 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	private ResponseEntity<Object> handleRelacionamentoException(RelacionamentoException ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
+	
+	@ExceptionHandler(IdUsuarioInvalido.class)
+	private ResponseEntity<Object> handleIdUsuarioException(IdUsuarioInvalido ex) {
+		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+	}
+	
+	@ExceptionHandler(ProprietarioIncompativelException.class)
+	private ResponseEntity<Object> handleProprietarioException(ProprietarioIncompativelException ex) {
+		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+	}
+	
+	@ExceptionHandler(DadoNaoEncontradoException.class)
+	private ResponseEntity<Object> handleDadoException(DadoNaoEncontradoException ex) {
+		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+	}
+	
 
 }
