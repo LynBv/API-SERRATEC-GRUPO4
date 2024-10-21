@@ -2,11 +2,11 @@ package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 
 @Valid
 public class UsuarioInserirDTO {
@@ -15,34 +15,36 @@ public class UsuarioInserirDTO {
 	@NotNull(message = "Nome não pode estar vazio!!")
 	@Size(max = 100, message = "Nome não pode ultraprassar o limite de (max) caracteres!!")
 	private String nome;
-	
+
 	@NotBlank(message = "Sobrenome não pode estar em branco!!")
 	@NotNull(message = "Sobrenome não pode estar vazio!!")
 	@Size(max = 100, message = "Sobrenome não pode ultraprassar o limite de (max) caracteres!!")
 	private String sobrenome;
-	
+
 	@NotBlank(message = "E-mail não pode estar EM Branco!!")
 	@NotNull(message = "E-mail não pode estar vazio!!")
 	private String email;
-	
+
 	@NotBlank(message = "Senha não pode estar vazia ou em Branco!!")
 	@NotNull(message = "Senha não pode estar nula!!")
 	@Size(min = 6, message = "Senha deve ter no mínimo (min) caracteres!!")
 	private String senha;
-	
+
 	@NotBlank(message = "Confirmar Senha não pode estar vazia ou em Branco!!")
 	@NotNull(message = "Confirmar Senha não pode estar nula!!")
 	@Size(min = 6, message = "Confirmar Senha deve ter no mínimo (min) caracteres!!")
 	private String confirmaSenha;
-	
+
 	@NotNull(message = "Data de Nascimento não pode estar vazia!!")
 	private LocalDate dataNascimento;
 
+	@Column(name = "url", nullable = true)
+	private String url;
 
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -85,6 +87,14 @@ public class UsuarioInserirDTO {
 
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
