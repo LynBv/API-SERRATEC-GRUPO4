@@ -3,7 +3,6 @@ package br.org.serratec.grupo4.service;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +193,5 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-    public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
-        return usuarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
-    }
+    
 }

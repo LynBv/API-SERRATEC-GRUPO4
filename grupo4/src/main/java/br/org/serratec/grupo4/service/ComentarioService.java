@@ -2,6 +2,7 @@ package br.org.serratec.grupo4.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,9 @@ public class ComentarioService {
 
         ComentarioDTO comentarioDTO = new ComentarioDTO(comentario);
         return comentarioDTO;
+    }
+    
+    public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
+        return comentarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
     }
 }
