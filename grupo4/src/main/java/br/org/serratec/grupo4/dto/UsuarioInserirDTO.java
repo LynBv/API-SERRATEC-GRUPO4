@@ -1,9 +1,7 @@
 package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-import br.org.serratec.grupo4.domain.Relacionamento;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,24 +37,19 @@ public class UsuarioInserirDTO {
 	
 	@NotNull(message = "Data de Nascimento não pode estar vazia!!")
 	private LocalDate dataNascimento;
+<<<<<<< HEAD
 	
 	private String url;
 	
 	private Set<Relacionamento> relacionamentos; 
+=======
+>>>>>>> c01a8f4336f3735038e6951b21ce960ee80b92ec
 
 
 	public String getNome() {
 		return nome;
 	}
-
-	public Set<Relacionamento> getRelacionamentos() {
-		return relacionamentos;
-	}
-
-	public void setRelacionamentos(Set<Relacionamento> relacionamentos) {
-		this.relacionamentos = relacionamentos;
-	}
-
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}

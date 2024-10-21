@@ -42,7 +42,7 @@ public class ComentarioService {
 
     public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken) {
         Comentario comentario = new Comentario();
-        comentario.setPostagem(comentarioInserirDTO.getPostagem());
+        //comentario.setPostagem(comentarioInserirDTO.getPostagem());
         comentario.setTexto(comentarioInserirDTO.getTexto());
         comentario.setDataCriacao(LocalDate.now());
 

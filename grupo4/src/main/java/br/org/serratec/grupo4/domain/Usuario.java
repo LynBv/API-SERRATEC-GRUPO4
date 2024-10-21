@@ -12,8 +12,6 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -61,9 +59,9 @@ public class Usuario implements UserDetails, Serializable {
 	@Schema(description = "Senha do Usuário")
 	private String senha;
 
-	@Column(name = "data_nascimento")
-	@Schema(description = "Data de Nascimento do Usuário")
+	
 	private LocalDate dataNascimento;
+<<<<<<< HEAD
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Foto foto;
@@ -84,6 +82,27 @@ public class Usuario implements UserDetails, Serializable {
 //	// relacionamento
 //	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //	private Set<Relacionamento> seguidos = new HashSet<>();
+=======
+
+
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Schema(description = "Postagens")
+	private List<Postagem> postagens = new ArrayList<>();
+
+	// Seguidores (usuários que seguem este usuário)
+	// Ajuste necessário para tornar mais claro a relação entre usuário e
+	// relacionamento
+	
+	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Relacionamento> seguidores = new HashSet<>();
+
+	// Seguidos (usuários que este usuário está seguindo)
+	// Ajuste necessário para tornar mais claro a relação entre usuário e
+	// relacionamento
+	
+	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Relacionamento> seguidos = new HashSet<>();
+>>>>>>> c01a8f4336f3735038e6951b21ce960ee80b92ec
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
