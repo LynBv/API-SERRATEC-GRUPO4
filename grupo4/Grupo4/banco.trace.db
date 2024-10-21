@@ -1,0 +1,9 @@
+2024-10-21 09:10:27.987233-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]DADOS"; expected "DELETE, DROP"; SQL statement:
+DADOS [42001-224]
+2024-10-21 09:10:40.453859-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]ID_FOTO"; expected "INSERT"; SQL statement:
+ID_FOTO [42001-224]
+2024-10-21 09:24:42.150648-03:00 jdbc[24]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]ID_FOTO"; expected "INSERT"; SQL statement:
+ID_FOTO [42001-224]

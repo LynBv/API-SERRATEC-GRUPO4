@@ -12,10 +12,6 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-<<<<<<< HEAD
-import com.fasterxml.jackson.annotation.JsonFormat;
-=======
->>>>>>> dbdb491a71655057225f7ef0c984a5ce91581f94
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -46,12 +42,8 @@ public class Usuario implements UserDetails, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-<<<<<<< HEAD
 	@Column(name = "id_usuario")
-=======
-	@Column(name="d_usuario")
 	@Schema(description="Id do Usuario")
->>>>>>> dbdb491a71655057225f7ef0c984a5ce91581f94
 	private Long id;
 
 	@NotBlank(message = "Nome não pode estar em branco!!")

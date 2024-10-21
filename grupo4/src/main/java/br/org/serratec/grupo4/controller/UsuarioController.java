@@ -3,7 +3,6 @@ package br.org.serratec.grupo4.controller;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,10 +30,7 @@ import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
-<<<<<<< HEAD
 import br.org.serratec.grupo4.service.FotoService;
-=======
->>>>>>> dbdb491a71655057225f7ef0c984a5ce91581f94
 import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -26,42 +26,19 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-<<<<<<< HEAD
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	@Autowired
 	private FotoService fotoService;
-
-	public Optional<Usuario> buscarPorId(Long id) {
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		return usuario;
-	}
 
 	public List<UsuarioDTO> buscarTodos() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
 		return usuariosDTO;
-	}
-
-	public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws SenhaException, EmailException {
-		if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
-			throw new SenhaException("Senha e Confirma Senha não são iguais");
-		}
-		if (usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
-			throw new EmailException("Email já existente");
-		}
-		Usuario usuario = new Usuario();
-		usuario.setNome(usuarioInserirDTO.getNome());
-		usuario.setEmail(usuarioInserirDTO.getEmail());
-		usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
-		usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
-		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-
-		usuario = usuarioRepository.save(usuario);
-
-		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
-		return usuarioDTO;
 	}
 
 	//////////////////////////////////////////////////////////////////
@@ -70,8 +47,6 @@ public class UsuarioService {
 		List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(f -> adicionarImagemUri(f)).toList();
 		return usuarios;
 	}
-
-	////////////////////////////////////////////////////////////////
 
 	public UsuarioDTO buscar(Long id) {
 		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
@@ -92,7 +67,7 @@ public class UsuarioService {
 	public UsuarioDTO adicionarImagemUri(Usuario usuario) {
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
-				.path("/usuarios/{id}/foto")
+				.path("/usuario/{id}/foto")
 				.buildAndExpand(usuario.getId())
 				.toUri();
 		UsuarioDTO dto = new UsuarioDTO();
@@ -126,12 +101,6 @@ public class UsuarioService {
 		return adicionarImagemUri(usuario);
 	}
 
-=======
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
 
     /* public List<Usuario> ListarSeguidoresUsuario(Long id) {
@@ -221,5 +190,4 @@ public class UsuarioService {
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
         return usuarioDTO;
     }
->>>>>>> dbdb491a71655057225f7ef0c984a5ce91581f94
 }
