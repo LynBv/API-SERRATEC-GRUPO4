@@ -24,13 +24,10 @@ import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
-
+import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import br.org.serratec.grupo4.service.UsuarioService;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -55,7 +52,7 @@ public class UsuarioController {
 	)
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> listar() {
-		return ResponseEntity.ok(usuarioService.buscarTodos());
+		return ResponseEntity.ok(usuarioService.ListarTodos());
 	}
 
 	
@@ -75,8 +72,12 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
 	}
 
-	
-	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//comentando para o codigo continuar rodando pq mudei a classe service
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* @Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -95,7 +96,7 @@ public class UsuarioController {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
-	}
+	} */
 
 	@Operation(summary = "📚 Inserir um novo usuario", description = ":)")
 	@ApiResponses(
