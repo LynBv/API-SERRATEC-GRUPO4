@@ -43,10 +43,6 @@ public class ComentarioController {
 	@Autowired
 	private ComentarioRepository comentarioRepository;
 	
-	@Autowired
-    private UsuarioService usuarioService;
-	
-	
 	
 	@Operation(summary = "📝 Lista todos os comentários", description = "Todos os Comentários")
 	@ApiResponses(
@@ -109,7 +105,7 @@ public class ComentarioController {
     @GetMapping("/postagem/{postagemId}")
     public ResponseEntity<List<Map<String, Object>>> getComentariosPorPostagem(
             @PathVariable Long postagemId) {
-        List<Map<String, Object>> comentarios = usuarioService.getNomeEDataComentarioByPostagemId(postagemId);
+        List<Map<String, Object>> comentarios = comentarioService.getNomeEDataComentarioByPostagemId(postagemId);
         
         if (comentarios.isEmpty()) {
             return ResponseEntity.noContent().build(); // Retorna 204 No Content se não houver comentários
