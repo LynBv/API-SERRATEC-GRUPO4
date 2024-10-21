@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -46,12 +43,13 @@ public class Postagem {
 	@Schema(description="Data de Criação da Postagem")
 	private LocalDate dataCriacao;
 
-	@JsonManagedReference
+
 	@OneToMany(mappedBy = "postagem", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Schema(description="Comentario Usuario")
 	private List<Comentario> comentarios = new ArrayList<>();
 
-	@JsonBackReference
+	
+	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", nullable = false)
 	@Schema(description="Id Usuario")
