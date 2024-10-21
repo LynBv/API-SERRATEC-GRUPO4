@@ -53,10 +53,6 @@ public class PostagemService {
     public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO, String bearerToken)
             throws IdUsuarioInvalido {
 
-        Postagem postagem = new Postagem();
-        postagem.setConteudo(postagemInserirDTO.getConteudo());
-        postagem.setDataCriacao(LocalDate.now());
-
         Long id = jwtUtil.getId(bearerToken);
         Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
 
@@ -64,10 +60,16 @@ public class PostagemService {
             throw new IdUsuarioInvalido("Usuário não encontrado");
         }
 
+        Postagem postagem = new Postagem();
+        postagem.setConteudo(postagemInserirDTO.getConteudo());
+        postagem.setDataCriacao(LocalDate.now());
         postagem.setUsuario(usuarioOPT.get());
+        postagem.setComentarios(null);
         postagem = postagemRepository.save(postagem);
 
         PostagemDTO postagemDTO = new PostagemDTO(postagem);
+        postagemDTO.setUsuarioNome(usuarioOPT.get().getNome());
+        
         return postagemDTO;
     }
 
@@ -85,7 +87,6 @@ public class PostagemService {
             throw new RuntimeException("Voce so pode alterar suas proprias postagens");
         }
 
-        postagem.setId(id);
         postagem.setConteudo(postagemInserirDTO.getConteudo());
         postagem = postagemRepository.save(postagem);
 
