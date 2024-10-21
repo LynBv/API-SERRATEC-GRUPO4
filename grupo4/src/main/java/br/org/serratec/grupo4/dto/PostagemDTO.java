@@ -3,17 +3,15 @@ package br.org.serratec.grupo4.dto;
 
 import java.util.List;
 
-import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.domain.Postagem;
-import br.org.serratec.grupo4.domain.Usuario;
+
 
 public class PostagemDTO {
 
+	private String usuarioNome;
 	private Long id;
 	private String conteudo;
 	private List<ComentarioDTO> comentarios;
-	
-	private String usuarioNome;
 
 	public PostagemDTO() {
 	}
