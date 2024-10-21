@@ -37,13 +37,6 @@ public class UsuarioInserirDTO {
 	
 	@NotNull(message = "Data de Nascimento não pode estar vazia!!")
 	private LocalDate dataNascimento;
-<<<<<<< HEAD
-	
-	private String url;
-	
-	private Set<Relacionamento> relacionamentos; 
-=======
->>>>>>> c01a8f4336f3735038e6951b21ce960ee80b92ec
 
 
 	public String getNome() {
@@ -92,14 +85,6 @@ public class UsuarioInserirDTO {
 
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 }

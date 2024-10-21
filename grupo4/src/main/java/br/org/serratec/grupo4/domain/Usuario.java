@@ -61,29 +61,10 @@ public class Usuario implements UserDetails, Serializable {
 
 	
 	private LocalDate dataNascimento;
-<<<<<<< HEAD
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Foto foto;
 	
-//	@JsonManagedReference
-//	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@Schema(description = "Postagens")
-//	private List<Postagem> postagens = new ArrayList<>();
-//
-//	// Seguidores (usuários que seguem este usuário)
-//	// Ajuste necessário para tornar mais claro a relação entre usuário e
-//	// relacionamento
-//	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	private Set<Relacionamento> seguidores = new HashSet<>();
-//
-//	// Seguidos (usuários que este usuário está seguindo)
-//	// Ajuste necessário para tornar mais claro a relação entre usuário e
-//	// relacionamento
-//	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	private Set<Relacionamento> seguidos = new HashSet<>();
-=======
-
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Schema(description = "Postagens")
@@ -102,7 +83,6 @@ public class Usuario implements UserDetails, Serializable {
 	
 	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Relacionamento> seguidos = new HashSet<>();
->>>>>>> c01a8f4336f3735038e6951b21ce960ee80b92ec
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
