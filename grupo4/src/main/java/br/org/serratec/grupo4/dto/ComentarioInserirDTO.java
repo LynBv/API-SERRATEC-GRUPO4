@@ -1,14 +1,18 @@
 package br.org.serratec.grupo4.dto;
 
-import java.time.LocalDate;
 
-import br.org.serratec.grupo4.domain.Postagem;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class ComentarioInserirDTO {
 
+	@NotNull(message = "Comentário não pode estar vazio!!")
+	@NotBlank(message = "Comentário não pode estar em branco!!")
+	@Size(max = 400, message = "Comentario não pode ultraprassar o limite de (max) caracteres!!")
 	private String texto;
-	private LocalDate dataCriacao;
-	private Postagem postagem;
+	
+	private Long idPostagem;
 
 	public String getTexto() {
 		return texto;
@@ -18,20 +22,11 @@ public class ComentarioInserirDTO {
 		this.texto = texto;
 	}
 
-	public LocalDate getDataCriacao() {
-		return dataCriacao;
+	public Long getIdPostagem() {
+		return idPostagem;
 	}
 
-	public void setDataCriacao(LocalDate dataCriacao) {
-		this.dataCriacao = dataCriacao;
+	public void setIdPostagem(Long idPostagem) {
+		this.idPostagem = idPostagem;
 	}
-
-	public Postagem getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(Postagem postagem) {
-		this.postagem = postagem;
-	}
-
 }

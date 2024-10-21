@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,20 +26,27 @@ public class Comentario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Schema(description = "Id do Comentário")
 	private Long id;
 
 	@NotNull(message = "Comenário não pode estar vazio!!")
-	@Column(name = "comentario", length = 400)
+	@Column(name = "conteudo_coment", length = 400)
+	@Schema(description = "Texto do Comentario")
 	private String texto;
 
 	@NotBlank(message = "Preencha à Data do Comentário.")
 	@Column(name = "data_criacao", nullable = false)
 	@UpdateTimestamp
+	@Schema(description = "Data da criação do Comentário")
 	private LocalDate dataCriacao;
 
 	@ManyToOne
 	@JoinColumn(name = "id_postagem", nullable = false)
+	@Schema(description = "Postagem do Comentário")
 	private Postagem postagem;
-	
-	
+
+	@ManyToOne
+	@JoinColumn(name = "id_usuario", nullable = false)
+	private Usuario usuario; //usuário que fez a postagem 
+
 }

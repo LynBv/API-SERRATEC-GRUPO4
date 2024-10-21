@@ -7,28 +7,27 @@ import br.org.serratec.grupo4.domain.Postagem;
 
 public class ComentarioDTO {
 
+	private String usuarioNome;
+
 	private Long id;
+
 	private String texto;
+
 	private LocalDate dataCriacao;
-	private Postagem postagem;
 
 	public ComentarioDTO() {
 	}
 
-	public ComentarioDTO(Long id, String texto, LocalDate dataCriacao, Postagem postagem) {
+	public ComentarioDTO(Long id, String texto, Postagem postagem) {
 		super();
 		this.id = id;
 		this.texto = texto;
-		this.dataCriacao = dataCriacao;
-		this.postagem = postagem;
 	}
 
 	public ComentarioDTO(Comentario comentario) {
 		this.id = comentario.getId();
 		this.texto = comentario.getTexto();
 		this.dataCriacao = comentario.getDataCriacao();
-		this.postagem = comentario.getPostagem();
-		;
 	}
 
 	public Long getId() {
@@ -47,6 +46,14 @@ public class ComentarioDTO {
 		this.texto = texto;
 	}
 
+	public String getUsuarioNome() {
+		return usuarioNome;
+	}
+
+	public void setUsuarioNome(String usuarioNome) {
+		this.usuarioNome = usuarioNome;
+	}
+
 	public LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
@@ -55,12 +62,5 @@ public class ComentarioDTO {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public Postagem getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(Postagem postagem) {
-		this.postagem = postagem;
-	}
-
+	
 }
