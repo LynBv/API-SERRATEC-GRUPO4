@@ -3,6 +3,7 @@ package br.org.serratec.grupo4.service;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,16 +159,16 @@ public class UsuarioService {
             throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-		if (usuarioOpt.isEmpty()) {
-			throw new IdUsuarioInvalido("Id do usuario não encontrado");
-		}
+        if (usuarioOpt.isEmpty()) {
+            throw new IdUsuarioInvalido("Id do usuario não encontrado");
+        }
 
         Long idtoken = jwtUtil.getId(bearerToken);
         if (!id.equals(idtoken)) {
             throw new RuntimeException("Voce so pode alterar seu usuario");
         }
 
-		if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
+        if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
             throw new SenhaException("Senha e Confirma Senha não são iguais");
         }
 
@@ -190,4 +191,9 @@ public class UsuarioService {
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
         return usuarioDTO;
     }
+
+
+		public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
+			return usuarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
+		}
 }
