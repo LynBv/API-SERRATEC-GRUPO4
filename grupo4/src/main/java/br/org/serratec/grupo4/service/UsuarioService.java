@@ -16,6 +16,7 @@ import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.exception.EmailException;
 import br.org.serratec.grupo4.exception.IdUsuarioInvalido;
+import br.org.serratec.grupo4.exception.ProprietarioIncompativelException;
 import br.org.serratec.grupo4.exception.SenhaException;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
 import br.org.serratec.grupo4.security.JwtUtil;
@@ -108,7 +109,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file)
-            throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido {
+            throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido, IOException {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
@@ -117,7 +118,7 @@ public class UsuarioService {
 
         Long idtoken = jwtUtil.getId(bearerToken);
         if (!id.equals(idtoken)) {
-            throw new RuntimeException("Voce so pode alterar seu usuario");
+            throw new ProprietarioIncompativelException("Voce so pode alterar seu usuario");
         }
 
         if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
@@ -145,9 +146,9 @@ public class UsuarioService {
         try {
             usuario.setFoto(fotoService.inserir(usuario, file));
         } catch (IOException e) {
-            throw new RuntimeException("erro ao salvar imagem");
+            throw new IOException("erro ao salvar imagem");
         }
-
+        
         usuarioRepository.save(usuario);
         usuarioDTO = adicionarImagemUri(usuario);
 
