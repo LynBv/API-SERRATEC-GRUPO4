@@ -103,9 +103,12 @@ public class UsuarioService {
             usuarioRepository.save(usuario);
             return usuarioDTO;
         }
-
         usuario = usuarioRepository.save(usuario);
+            	
     	fotoService.inserir(usuario, file);
+    	
+      
+        
     	 
     	return adicionarImagemUri(usuario);
     }

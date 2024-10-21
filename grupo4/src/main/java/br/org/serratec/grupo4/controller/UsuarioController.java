@@ -127,9 +127,14 @@ public class UsuarioController {
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<UsuarioDTO> inserir(@RequestPart MultipartFile file,
 			@RequestPart UsuarioInserirDTO usuario) throws IOException {
+		try {
 		return ResponseEntity.ok(usuarioService.inserir(usuario, file));
+		}
+		catch(IOException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 		
-	}
+		}
 
 
 	@Operation(summary = "🔢 Atualiza o usuario pelo id", description = "Verifique se o id está correto :)")
@@ -142,13 +147,10 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario,
 			@RequestHeader("Authorization") String token, @RequestPart MultipartFile file) {
 
-		
 			UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
 			
-				return ResponseEntity.ok(usuarioDTO);
-	
+				return ResponseEntity.ok(usuarioDTO);	
 	}
-
 
 	@Operation(summary = "❌ Deleta o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),

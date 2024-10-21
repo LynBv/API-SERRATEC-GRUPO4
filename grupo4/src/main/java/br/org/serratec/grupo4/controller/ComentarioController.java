@@ -152,13 +152,14 @@ public class ComentarioController {
 		try {
 			return ResponseEntity.ok(comentarioService.inserir(comentario, bearerToken));
 			
+			
 		} catch (DadoNaoEncontradoException e) {
 			return ResponseEntity.notFound().build();
 		}
+		
 		catch (ProprietarioIncompativelException e) {
-			 return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+			 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-      
     }
 	
 	////////////////////////////////////////////////////////////////////////

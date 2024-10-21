@@ -26,7 +26,9 @@ public class FotoService {
 		foto.setDados(file.getBytes());
 		foto.setUsuario(usuario);
 		return fotoRepository.save(foto);
-	}
+		}
+		
+		
 
 	@Transactional
 	public Foto buscarPorIdUsuario(Long id) {
