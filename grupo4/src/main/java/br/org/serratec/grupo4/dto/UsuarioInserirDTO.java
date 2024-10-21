@@ -2,13 +2,20 @@ package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.Size;
+
+
+
 public class UsuarioInserirDTO {
 
+	@Size(max = 100, message = "Nome não pode ultraprassar o limite de (max) caracteres!!")
 	private String nome;
 	private String sobrenome;
 	private String email;
 	private String senha;
 	private String confirmaSenha;
+	
+	
 	private LocalDate dataNascimento;
 	private String url;
 

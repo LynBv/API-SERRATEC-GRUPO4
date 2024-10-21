@@ -2,21 +2,29 @@ package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.org.serratec.grupo4.domain.Usuario;
 
-public class UsuarioDTO {
+
+public class UsuarioDTO { // devolve para o usuario que vai ver na api 
+	
 	private Long id;
+	
 	private String nome;
+	
 	private String sobrenome;
+
 	private String email;
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataNascimento;
 	private String url;
 
 	public UsuarioDTO() {
 	}
 
-	public UsuarioDTO(Long id, String nome, String sobrenome, String email, String senha, LocalDate dataNascimento) {
-		super();
+	public UsuarioDTO(Long id, String nome, String sobrenome, String email, LocalDate dataNascimento) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;

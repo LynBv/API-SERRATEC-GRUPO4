@@ -2,7 +2,6 @@ package br.org.serratec.grupo4.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,12 +24,10 @@ import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.dto.ComentarioDTO;
 import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
-
+import br.org.serratec.grupo4.service.ComentarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import br.org.serratec.grupo4.service.ComentarioService;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -74,7 +72,11 @@ public class ComentarioController {
 	}
 	
 	
-	@Operation(summary = "🔎 Busca o comentário pelo Id", description = "Verifique se o id está correto :)")
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//comentando para o codigo continuar rodando pq mudei a classe service
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/* @Operation(summary = "🔎 Busca o comentário pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -93,7 +95,7 @@ public class ComentarioController {
 		else {
 			return ResponseEntity.notFound().build();
 		}
-	}
+	} */
 	
 	@Operation(summary = "📚 Inserir um novo comentário", description = ":)")
 	@ApiResponses(
@@ -105,8 +107,8 @@ public class ComentarioController {
 			}
 		)
 	@PostMapping
-	public ResponseEntity<ComentarioDTO>inserir(@Valid @RequestBody ComentarioInserirDTO comentario){
-		ComentarioDTO comentarioDTO =  comentarioService.inserir(comentario);
+	public ResponseEntity<ComentarioDTO>inserir(@Valid @RequestBody ComentarioInserirDTO comentario, @RequestHeader("Authorization") String bearerToken ){
+		ComentarioDTO comentarioDTO =  comentarioService.inserir(comentario, bearerToken);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
@@ -125,9 +127,9 @@ public class ComentarioController {
 			}
 		)
 	@PutMapping("/{id}")
-	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioInserirDTO comentario){
+	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioInserirDTO comentario, @RequestHeader("Authorization") String bearerToken){
        if (comentarioRepository.existsById(id)) {
-    	   return ResponseEntity.ok(comentarioService.inserir(comentario));
+    	   return ResponseEntity.ok(comentarioService.inserir(comentario, bearerToken));
        }else {
     	   return ResponseEntity.notFound().build();
        }
