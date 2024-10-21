@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.org.serratec.grupo4.domain.Usuario;
+import jakarta.persistence.Column;
 
 
 public class UsuarioDTO { // devolve para o usuario que vai ver na api 
@@ -20,17 +21,19 @@ public class UsuarioDTO { // devolve para o usuario que vai ver na api
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataNascimento;
 	
+	@Column(name = "url")
 	private String url;
 
 	public UsuarioDTO() {
 	}
 
-	public UsuarioDTO(Long id, String nome, String sobrenome, String email, LocalDate dataNascimento) {
+	public UsuarioDTO(Long id, String nome, String sobrenome, String email, LocalDate dataNascimento, String url) {
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
+		this.url = url;
 	}
 
 	public UsuarioDTO(Usuario usuario) {
@@ -39,7 +42,9 @@ public class UsuarioDTO { // devolve para o usuario que vai ver na api
 		this.sobrenome = usuario.getSobrenome();
 		this.email = usuario.getEmail();
 		this.dataNascimento = usuario.getDataNascimento();
+		this.url = usuario.getUrl();
 	}
+	
 
 	public Long getId() {
 		return id;
