@@ -58,9 +58,13 @@ public class Usuario implements UserDetails, Serializable {
 	@Column(nullable = false)
 	@Schema(description = "Senha do Usuário")
 	private String senha;
+	
+	@Column(name = "url", nullable = true)
+	private String url;
 
 	
 	private LocalDate dataNascimento;
+	
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Foto foto;
@@ -100,3 +104,4 @@ public class Usuario implements UserDetails, Serializable {
 	}
 
 }
+
