@@ -73,7 +73,11 @@ public class PostagemController {
 		return ResponseEntity.ok(postagemRepository.findAll(pageable));
 	}
 
-	@Operation(summary = "🔎 Busca a postagem pelo Id", description = "Verifique se o id está correto :)")
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//comentando para o codigo continuar rodando pq mudei a classe service
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+/* 	@Operation(summary = "🔎 Busca a postagem pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -92,7 +96,7 @@ public class PostagemController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+ */	
 	@Operation(summary = "📚 Inserir uma nova postagem", description = ":)")
 	@ApiResponses(
 			value = {
