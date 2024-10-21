@@ -81,7 +81,6 @@ public class UsuarioController {
 	public ResponseEntity<List<UsuarioDTO>> listar() {
 		return ResponseEntity.ok(usuarioService.listar());
 	}
-
 	
 	
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
@@ -104,7 +103,7 @@ public class UsuarioController {
 	//comentando para o codigo continuar rodando pq mudei a classe service
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/* @Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
+	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -115,7 +114,7 @@ public class UsuarioController {
 		)
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> buscar(@PathVariable Long id) {
-		Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
+		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
 
 		if (usuarioOpt.isPresent()) {
 			UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioOpt.get());
@@ -123,7 +122,7 @@ public class UsuarioController {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
-	} */
+	} 
 
 	@Operation(summary = "📚 Inserir um novo usuario", description = ":)")
 	@ApiResponses(

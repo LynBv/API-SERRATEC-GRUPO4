@@ -36,15 +36,6 @@ public class UsuarioService {
 	@Autowired
 	private FotoService fotoService;
 
-	//////////////////////////////////////////////////////////////////
-	
-	public List<UsuarioDTO> buscarTodos() {
-		List<Usuario> usuarios = usuarioRepository.findAll();
-		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
-		return usuariosDTO;
-	}
-
-	//////////////////////////////////////////////////////////////////
 
 	public List<UsuarioDTO> listar() {
 		List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(f -> adicionarImagemUri(f)).toList();
@@ -80,6 +71,9 @@ public class UsuarioService {
 		dto.setEmail(usuario.getEmail());
 		dto.setDataNascimento(usuario.getDataNascimento());
 		dto.setUrl(uri.toString());
+		usuario.setUrl(uri.toString());
+		usuarioRepository.save(usuario);
+		
 		return dto;
 	}
 
@@ -98,6 +92,7 @@ public class UsuarioService {
 		usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
 		usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
 		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
+		usuario.setUrl(usuarioInserirDTO.getUrl());
 
 		usuario = usuarioRepository.save(usuario);
 		fotoService.inserir(usuario, file);
