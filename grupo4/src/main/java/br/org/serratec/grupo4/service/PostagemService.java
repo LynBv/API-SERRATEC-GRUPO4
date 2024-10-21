@@ -28,27 +28,29 @@ public class PostagemService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    public List<PostagemDTO> buscarTodos() {
+    	List<Postagem> postagems = postagemRepository.findAll();
+    	List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
+    	return postagemsDTO;
+    }
+    
+    public List<PostagemDTO> ListarTodasPorUsuario(Long id) throws IdUsuarioInvalido {
+    	Optional<Usuario> usuario = usuarioRepository.findById(id);
+    	if (usuario.isEmpty()) {
+    		throw new IdUsuarioInvalido("Usuário não encontrado");
+    	}
+    	List<Postagem> postagems = usuario.get().getPostagens();
+    	List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
+    	return postagemsDTO;
+    }
+    
     public Optional<PostagemDTO> buscarPorId(Long id) {
         Optional<Postagem> postagem = postagemRepository.findById(id);
         Optional<PostagemDTO> postagemDto = Optional.ofNullable(new PostagemDTO(postagem.get()));
         return postagemDto;
     }
 
-    public List<PostagemDTO> buscarTodos() {
-        List<Postagem> postagems = postagemRepository.findAll();
-        List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
-        return postagemsDTO;
-    }
 
-    public List<PostagemDTO> ListarTodasPorUsuario(Long id) throws IdUsuarioInvalido {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        if (usuario.isEmpty()) {
-            throw new IdUsuarioInvalido("Usuário não encontrado");
-        }
-        List<Postagem> postagems = usuario.get().getPostagens();
-        List<PostagemDTO> postagemsDTO = postagems.stream().map(PostagemDTO::new).toList();
-        return postagemsDTO;
-    }
 
     public PostagemDTO inserir(PostagemInserirDTO postagemInserirDTO, String bearerToken)
             throws IdUsuarioInvalido {
@@ -93,5 +95,7 @@ public class PostagemService {
         PostagemDTO postagemDTO = new PostagemDTO(postagem);
         return postagemDTO;
     }
+    
+    
 
 }

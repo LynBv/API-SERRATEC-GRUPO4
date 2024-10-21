@@ -125,20 +125,46 @@ public class UsuarioService {
 			}
 
 			Usuario usuario = new Usuario();
+			
 			usuario.setNome(usuarioInserirDTO.getNome());
 			usuario.setEmail(usuarioInserirDTO.getEmail());
 			usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
 			usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
 			usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-			usuario.setUrl(usuarioInserirDTO.getUrl());
+			usuario.setUrl(usuario.getUrl());
 			
-
 			usuario = usuarioRepository.save(usuario);
+			
 			fotoService.inserir(usuario, file);
-
+			
+			
+			//usuario.setUrl(usuario.getUrl());
 			return adicionarImagemUri(usuario);
 		}
 	
+	  
+	  
+	 /* public UsuarioDTO inserirFoto(UsuarioInserirDTO usuarioInserirDTO, MultipartFile file)
+	            throws IOException, SenhaException, EmailException {
+	        if (!usuarioInserirDTO.getSenha().equals(usuarioInserirDTO.getConfirmaSenha())) {
+	            throw new SenhaException("Senha e Confirma Senha não são iguais");
+	        }
+	        if (usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
+	            throw new EmailException("Email já existente");
+	        }
+
+	        Usuario usuario = new Usuario();
+	        usuario.setNome(usuarioInserirDTO.getNome());
+	        usuario.setEmail(usuarioInserirDTO.getEmail());
+	        usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
+	        usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
+	        usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
+
+	        usuario = usuarioRepository.save(usuario);
+	        fotoService.inserir(usuario, file);
+
+	        return adicionarImagemUri(usuario);
+	    }*/
 	
 
 	///////////////////////////////////////////////////////////////////
@@ -150,12 +176,15 @@ public class UsuarioService {
 				.buildAndExpand(usuario.getId())
 				.toUri();
 		UsuarioDTO dto = new UsuarioDTO();
+		
 		dto.setId(usuario.getId());
 		dto.setNome(usuario.getNome());
 		dto.setSobrenome(usuario.getSobrenome());
 		dto.setEmail(usuario.getEmail());
 		dto.setDataNascimento(usuario.getDataNascimento());
 		dto.setUrl(uri.toString());
+		usuario.setUrl(uri.toString());
+		
 		return dto;
 	}
  ////////////////////////////////////////////////////////////////////////

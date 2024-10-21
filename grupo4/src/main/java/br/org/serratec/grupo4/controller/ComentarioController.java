@@ -62,6 +62,7 @@ public class ComentarioController {
 		return ResponseEntity.ok(comentarioService.buscarTodos());
 	}
 	
+	
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(
 			value = {
@@ -77,12 +78,9 @@ public class ComentarioController {
 		return ResponseEntity.ok(comentarioRepository.findAll(pageable));
 	}
 	
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//comentando para o codigo continuar rodando pq mudei a classe service
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/* @Operation(summary = "🔎 Busca o comentário pelo Id", description = "Verifique se o id está correto :)")
+	////////////////////////////////////////////////////////////////////////
+
+	 @Operation(summary = "🔎 Busca o comentário pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -92,19 +90,17 @@ public class ComentarioController {
 			}
 		)
 	@GetMapping("/{id}")
-	public ResponseEntity<ComentarioDTO>buscar(@PathVariable Long id){
-		Optional<Comentario>comentarioOpt = comentarioService.buscarPorId(id);
+	public ResponseEntity<ComentarioDTO>buscarPorId(@PathVariable Long id){
+		Optional<ComentarioDTO>comentarioOpt = comentarioService.buscarPorId(id);
 		if (comentarioOpt.isPresent()) {
-			ComentarioDTO comentarioDTO = new ComentarioDTO(comentarioOpt.get());
-			return ResponseEntity.ok(comentarioDTO);
+			return ResponseEntity.ok(comentarioOpt.get()); //
 		}
 		else {
 			return ResponseEntity.notFound().build();
 		}
-	} */
+	} 
 	
-	//get para teste de query para achar o usuário qu comentou em uma postagem 
-	
+	/////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/postagem/{postagemId}")
     public ResponseEntity<List<Map<String, Object>>> getComentariosPorPostagem(
@@ -118,8 +114,7 @@ public class ComentarioController {
         return ResponseEntity.ok(comentarios); // Retorna 200 OK com a lista de comentários
     }
 	
-	
-	
+	////////////////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "📚 Inserir um novo comentário", description = ":)")
 	@ApiResponses(
@@ -141,6 +136,8 @@ public class ComentarioController {
 		return ResponseEntity.created(uri).body(comentarioDTO);
 	}
 	
+	//////////////////////////////////////////////////////////////////
+	
 	@Operation(summary = "🔢 Atualiza o comentario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
@@ -158,6 +155,8 @@ public class ComentarioController {
     	   return ResponseEntity.notFound().build();
        }
     }
+	
+	////////////////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "❌ Deleta o comentario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(

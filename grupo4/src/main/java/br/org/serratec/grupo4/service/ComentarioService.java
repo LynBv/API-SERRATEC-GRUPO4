@@ -28,17 +28,18 @@ public class ComentarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public List<ComentarioDTO> buscarTodos() {
+    	List<Comentario> comentarios = comentarioRepository.findAll();
+    	List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
+    	return comentariosDTO;
+    }
+    
     public Optional<ComentarioDTO> buscarPorId(Long id) {
         Optional<Comentario> comentario = comentarioRepository.findById(id);
         Optional<ComentarioDTO> comentarioDTO = Optional.ofNullable(new ComentarioDTO(comentario.get()));
         return comentarioDTO;
     }
 
-    public List<ComentarioDTO> buscarTodos() {
-        List<Comentario> comentarios = comentarioRepository.findAll();
-        List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
-        return comentariosDTO;
-    }
 
     public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken) {
         Comentario comentario = new Comentario();
