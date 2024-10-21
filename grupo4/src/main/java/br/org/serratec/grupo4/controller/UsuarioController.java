@@ -1,5 +1,6 @@
 package br.org.serratec.grupo4.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,20 +21,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.org.serratec.grupo4.domain.Foto;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
-
+import br.org.serratec.grupo4.service.FotoService;
+import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import br.org.serratec.grupo4.service.UsuarioService;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -42,7 +47,28 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+//////////////////////////////////////////////////////////////////
+	
+	@Autowired
+	private FotoService fotoService;
+	
+	@GetMapping("/{id}/foto")
+	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
+		Foto foto = fotoService.buscarPorIdUsuario(id);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, foto.getTipo());
+		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
+		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
+	}
+	
+	@PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<UsuarioDTO> inserir(@RequestPart MultipartFile file, 
+			@RequestPart UsuarioInserirDTO usuario) throws IOException {
+		return ResponseEntity.ok(usuarioService.inserirFoto(usuario, file));
+	}
+	 
+//////////////////////////////////////////////////////////////////////////////////	
+	
 	
 	@Operation(summary = "📝 Lista todos os usuarios", description = "Todos os Usuarios")
 	@ApiResponses(
