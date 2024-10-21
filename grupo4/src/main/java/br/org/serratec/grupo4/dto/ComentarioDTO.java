@@ -2,11 +2,21 @@ package br.org.serratec.grupo4.dto;
 
 import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.domain.Postagem;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ComentarioDTO {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message = "Comentário não pode estar vazio!!")
 	private String texto;
+	
 	private Postagem postagem;
 
 	public ComentarioDTO() {

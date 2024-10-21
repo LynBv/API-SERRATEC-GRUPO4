@@ -1,9 +1,17 @@
 package br.org.serratec.grupo4.dto;
 
+import jakarta.validation.constraints.Size;
+
 public class LoginDTO {
 
-    public String username;
+
+	@Size(max = 100, message = "Username não pode ultraprassar o limite de (max) caracteres!!")
+	    public String username;
+	
+	@Size(min = 6, message = "Senha deve ter no mínimo (min) caracteres!!")
     public String password;
+	
+	
     public String getUsername() {
         return username;
     }

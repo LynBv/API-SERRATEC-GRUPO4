@@ -1,6 +1,6 @@
 package br.org.serratec.grupo4.dto;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 import br.org.serratec.grupo4.domain.Comentario;
@@ -11,65 +11,68 @@ public class PostagemDTO {
 
 	private Long id;
 	private String conteudo;
-	private List<Comentario> comentarios;
-	private Usuario usuario;
+	private List<ComentarioDTO> comentarios;
+	
+	private String usuarioNome;
 
 	public PostagemDTO() {
 	}
 
-	public PostagemDTO(Long id, String conteudo, LocalDate dataCriacao, List<Comentario> comentarios, Usuario usuario) {
+
+	public PostagemDTO(Long id, String conteudo, List<ComentarioDTO> comentarios, String usuarioNome) {
 		super();
 		this.id = id;
 		this.conteudo = conteudo;
 		this.comentarios = comentarios;
-		this.usuario = usuario;
+		this.usuarioNome = usuarioNome;
 	}
+
+
 
 	public PostagemDTO(Postagem postagem) {
 		this.id = postagem.getId();
 		this.conteudo = postagem.getConteudo();
-		this.comentarios = postagem.getComentarios();
-		this.usuario = postagem.getUsuario();
 	}
+
 
 	public Long getId() {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	public String getConteudo() {
 		return conteudo;
 	}
 
+
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
 	}
 
-	public List<Comentario> getComentarios() {
+
+	public List<ComentarioDTO> getComentarios() {
 		return comentarios;
 	}
 
-	public void setComentarios(List<Comentario> comentarios) {
+
+	public void setComentarios(List<ComentarioDTO> comentarios) {
 		this.comentarios = comentarios;
 	}
 
-	public Usuario getIdUsuario() {
-		return usuario;
+
+	public String getUsuarioNome() {
+		return usuarioNome;
 	}
 
-	public void setIdUsuario(Usuario usuario) {
-		this.usuario = usuario;
+
+	public void setUsuarioNome(String usuarioNome) {
+		this.usuarioNome = usuarioNome;
 	}
 
+	
 }

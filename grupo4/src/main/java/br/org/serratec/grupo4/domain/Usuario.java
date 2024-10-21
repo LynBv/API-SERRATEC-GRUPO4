@@ -25,8 +25,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,57 +39,55 @@ public class Usuario implements UserDetails, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	@Column(name="d_usuario")
-	@Schema(description="Id do Usuario")
+	@Column(name = "id_usuario")
+	@Schema(description = "Id do Usuário")
 	private Long id;
 
-	@NotBlank(message = "Nome não pode estar em branco!!")
-	@Column(nullable = false, length = 100) 
-	@Schema(description="Nome do Usuario")
+	@NotBlank
+	@Column(nullable = false, length = 100)
+	@Schema(description = "Nome do Usuário")
 	private String nome;
 
-	@NotBlank(message = "Sobrenome não pode estar em branco!!")
-	@Size(max = 100, message = "Sobrenome não pode ultraprassar o limite de (max) caracteres!!")
 	@Column(nullable = false, length = 100)
-	@Schema(description="Sobrenome do Usuario")
+	@Schema(description = "Sobrenome do Usuário")
 	private String sobrenome;
 
-	@NotBlank(message = "E-mail não pode estar EM Branco!!")
-	@NotNull(message = "E-mail não pode estar vazio!!")
-	@Size(max = 150, message = "E-mail não pode ultraprassar o limite de (max) caracteres!!")
 	@Column(nullable = false, length = 150, unique = true)
-	@Schema(description="Email do Usuario")
+	@Schema(description = "Email do Usuário")
 	private String email;
 
-	@NotBlank(message = "Senha não pode estar vazia ou em Branco!!")
-	@NotNull(message = "Senha não pode estar nula!!")
-	@Size(min = 6, message = "Senha deve ter no mínimo (min) caracteres!!")
 	@Column(nullable = false)
-	@Schema(description="Senha do Usuario")
+	@Schema(description = "Senha do Usuário")
 	private String senha;
 
 	@Column(name = "data_nascimento")
-	@Schema(description="Data_de_Nascimento do Usuario")
+	@Schema(description = "Data de Nascimento do Usuário")
 	private LocalDate dataNascimento;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Schema(description="Postagens")
+	@Schema(description = "Postagens")
 	private List<Postagem> postagens = new ArrayList<>();
 
-	
-	@OneToMany(mappedBy = "id.usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<UsuarioRelacionamento> usuarioRelacionamento = new HashSet<>();
+	// Seguidores (usuários que seguem este usuário)
+	// Ajuste necessário para tornar mais claro a relação entre usuário e
+	// relacionamento
+	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Relacionamento> seguidores = new HashSet<>();
+
+	// Seguidos (usuários que este usuário está seguindo)
+	// Ajuste necessário para tornar mais claro a relação entre usuário e
+	// relacionamento
+	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Relacionamento> seguidos = new HashSet<>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
 		return Collections.emptyList();
 	}
 
 	@Override
 	public String getPassword() {
-
 		return senha;
 	}
 
