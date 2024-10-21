@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Foto {
@@ -17,6 +18,7 @@ public class Foto {
 	@Column(name = "id_foto")
 	private Long id;
 
+	@NotNull(message = "Os dados da foto não podem ser nulos")
 	@Lob
 	@Column(columnDefinition = "BLOB")
 	private byte[] dados;

@@ -67,23 +67,23 @@ public class Usuario implements UserDetails, Serializable {
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Foto foto;
-
-	@JsonManagedReference
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Schema(description = "Postagens")
-	private List<Postagem> postagens = new ArrayList<>();
-
-	// Seguidores (usuários que seguem este usuário)
-	// Ajuste necessário para tornar mais claro a relação entre usuário e
-	// relacionamento
-	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Relacionamento> seguidores = new HashSet<>();
-
-	// Seguidos (usuários que este usuário está seguindo)
-	// Ajuste necessário para tornar mais claro a relação entre usuário e
-	// relacionamento
-	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Relacionamento> seguidos = new HashSet<>();
+	
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@Schema(description = "Postagens")
+//	private List<Postagem> postagens = new ArrayList<>();
+//
+//	// Seguidores (usuários que seguem este usuário)
+//	// Ajuste necessário para tornar mais claro a relação entre usuário e
+//	// relacionamento
+//	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private Set<Relacionamento> seguidores = new HashSet<>();
+//
+//	// Seguidos (usuários que este usuário está seguindo)
+//	// Ajuste necessário para tornar mais claro a relação entre usuário e
+//	// relacionamento
+//	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private Set<Relacionamento> seguidos = new HashSet<>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

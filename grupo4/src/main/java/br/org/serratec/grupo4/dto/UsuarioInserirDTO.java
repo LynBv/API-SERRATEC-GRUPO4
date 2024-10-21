@@ -38,7 +38,6 @@ public class UsuarioInserirDTO {
 	private String confirmaSenha;
 	
 	@NotNull(message = "Data de Nascimento não pode estar vazia!!")
-	@NotBlank(message = "Data de Nascimento não pode estar em branco!!")
 	private LocalDate dataNascimento;
 	
 	private String url;

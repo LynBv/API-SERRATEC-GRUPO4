@@ -36,6 +36,8 @@ public class UsuarioService {
 	@Autowired
 	private FotoService fotoService;
 
+	//////////////////////////////////////////////////////////////////
+	
 	public List<UsuarioDTO> buscarTodos() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(UsuarioDTO::new).toList();
@@ -72,6 +74,7 @@ public class UsuarioService {
 				.buildAndExpand(usuario.getId())
 				.toUri();
 		UsuarioDTO dto = new UsuarioDTO();
+		dto.setId(usuario.getId());
 		dto.setNome(usuario.getNome());
 		dto.setSobrenome(usuario.getSobrenome());
 		dto.setEmail(usuario.getEmail());

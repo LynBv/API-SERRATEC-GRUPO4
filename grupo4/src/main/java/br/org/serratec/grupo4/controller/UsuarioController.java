@@ -1,8 +1,9 @@
 package br.org.serratec.grupo4.controller;
 
-import java.io.IOException;
+import java.io.IOException;  
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
+
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -46,7 +49,6 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-//////////////////////////////////////////////////////////////////
 	
 	@Autowired
 	private FotoService fotoService;
@@ -66,9 +68,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.inserirFoto(usuario, file));
 	}
 	 
-//////////////////////////////////////////////////////////////////////////////////	
-	
-	
 	@Operation(summary = "📝 Lista todos os usuarios", description = "Todos os Usuarios")
 	@ApiResponses(
 		value = {
@@ -80,7 +79,7 @@ public class UsuarioController {
 	)
 	@GetMapping
 	public ResponseEntity<List<UsuarioDTO>> listar() {
-		return ResponseEntity.ok(usuarioService.ListarTodos());
+		return ResponseEntity.ok(usuarioService.listar());
 	}
 
 	
