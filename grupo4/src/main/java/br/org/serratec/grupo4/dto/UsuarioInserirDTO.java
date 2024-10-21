@@ -38,6 +38,7 @@ public class UsuarioInserirDTO {
 	@NotNull(message = "Data de Nascimento não pode estar vazia!!")
 	private LocalDate dataNascimento;
 
+
 	public String getNome() {
 		return nome;
 	}

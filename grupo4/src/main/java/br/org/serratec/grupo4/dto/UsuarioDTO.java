@@ -19,6 +19,8 @@ public class UsuarioDTO { // devolve para o usuario que vai ver na api
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataNascimento;
+	
+	private String url;
 
 	public UsuarioDTO() {
 	}
@@ -78,5 +80,15 @@ public class UsuarioDTO { // devolve para o usuario que vai ver na api
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	
 
 }
