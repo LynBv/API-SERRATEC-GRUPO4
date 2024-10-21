@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -23,6 +24,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,10 +32,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@Valid
 @Data
 @Entity
+@Table(name = "usuario")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Valid
 public class Usuario implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -64,7 +67,7 @@ public class Usuario implements UserDetails, Serializable {
 	private String email;
 
 	@NotBlank(message = "Senha não pode estar vazia ou em Branco!!")
-	@NotNull(message = "Senha não pode estar nula!!")
+	@NotNull
 	@Size(min = 6, message = "Senha deve ter no mínimo (min) caracteres!!")
 	@Column(nullable = false)
 	@Schema(description="Senha do Usuario")
@@ -100,5 +103,6 @@ public class Usuario implements UserDetails, Serializable {
 	public String getUsername() {
 		return email;
 	}
+
 
 }
