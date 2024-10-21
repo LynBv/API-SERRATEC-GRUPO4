@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -57,10 +58,17 @@ public class Usuario implements UserDetails, Serializable {
 	@Column(nullable = false)
 	@Schema(description = "Senha do Usuário")
 	private String senha;
+	
+	@Column(name = "url", nullable = true)
+	private String url;
 
 	
 	private LocalDate dataNascimento;
-
+	
+	
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Foto foto;
+	
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Schema(description = "Postagens")
@@ -96,3 +104,4 @@ public class Usuario implements UserDetails, Serializable {
 	}
 
 }
+
