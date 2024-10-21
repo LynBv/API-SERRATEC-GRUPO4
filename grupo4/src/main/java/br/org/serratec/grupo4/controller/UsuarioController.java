@@ -62,6 +62,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.ListarUsuarios());
 	}
 
+
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -73,6 +74,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
 	}
 
+
 	@GetMapping("/{id}/foto")
 	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
 		Foto foto = fotoService.buscarPorIdUsuario(id);
@@ -81,6 +83,7 @@ public class UsuarioController {
 		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
 		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
 	}
+
 
 
 	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
@@ -128,6 +131,7 @@ public class UsuarioController {
 		
 	}
 
+
 	@Operation(summary = "🔢 Atualiza o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -144,6 +148,7 @@ public class UsuarioController {
 				return ResponseEntity.ok(usuarioDTO);
 	
 	}
+
 
 	@Operation(summary = "❌ Deleta o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),

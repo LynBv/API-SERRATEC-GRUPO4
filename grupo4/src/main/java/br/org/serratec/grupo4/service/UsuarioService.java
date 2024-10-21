@@ -61,9 +61,11 @@ public class UsuarioService {
             return usuarioDto;
         }
         usuarioDto = adicionarImagemUri(usuario);
-
+        
         return usuarioDto;
     }
+
+
 
     public Optional<UsuarioDTO> buscarPorNome(String nome) {
         Optional<Usuario> usuario = Optional.ofNullable(usuarioRepository.findByNome(nome));
@@ -76,7 +78,6 @@ public class UsuarioService {
         Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
         return usuariodto;
     }
-
 
 
     public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO, MultipartFile file)
@@ -95,6 +96,7 @@ public class UsuarioService {
         usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
         usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
         usuario = usuarioRepository.save(usuario);
+        usuario.setUrl(usuarioInserirDTO.getUrl());
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 
         if (file == null) {
@@ -102,11 +104,10 @@ public class UsuarioService {
             return usuarioDTO;
         }
 
-        fotoService.inserir(usuario, file);
-        usuarioDTO = adicionarImagemUri(usuario);
-        usuarioRepository.save(usuario);
-
-        return usuarioDTO;
+        usuario = usuarioRepository.save(usuario);
+    	fotoService.inserir(usuario, file);
+    	 
+    	return adicionarImagemUri(usuario);
     }
 
     public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file)
@@ -154,23 +155,25 @@ public class UsuarioService {
 
         return usuarioDTO;
     }
-
+   
     public UsuarioDTO adicionarImagemUri(Usuario usuario) {
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/usuario/{id}/foto")
-                .buildAndExpand(usuario.getId())
-                .toUri();
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(usuario.getId());
-        dto.setNome(usuario.getNome());
-        dto.setSobrenome(usuario.getSobrenome());
-        dto.setEmail(usuario.getEmail());
-        dto.setDataNascimento(usuario.getDataNascimento());
-        dto.setUrl(uri.toString());
-        return dto;
+    	URI uri = ServletUriComponentsBuilder
+    			.fromCurrentContextPath()
+    			.path("/usuario/{id}/foto")
+    			.buildAndExpand(usuario.getId())
+    			.toUri();
+    	UsuarioDTO dto = new UsuarioDTO();
+    	dto.setId(usuario.getId());
+    	dto.setNome(usuario.getNome());
+    	dto.setSobrenome(usuario.getSobrenome());
+    	dto.setEmail(usuario.getEmail());
+    	dto.setDataNascimento(usuario.getDataNascimento());
+    	dto.setUrl(uri.toString());
+    	usuario.setUrl(uri.toString());
+    	usuarioRepository.save(usuario);
+    	
+    	return dto;
     }
-
 
 ////////////////////////////////////////////////////////////////////////
 

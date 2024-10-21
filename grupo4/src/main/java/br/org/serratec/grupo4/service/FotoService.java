@@ -19,6 +19,7 @@ public class FotoService {
 	private FotoRepository fotoRepository;
 
 	public Foto inserir(Usuario usuario, MultipartFile file) throws IOException {
+		
 		Foto foto = new Foto();
 		foto.setNome(file.getName());
 		foto.setTipo(file.getContentType());

@@ -8,7 +8,7 @@ import br.org.serratec.grupo4.domain.Usuario;
 import jakarta.persistence.Column;
 
 
-public class UsuarioDTO { // devolve para o usuario que vai ver na api 
+public class UsuarioDTO {
 	
 	private Long id;
 	
@@ -94,7 +94,5 @@ public class UsuarioDTO { // devolve para o usuario que vai ver na api
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	
 
 }
