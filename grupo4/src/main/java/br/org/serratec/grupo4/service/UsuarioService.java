@@ -110,7 +110,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file)
-            throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido, IOException {
+             {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
@@ -144,11 +144,10 @@ public class UsuarioService {
             return usuarioDTO;
         }
 
-        try {
-            usuario.setFoto(fotoService.inserir(usuario, file));
-        } catch (IOException e) {
-            throw new IOException("erro ao salvar imagem");
-        }
+        
+		//usuario.setFoto(fotoService.inserir(usuario, file));
+			
+        
         
         usuarioRepository.save(usuario);
         usuarioDTO = adicionarImagemUri(usuario);

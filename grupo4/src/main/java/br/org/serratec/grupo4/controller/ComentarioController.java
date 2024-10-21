@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +25,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.dto.ComentarioDTO;
 import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
+import br.org.serratec.grupo4.exception.DadoNaoEncontradoException;
+import br.org.serratec.grupo4.exception.ProprietarioIncompativelException;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
 import br.org.serratec.grupo4.service.ComentarioService;
 
-import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -144,12 +146,19 @@ public class ComentarioController {
 			}
 		)
 	@PutMapping("/{id}")
-	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioInserirDTO comentario, @RequestHeader("Authorization") String bearerToken){
-       if (comentarioRepository.existsById(id)) {
-    	   return ResponseEntity.ok(comentarioService.inserir(comentario, bearerToken));
-       }else {
-    	   return ResponseEntity.notFound().build();
-       }
+	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, 
+			@Valid @RequestBody ComentarioInserirDTO comentario,
+			@RequestHeader("Authorization")String bearerToken) {
+		try {
+			return ResponseEntity.ok(comentarioService.inserir(comentario, bearerToken));
+			
+		} catch (DadoNaoEncontradoException e) {
+			return ResponseEntity.notFound().build();
+		}
+		catch (ProprietarioIncompativelException e) {
+			 return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+		}
+      
     }
 	
 	////////////////////////////////////////////////////////////////////////

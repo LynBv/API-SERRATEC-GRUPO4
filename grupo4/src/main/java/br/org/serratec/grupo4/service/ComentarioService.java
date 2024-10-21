@@ -44,7 +44,7 @@ public class ComentarioService {
     }
 
 
-    public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken) {
+    public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken)throws IdUsuarioInvalido{
         Comentario comentario = new Comentario();
         //comentario.setPostagem(comentarioInserirDTO.getPostagem());
         comentario.setTexto(comentarioInserirDTO.getTexto());
@@ -63,7 +63,8 @@ public class ComentarioService {
         return comentarioDTO;
     }
 
-    public ComentarioDTO atualizar(Long id, ComentarioInserirDTO comentarioInserirDTO, String bearerToken) throws DadoNaoEncontradoException,
+    public ComentarioDTO atualizar(Long id, ComentarioInserirDTO comentarioInserirDTO, String bearerToken)
+    		throws DadoNaoEncontradoException,
             ProprietarioIncompativelException {
 
         Optional<Comentario> comentarioOPT = comentarioRepository.findById(id);
