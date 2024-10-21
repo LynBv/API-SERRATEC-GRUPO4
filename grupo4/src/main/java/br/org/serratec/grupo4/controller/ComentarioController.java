@@ -2,7 +2,8 @@ package br.org.serratec.grupo4.controller;
 
 import java.net.URI;
 import java.util.List;
-
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,8 @@ import br.org.serratec.grupo4.dto.ComentarioDTO;
 import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
 import br.org.serratec.grupo4.service.ComentarioService;
+
+import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,6 +42,9 @@ public class ComentarioController {
 	
 	@Autowired
 	private ComentarioRepository comentarioRepository;
+	
+	@Autowired
+    private UsuarioService usuarioService;
 	
 	
 	
@@ -96,6 +102,24 @@ public class ComentarioController {
 			return ResponseEntity.notFound().build();
 		}
 	} */
+	
+	//get para teste de query para achar o usuário qu comentou em uma postagem 
+	
+
+    @GetMapping("/postagem/{postagemId}")
+    public ResponseEntity<List<Map<String, Object>>> getComentariosPorPostagem(
+            @PathVariable Long postagemId) {
+        List<Map<String, Object>> comentarios = usuarioService.getNomeEDataComentarioByPostagemId(postagemId);
+        
+        if (comentarios.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Retorna 204 No Content se não houver comentários
+        }
+        
+        return ResponseEntity.ok(comentarios); // Retorna 200 OK com a lista de comentários
+    }
+	
+	
+	
 	
 	@Operation(summary = "📚 Inserir um novo comentário", description = ":)")
 	@ApiResponses(
