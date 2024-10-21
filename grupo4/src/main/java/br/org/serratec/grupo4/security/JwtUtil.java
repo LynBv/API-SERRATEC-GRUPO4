@@ -18,20 +18,17 @@ import io.jsonwebtoken.security.Keys;
 public class JwtUtil {
 
     @Value("${auth-jwt-secret}")
-	private String jwtSecret;
-	
-	@Value("${auth-jwt-expiration-miliseg}")
-	private Long jwtExpirationMiliseg;
+    private String jwtSecret;
+
+    @Value("${auth-jwt-expiration-miliseg}")
+    private Long jwtExpirationMiliseg;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
 
     public String generateToken(String username) {
         SecretKey secretKeySepc = Keys.hmacShaKeyFor(jwtSecret.getBytes());
         Usuario user = usuarioRepository.findByEmail(username);
-        Claims claims = Jwts.claims();
-        //claims.put("id", user.getId());
 
         return Jwts.builder()
                 .setSubject(username)
@@ -64,8 +61,12 @@ public class JwtUtil {
         }
         return null;
     } */
+    public Long getId(String bearerToken) {
 
-    public Long getId(String token) {
+        String token = bearerToken.startsWith("Bearer ")
+                ? bearerToken.substring(7)
+                : bearerToken;
+
         Claims claims = getClaims(token);
         if (claims != null) {
             Object idObj = claims.get("id");
@@ -75,7 +76,7 @@ public class JwtUtil {
             if (idObj instanceof Integer) {
                 return ((Integer) idObj).longValue();
             }
-            return (Long) idObj; 
+            return (Long) idObj;
         }
         return null;
     }
