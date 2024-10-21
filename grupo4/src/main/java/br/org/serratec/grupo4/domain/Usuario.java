@@ -64,7 +64,7 @@ public class Usuario implements UserDetails, Serializable {
 	@Schema(description = "Data de Nascimento do Usuário")
 	private LocalDate dataNascimento;
 
-	@JsonManagedReference
+	
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Schema(description = "Postagens")
 	private List<Postagem> postagens = new ArrayList<>();

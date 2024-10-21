@@ -29,10 +29,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	List<Map<String, Object>> findNomeEDataComentarioByPostagemId(@Param("postagemId") Long postagemId);
 }
 
-
     
-    /*//QUERY PARA BUSCAR SEGUIDORES POR EMAIL
-    @Query("SELECT ur.id.usuario FROM UsuarioRelacionamento ur WHERE ur.id.relacionamento.usuario.email = :email")
-    public List<Usuario> findSeguidoresByEmail(@Param("email") String email);*/
+    //QUERY PARA BUSCAR Usuários POR EMAIL
+
+
+
 
 
