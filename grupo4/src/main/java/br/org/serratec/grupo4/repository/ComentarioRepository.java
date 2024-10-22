@@ -24,3 +24,4 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 	List<Map<String, Object>> findNomeEDataComentarioByPostagemId(@Param("postagemId") Long postagemId);
 
 }
+	
