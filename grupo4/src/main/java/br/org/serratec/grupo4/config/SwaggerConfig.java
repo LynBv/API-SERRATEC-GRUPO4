@@ -19,6 +19,8 @@ public class SwaggerConfig {
 	@Value("${dominio.openapi.dev-url}")
 	private String devUrl;
 	
+	
+	
 	@Bean
 	public OpenAPI myOpenAPI() {
 		Server devServer = new Server();
