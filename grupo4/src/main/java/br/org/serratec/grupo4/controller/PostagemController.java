@@ -54,10 +54,11 @@ public class PostagemController {
 		}
 	)
 	@GetMapping
-	public ResponseEntity<List<PostagemDTO>> listar() {
+	public ResponseEntity<List<PostagemDTO>> buscarTodos() {
 		return ResponseEntity.ok(postagemService.buscarTodos());
 	}
 	
+	///////////////////////////////////////////////////////////////////////
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(
 			value = {
@@ -68,16 +69,16 @@ public class PostagemController {
 			}
 		)
 	@GetMapping("/pagina")
-	public ResponseEntity<Page<Postagem>> listarPaginado(
+	public ResponseEntity<Page<PostagemDTO>> listarPaginado(
 			@PageableDefault(direction = Sort.Direction.ASC, page = 0, size = 8) Pageable pageable) {
-		return ResponseEntity.ok(postagemRepository.findAll(pageable));
+		Page<Postagem>postagem = postagemRepository.findAll(pageable);
+		Page<PostagemDTO> postagemDTO = postagem.map(post -> new PostagemDTO(post));
+		return ResponseEntity.ok(postagemDTO);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//comentando para o codigo continuar rodando pq mudei a classe service
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 	
-/* 	@Operation(summary = "🔎 Busca a postagem pelo Id", description = "Verifique se o id está correto :)")
+ 	@Operation(summary = "🔎 Busca a postagem pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -88,15 +89,17 @@ public class PostagemController {
 		)
 	@GetMapping("/{id}")
 	public ResponseEntity<PostagemDTO> buscar(@PathVariable Long id) {
-		Optional<Postagem> postagemOpt = postagemService.buscarPorId(id);
+		Optional<PostagemDTO> postagemOpt = postagemService.buscarPorId(id);
 		if (postagemOpt.isPresent()) {
-			PostagemDTO postagemDTO = new PostagemDTO(postagemOpt.get());
-			return ResponseEntity.ok(postagemDTO);
+			return ResponseEntity.ok(postagemOpt.get());
+			
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
- */	
+ 	
+ //////////////////////////////////////////////////////	
+ 
 	@Operation(summary = "📚 Inserir uma nova postagem", description = ":)")
 	@ApiResponses(
 			value = {
@@ -117,6 +120,7 @@ public class PostagemController {
 		
 		return ResponseEntity.created(uri).body(postagemDTO);
 	}
+	/////////////////////////////////////////////////////////////////////////
 
 	@Operation(summary = "🔢 Atualiza a postagem pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
@@ -131,12 +135,13 @@ public class PostagemController {
 	public ResponseEntity<PostagemDTO> atualizar(@PathVariable Long id, @Valid @RequestBody PostagemInserirDTO postagem, @RequestHeader("Authorization") String token) {
 		if (postagemRepository.existsById(id)) {
 			
-			return ResponseEntity.ok(postagemService.inserir(postagem, token));
+			return ResponseEntity.ok(postagemService.atualizar(id, postagem, token));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "❌ Deleta a postagem pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(

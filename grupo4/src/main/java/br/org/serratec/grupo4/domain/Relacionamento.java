@@ -24,4 +24,5 @@ public class Relacionamento {
 	    @CreationTimestamp
 	    @Column(name="data_inicio_seguimento", nullable = false, updatable = false)
 	    private LocalDate dataInicioSeguimento;
+
 }

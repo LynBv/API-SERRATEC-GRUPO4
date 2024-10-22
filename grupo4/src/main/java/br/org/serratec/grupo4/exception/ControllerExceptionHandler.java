@@ -42,32 +42,32 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(EmailException.class)
 	private ResponseEntity<Object> handleEmailException(EmailException ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+		return ResponseEntity.badRequest().body(ex.getMessage());
 	}
 
 	@ExceptionHandler(SenhaException.class)
 	private ResponseEntity<Object> handleSenhaException(SenhaException ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+		return ResponseEntity.status(401).body(ex.getMessage());
 	}
 
 	@ExceptionHandler(RelacionamentoException.class)
 	private ResponseEntity<Object> handleRelacionamentoException(RelacionamentoException ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+		return ResponseEntity.status(401).body(ex.getMessage());
 	}
 	
 	@ExceptionHandler(IdUsuarioInvalido.class)
 	private ResponseEntity<Object> handleIdUsuarioException(IdUsuarioInvalido ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+		return ResponseEntity.status(404).body(ex.getMessage());
 	}
 	
 	@ExceptionHandler(ProprietarioIncompativelException.class)
 	private ResponseEntity<Object> handleProprietarioException(ProprietarioIncompativelException ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+		return ResponseEntity.status(401).body(ex.getMessage());
 	}
 	
 	@ExceptionHandler(DadoNaoEncontradoException.class)
 	private ResponseEntity<Object> handleDadoException(DadoNaoEncontradoException ex) {
-		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+		return ResponseEntity.status(404).body(ex.getMessage());
 	}
 	
 

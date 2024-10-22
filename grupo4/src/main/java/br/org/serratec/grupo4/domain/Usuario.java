@@ -64,7 +64,7 @@ public class Usuario implements UserDetails, Serializable {
 
 	
 	private LocalDate dataNascimento;
-	
+
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Foto foto;
@@ -102,6 +102,8 @@ public class Usuario implements UserDetails, Serializable {
 	public String getUsername() {
 		return email;
 	}
+	
+	//testetest
 
 }
 

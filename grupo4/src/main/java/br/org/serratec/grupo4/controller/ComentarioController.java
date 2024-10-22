@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +25,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.dto.ComentarioDTO;
 import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
+import br.org.serratec.grupo4.exception.DadoNaoEncontradoException;
+import br.org.serratec.grupo4.exception.ProprietarioIncompativelException;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
 import br.org.serratec.grupo4.service.ComentarioService;
 
-import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -58,6 +60,7 @@ public class ComentarioController {
 		return ResponseEntity.ok(comentarioService.buscarTodos());
 	}
 	
+	
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(
 			value = {
@@ -68,17 +71,16 @@ public class ComentarioController {
 			}
 		)
 	@GetMapping("/pagina")
-	public ResponseEntity<Page<Comentario>> listarPaginado(@PageableDefault
+	public ResponseEntity<Page<ComentarioDTO>> listarPaginado(@PageableDefault
 			(direction= Sort.Direction.ASC, page= 0 ,size =8) Pageable pageable){
-		return ResponseEntity.ok(comentarioRepository.findAll(pageable));
+			Page<Comentario>comentarios = comentarioRepository.findAll(pageable);
+			Page<ComentarioDTO> comentariosDTO = comentarios.map(comentario -> new ComentarioDTO(comentario));
+		return ResponseEntity.ok(comentariosDTO);
 	}
 	
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//comentando para o codigo continuar rodando pq mudei a classe service
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/* @Operation(summary = "🔎 Busca o comentário pelo Id", description = "Verifique se o id está correto :)")
+	////////////////////////////////////////////////////////////////////////
+
+	 @Operation(summary = "🔎 Busca o comentário pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -88,20 +90,27 @@ public class ComentarioController {
 			}
 		)
 	@GetMapping("/{id}")
-	public ResponseEntity<ComentarioDTO>buscar(@PathVariable Long id){
-		Optional<Comentario>comentarioOpt = comentarioService.buscarPorId(id);
+	public ResponseEntity<ComentarioDTO>buscarPorId(@PathVariable Long id){
+		Optional<ComentarioDTO>comentarioOpt = comentarioService.buscarPorId(id);
 		if (comentarioOpt.isPresent()) {
-			ComentarioDTO comentarioDTO = new ComentarioDTO(comentarioOpt.get());
-			return ResponseEntity.ok(comentarioDTO);
+			return ResponseEntity.ok(comentarioOpt.get()); //
 		}
 		else {
 			return ResponseEntity.notFound().build();
 		}
-	} */
+	} 
 	
-	//get para teste de query para achar o usuário qu comentou em uma postagem 
-	
+	/////////////////////////////////////////////////////////////////////////
 
+	 @Operation(summary = "👀 Busca a postagem do comentário pelo Id", description = "Verifique se o id está correto :)")
+		@ApiResponses(
+				value = {
+						@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+						@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+						@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+						@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") 
+				}
+			)
     @GetMapping("/postagem/{postagemId}")
     public ResponseEntity<List<Map<String, Object>>> getComentariosPorPostagem(
             @PathVariable Long postagemId) {
@@ -114,8 +123,7 @@ public class ComentarioController {
         return ResponseEntity.ok(comentarios); // Retorna 200 OK com a lista de comentários
     }
 	
-	
-	
+	////////////////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "📚 Inserir um novo comentário", description = ":)")
 	@ApiResponses(
@@ -137,6 +145,8 @@ public class ComentarioController {
 		return ResponseEntity.created(uri).body(comentarioDTO);
 	}
 	
+	//////////////////////////////////////////////////////////////////
+	
 	@Operation(summary = "🔢 Atualiza o comentario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
 			value = {
@@ -147,13 +157,23 @@ public class ComentarioController {
 			}
 		)
 	@PutMapping("/{id}")
-	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioInserirDTO comentario, @RequestHeader("Authorization") String bearerToken){
-       if (comentarioRepository.existsById(id)) {
-    	   return ResponseEntity.ok(comentarioService.inserir(comentario, bearerToken));
-       }else {
-    	   return ResponseEntity.notFound().build();
-       }
+	public ResponseEntity<ComentarioDTO> atualizar(@PathVariable Long id, 
+			@Valid @RequestBody ComentarioInserirDTO comentario,
+			@RequestHeader("Authorization")String bearerToken) {
+		try {
+			return ResponseEntity.ok(comentarioService.inserir(comentario, bearerToken));
+			
+			
+		} catch (DadoNaoEncontradoException e) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		catch (ProprietarioIncompativelException e) {
+			 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
     }
+	
+	////////////////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "❌ Deleta o comentario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(

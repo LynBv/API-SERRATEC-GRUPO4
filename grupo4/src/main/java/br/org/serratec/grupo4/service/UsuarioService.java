@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.org.serratec.grupo4.domain.Relacionamento;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.SeguidorDTO;
-import br.org.serratec.grupo4.dto.SeguindoDTO;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.exception.EmailException;
@@ -59,7 +58,6 @@ public class UsuarioService {
 
         Usuario usuario = usuarioOpt.get();
         UsuarioDTO usuarioDto = new UsuarioDTO(usuario);
-
         if (usuario.getFoto() == null) {
             return usuarioDto;
         }
@@ -96,22 +94,21 @@ public class UsuarioService {
         usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
         usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
         usuario = usuarioRepository.save(usuario);
+        usuario.setUrl(usuarioInserirDTO.getUrl());
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 
+        usuarioRepository.save(usuario);
         if (file == null) {
-            usuarioRepository.save(usuario);
             return usuarioDTO;
+        } else {
+            fotoService.inserir(usuario, file);
+
         }
 
-        fotoService.inserir(usuario, file);
-        usuarioDTO = adicionarImagemUri(usuario);
-        usuarioRepository.save(usuario);
-
-        return usuarioDTO;
+        return adicionarImagemUri(usuario);
     }
 
-    public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file)
-            throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido, IOException {
+    public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file) {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
@@ -133,36 +130,34 @@ public class UsuarioService {
                 && usuarioRepository.findByEmail(usuarioInserirDTO.getEmail()) != null) {
             throw new EmailException("Email já existente");
         }
+
         usuario.setId(id);
         usuario.setNome(usuarioInserirDTO.getNome());
         usuario.setEmail(usuarioInserirDTO.getEmail());
         usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
         usuario.setDataNascimento(usuarioInserirDTO.getDataNascimento());
         usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
-        if (file == null) {
+
+        if (file == null || file.isEmpty()) {
             usuarioRepository.save(usuario);
-            return usuarioDTO;
+            return new UsuarioDTO(usuario);
         }
 
         try {
-            usuario.setFoto(fotoService.inserir(usuario, file));
-        } catch (IOException e) {
-            throw new IOException("erro ao salvar imagem");
-        }
+            fotoService.atualizar(usuario, file);
 
+        } catch (IOException e) {
+            return null;
+        }
         usuarioRepository.save(usuario);
-        usuarioDTO = adicionarImagemUri(usuario);
+        UsuarioDTO usuarioDTO = adicionarImagemUri(usuario);
 
         return usuarioDTO;
     }
 
     public UsuarioDTO adicionarImagemUri(Usuario usuario) {
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/usuario/{id}/foto")
-                .buildAndExpand(usuario.getId())
-                .toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuario/{id}/foto")
+                .buildAndExpand(usuario.getId()).toUri();
         UsuarioDTO dto = new UsuarioDTO();
         dto.setId(usuario.getId());
         dto.setNome(usuario.getNome());
@@ -170,23 +165,26 @@ public class UsuarioService {
         dto.setEmail(usuario.getEmail());
         dto.setDataNascimento(usuario.getDataNascimento());
         dto.setUrl(uri.toString());
+        usuario.setUrl(uri.toString());
+        usuarioRepository.save(usuario);
+
         return dto;
     }
 
-    public List<SeguidorDTO> ListarSeguidoresUsuario(Long id) {
+    Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
 
-        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-        if (usuarioOpt.isEmpty()) {
+    if (usuarioOpt.isEmpty ()
+         ) {
             throw new IdUsuarioInvalido("Id do usuario não encontrado");
-        }
-        Set<Relacionamento> seguidores = usuarioOpt.get().getSeguidores();
-
-        List<SeguidorDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
-
-        return seguidoresDTO;
     }
+    Set<Relacionamento> seguidores = usuarioOpt.get().getSeguidores();
 
-    public List<SeguindoDTO> ListarSeguindoUsuario(Long id) {
+    List<SeguidorDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
+
+    return seguidoresDTO ;
+}
+
+public List<SeguindoDTO> ListarSeguindoUsuario(Long id) {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
@@ -198,5 +196,7 @@ public class UsuarioService {
 
         return seguindoDTO;
     }
+
+
 
 }
