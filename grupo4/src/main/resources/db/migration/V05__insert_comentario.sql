@@ -1,4 +1,4 @@
-INSERT INTO comentario (texto, data_criacao, id_usuario, id_postagem) VALUES
+INSERT INTO COMENTARIO (conteudo_coment, data_criacao, id_usuario, id_postagem) VALUES
 ('Ótima postagem, Patrick!', '2024-10-21', 7, 1),
 ('Que lindinho, trás ele aqui em casa!', '2024-10-21', 2, 2),
 ('Interessante, Roberto!', '2024-10-22', 4, 6),

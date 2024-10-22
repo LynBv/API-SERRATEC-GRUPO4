@@ -103,7 +103,5 @@ public class Usuario implements UserDetails, Serializable {
 		return email;
 	}
 	
-	//testetest
-
 }
 

@@ -1,4 +1,4 @@
-INSERT INTO relacionamento (id_seguidor, id_seguido, data_inicio_seguimento) VALUES
+INSERT INTO RELACIONAMENTO (id_seguidor, id_seguido, data_inicio_seguimento) VALUES
 (1, 2, '2024-10-20'), /* Rayssa (id 1)*/ 
 (1, 3, '2024-10-21'),  
 (1, 4, '2024-10-22'), 
