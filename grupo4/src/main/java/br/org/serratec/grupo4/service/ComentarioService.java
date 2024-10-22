@@ -12,7 +12,9 @@ import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.ComentarioDTO;
 import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
+import br.org.serratec.grupo4.exception.DadoNaoEncontradoException;
 import br.org.serratec.grupo4.exception.IdUsuarioInvalido;
+import br.org.serratec.grupo4.exception.ProprietarioIncompativelException;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
 import br.org.serratec.grupo4.security.JwtUtil;
@@ -29,19 +31,20 @@ public class ComentarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public List<ComentarioDTO> buscarTodos() {
+    	List<Comentario> comentarios = comentarioRepository.findAll();
+    	List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
+    	return comentariosDTO;
+    }
+    
     public Optional<ComentarioDTO> buscarPorId(Long id) {
         Optional<Comentario> comentario = comentarioRepository.findById(id);
         Optional<ComentarioDTO> comentarioDTO = Optional.ofNullable(new ComentarioDTO(comentario.get()));
         return comentarioDTO;
     }
 
-    public List<ComentarioDTO> buscarTodos() {
-        List<Comentario> comentarios = comentarioRepository.findAll();
-        List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
-        return comentariosDTO;
-    }
 
-    public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken) {
+    public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken)throws IdUsuarioInvalido{
         Comentario comentario = new Comentario();
         //comentario.setPostagem(comentarioInserirDTO.getPostagem());
         comentario.setTexto(comentarioInserirDTO.getTexto());
@@ -52,25 +55,28 @@ public class ComentarioService {
         if (usuarioOPT.isEmpty()) {
             throw new IdUsuarioInvalido("Usuário não encontrado");
         }
-        //comentario.setUsuario(usuarioOPT.get());
+        comentario.setUsuario(usuarioOPT.get());
 
         comentario = comentarioRepository.save(comentario);
         ComentarioDTO comentarioDTO = new ComentarioDTO(comentario);
+        comentarioDTO.setUsuarioNome(comentario.getUsuario().getNome());
         return comentarioDTO;
     }
 
-    public ComentarioDTO atualizar(Long id, ComentarioInserirDTO comentarioInserirDTO, String bearerToken) {
+    public ComentarioDTO atualizar(Long id, ComentarioInserirDTO comentarioInserirDTO, String bearerToken)
+    		throws DadoNaoEncontradoException,
+            ProprietarioIncompativelException {
 
         Optional<Comentario> comentarioOPT = comentarioRepository.findById(id);
 
         if (comentarioOPT.isEmpty()) {
-            throw new RuntimeException("Comentario não encontrado");
+            throw new DadoNaoEncontradoException("Comentario não encontrado");
         }
-        /*  Long idtoken = jwtUtil.getId(bearerToken);
+        Long idtoken = jwtUtil.getId(bearerToken);
 
         if (!comentarioOPT.get().getUsuario().getId().equals(idtoken)) {
-            throw new RuntimeException("Voce so pode alterar suas proprias postagens");
-        } */
+            throw new ProprietarioIncompativelException("Voce so pode alterar suas proprias postagens");
+        } 
 
         Comentario comentario = comentarioOPT.get();
         comentario.setId(id);
