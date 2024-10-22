@@ -1,4 +1,4 @@
-INSERT INTO usuario (nome, sobrenome, email, senha, data_nascimento) VALUES 
+INSERT INTO USUARIO (nome, sobrenome, email, senha, data_nascimento) VALUES 
 ('Rayssa', 'Vieira', 'rayssa.vieira@example.com', 'Senhazinha123', '1990-01-15'),
 ('Elyn', 'Virginio', 'elyn.virginio@example.com', 'Laela456', '1985-06-23'),
 ('Rhayssa', 'Frias', 'rhayssa.frias@example.com', 'senhaSegura789', '1992-09-30'),
