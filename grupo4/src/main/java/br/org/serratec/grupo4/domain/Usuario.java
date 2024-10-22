@@ -102,10 +102,6 @@ public class Usuario implements UserDetails, Serializable {
 	public String getUsername() {
 		return email;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 88fbaa1641852c8f827decd5fc5ab7f95ee531b8
 }
 
