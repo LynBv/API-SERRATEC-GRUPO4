@@ -71,9 +71,11 @@ public class ComentarioController {
 			}
 		)
 	@GetMapping("/pagina")
-	public ResponseEntity<Page<Comentario>> listarPaginado(@PageableDefault
+	public ResponseEntity<Page<ComentarioDTO>> listarPaginado(@PageableDefault
 			(direction= Sort.Direction.ASC, page= 0 ,size =8) Pageable pageable){
-		return ResponseEntity.ok(comentarioRepository.findAll(pageable));
+			Page<Comentario>comentarios = comentarioRepository.findAll(pageable);
+			Page<ComentarioDTO> comentariosDTO = comentarios.map(comentario -> new ComentarioDTO(comentario));
+		return ResponseEntity.ok(comentariosDTO);
 	}
 	
 	////////////////////////////////////////////////////////////////////////

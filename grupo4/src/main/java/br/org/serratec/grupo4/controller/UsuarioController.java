@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -69,9 +68,11 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 	@GetMapping("/pagina")
-	public ResponseEntity<Page<Usuario>> listarPaginado(
+	public ResponseEntity<Page<UsuarioDTO>> listarPaginado(
 			@PageableDefault(direction = Sort.Direction.ASC, page = 0, size = 8) Pageable pageable) {
-		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
+		Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+		Page<UsuarioDTO> usuariosDTO = usuarios.map(usuario -> new UsuarioDTO(usuario));
+		return ResponseEntity.ok(usuariosDTO);
 	}
 ////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -141,6 +142,7 @@ public class UsuarioController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 ////////////////////////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "📚 Inserir Usuario", description = "Verifique se o id está correto :)")
@@ -167,10 +169,11 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 
 	@PutMapping(value = "/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario,
+	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestPart UsuarioInserirDTO usuario,
 			@RequestHeader("Authorization") String token, @RequestPart MultipartFile file) {
 
-		UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
 
 		return ResponseEntity.ok(usuarioDTO);
 	}
