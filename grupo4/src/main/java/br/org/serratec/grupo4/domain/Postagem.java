@@ -48,8 +48,6 @@ public class Postagem {
 	@Schema(description="Comentario Usuario")
 	private List<Comentario> comentarios = new ArrayList<>();
 
-	
-	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", nullable = false)
 	@Schema(description="Id Usuario")
