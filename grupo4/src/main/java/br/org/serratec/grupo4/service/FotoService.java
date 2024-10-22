@@ -19,13 +19,16 @@ public class FotoService {
 	private FotoRepository fotoRepository;
 
 	public Foto inserir(Usuario usuario, MultipartFile file) throws IOException {
+		
 		Foto foto = new Foto();
 		foto.setNome(file.getName());
 		foto.setTipo(file.getContentType());
 		foto.setDados(file.getBytes());
 		foto.setUsuario(usuario);
 		return fotoRepository.save(foto);
-	}
+		}
+		
+		
 
 	@Transactional
 	public Foto buscarPorIdUsuario(Long id) {
