@@ -40,5 +40,24 @@ public class FotoService {
 		}
 		return foto.get();
 	}
+	
+	@Transactional
+	public Foto atualizar(Usuario usuario, MultipartFile file) throws IOException {
+	    Optional<Foto> fotoOpt = fotoRepository.findByUsuario(usuario);
+	    
+	    Foto foto = new Foto();
+	    
+	    if (fotoOpt.isPresent()) {
+	        foto = fotoOpt.get();
+	    } 
+	    else {
+	        foto.setUsuario(usuario);
+	    }
+	    foto.setNome(file.getOriginalFilename());
+	    foto.setTipo(file.getContentType());
+	    foto.setDados(file.getBytes());
+
+	    return fotoRepository.save(foto);
+	}
 
 }
