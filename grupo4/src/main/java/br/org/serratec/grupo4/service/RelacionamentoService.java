@@ -76,12 +76,10 @@ public class RelacionamentoService {
             .findFirst()
             .orElseThrow(() -> new RelacionamentoException("Você não segue esse usuário"));
 
-        relacionamentoRepository.delete(relacionamento);
+
+        relacionamentoRepository.deleteById(relacionamento.getId());
         usuario.getSeguidos().remove(relacionamento);
         usuarioRepository.save(usuario);
-        
-        
-        
        
     }
 }

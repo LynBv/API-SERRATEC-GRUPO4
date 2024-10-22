@@ -1,4 +1,4 @@
-INSERT INTO postagem (conteudo, data_criacao, id_usuario) VALUES
+INSERT INTO POSTAGEM (conteudo, data_criacao, id_usuario) VALUES
 ('Ajudando um necessitado!! #serratec #2024.02', '2024-10-20', 6), /*foto que Patrick tem*/ 
 ('Adotei um novo amiguinho, até atualizei minha foto de perfil!!', '2024-10-21', 1), /*passar a foto de um gatinho pra Ray no usuário*/
 ('Ocupada, corrigindo Bugs!!', '2024-10-21', 2), /*foto de computador com bug sendo resolvido*/
