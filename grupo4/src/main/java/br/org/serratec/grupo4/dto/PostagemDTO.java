@@ -2,6 +2,7 @@ package br.org.serratec.grupo4.dto;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.org.serratec.grupo4.domain.Postagem;
 
@@ -30,6 +31,8 @@ public class PostagemDTO {
 	public PostagemDTO(Postagem postagem) {
 		this.id = postagem.getId();
 		this.conteudo = postagem.getConteudo();
+		this.usuarioNome = postagem.getUsuario().getNome();
+		this.comentarios = postagem.getComentarios().stream().map(ComentarioDTO::new).collect(Collectors.toList());
 	}
 
 

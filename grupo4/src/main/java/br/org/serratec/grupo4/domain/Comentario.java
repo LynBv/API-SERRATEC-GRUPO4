@@ -34,7 +34,7 @@ public class Comentario {
 	@Schema(description = "Texto do Comentario")
 	private String texto;
 
-	@NotBlank(message = "Preencha à Data do Comentário.")
+	@NotNull(message = "Preencha à Data do Comentário.")
 	@Column(name = "data_criacao", nullable = false)
 	@UpdateTimestamp
 	@Schema(description = "Data da criação do Comentário")
