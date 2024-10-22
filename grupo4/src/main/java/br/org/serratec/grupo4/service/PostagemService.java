@@ -71,9 +71,12 @@ public class PostagemService {
         postagem.setComentarios(null);
         postagem = postagemRepository.save(postagem);
 
-        PostagemDTO postagemDTO = new PostagemDTO(postagem);
+        PostagemDTO postagemDTO = new PostagemDTO();
         postagemDTO.setUsuarioNome(usuarioOPT.get().getNome());
-        
+        postagemDTO.setId(postagem.getId());
+        postagemDTO.setConteudo(postagem.getConteudo());
+        postagemDTO.setComentarios(null);
+
         return postagemDTO;
     }
 
