@@ -102,6 +102,15 @@ public class ComentarioController {
 	
 	/////////////////////////////////////////////////////////////////////////
 
+	 @Operation(summary = "👀 Busca a postagem do comentário pelo Id", description = "Verifique se o id está correto :)")
+		@ApiResponses(
+				value = {
+						@ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+						@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+						@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+						@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") 
+				}
+			)
     @GetMapping("/postagem/{postagemId}")
     public ResponseEntity<List<Map<String, Object>>> getComentariosPorPostagem(
             @PathVariable Long postagemId) {

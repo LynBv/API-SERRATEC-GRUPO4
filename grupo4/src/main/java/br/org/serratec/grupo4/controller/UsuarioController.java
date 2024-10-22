@@ -60,7 +60,8 @@ public class UsuarioController {
 	public ResponseEntity<List<UsuarioDTO>> listar() {
 		return ResponseEntity.ok(usuarioService.ListarUsuarios());
 	}
-
+/////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -73,7 +74,14 @@ public class UsuarioController {
 		Page<UsuarioDTO> usuariosDTO = usuarios.map(usuario -> new UsuarioDTO(usuario));
 		return ResponseEntity.ok(usuariosDTO);
 	}
-
+////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	@Operation(summary = "🔎 Busca a Foto do Usuario pelo Id 🤳", description = "Verifique se o id está correto :)")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 	@GetMapping("/{id}/foto")
 	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
 		Foto foto = fotoService.buscarPorIdUsuario(id);
@@ -82,7 +90,8 @@ public class UsuarioController {
 		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
 		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
 	}
-
+//////////////////////////////////////////////////////////////////////////////////
+	
 	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -100,6 +109,13 @@ public class UsuarioController {
 		}
 
 	}
+////////////////////////////////////////////////////////////////////////////////////
+	
+	@Operation(summary = "📧 Busca o usuario pelo Email", description = "Verifique se o id está correto :)")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 
 	@GetMapping("/email/{email}")
 	public ResponseEntity<Optional<UsuarioDTO>> buscarPorEmail(@PathVariable String email) {
@@ -110,7 +126,13 @@ public class UsuarioController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
+///////////////////////////////////////////////////////////////////////////////
+	
+	@Operation(summary = "👤 Busca o usuario pelo Nome", description = "Verifique se o id está correto :)")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 	@GetMapping("/nome/{nome}")
 	public ResponseEntity<Optional<UsuarioDTO>> buscarPorNome(@PathVariable String nome) {
 		Optional<UsuarioDTO> usuarioDTO = usuarioService.buscarPorNome(nome);
@@ -121,7 +143,15 @@ public class UsuarioController {
 		}
 	}
 
-	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE})
+////////////////////////////////////////////////////////////////////////////////
+	
+	@Operation(summary = "📚 Inserir Usuario", description = "Verifique se o id está correto :)")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
+	
+	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<UsuarioDTO> inserir(@RequestPart(value = "file", required = false) MultipartFile file,
 			@RequestPart UsuarioInserirDTO usuario) throws IOException {
 		try {
@@ -130,7 +160,8 @@ public class UsuarioController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-
+///////////////////////////////////////////////////////////////////////////////////
+	
 	@Operation(summary = "🔢 Atualiza o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -146,7 +177,8 @@ public class UsuarioController {
 
 		return ResponseEntity.ok(usuarioDTO);
 	}
-
+////////////////////////////////////////////////////////////////////////////////////
+	
 	@Operation(summary = "❌ Deleta o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),

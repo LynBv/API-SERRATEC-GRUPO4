@@ -4,24 +4,23 @@ import java.time.LocalDate;
 
 import br.org.serratec.grupo4.domain.Relacionamento;
 
-public class SeguidorDTO {
+public class SeguindoDTO {
 
     private String nome;
 
     private LocalDate dataDeSeguimento;
 
-    public SeguidorDTO() {
+    public SeguindoDTO() {
 
     }
 
-    
-    public SeguidorDTO(String nome, LocalDate dataDeSeguimento) {
+    public SeguindoDTO(String nome, LocalDate dataDeSeguimento) {
         this.nome = nome;
         this.dataDeSeguimento = dataDeSeguimento;
     }
 
-    public SeguidorDTO( Relacionamento relacionamento) {
-        this.nome = relacionamento.getId().getSeguidor().getNome();
+    public SeguindoDTO(Relacionamento relacionamento) {
+        this.nome = relacionamento.getId().getSeguido().getNome();
         this.dataDeSeguimento = relacionamento.getDataInicioSeguimento();
     }
 
