@@ -99,16 +99,14 @@ public class UsuarioService {
         usuario.setUrl(usuarioInserirDTO.getUrl());
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 
+        usuarioRepository.save(usuario);
         if (file == null) {
-            usuarioRepository.save(usuario);
             return usuarioDTO;
+        }else {
+        	fotoService.inserir(usuario, file);
+        	
         }
-        usuario = usuarioRepository.save(usuario);
-            	
-    	fotoService.inserir(usuario, file);
-    	
-      
-        
+           
     	 
     	return adicionarImagemUri(usuario);
     }

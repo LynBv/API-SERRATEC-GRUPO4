@@ -62,7 +62,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.ListarUsuarios());
 	}
 
-
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -74,7 +73,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
 	}
 
-
 	@GetMapping("/{id}/foto")
 	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
 		Foto foto = fotoService.buscarPorIdUsuario(id);
@@ -83,8 +81,6 @@ public class UsuarioController {
 		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
 		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
 	}
-
-
 
 	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -125,17 +121,14 @@ public class UsuarioController {
 	}
 
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<UsuarioDTO> inserir(@RequestPart MultipartFile file,
+	public ResponseEntity<UsuarioDTO> inserir(@RequestPart(value = "file", required = false) MultipartFile file,
 			@RequestPart UsuarioInserirDTO usuario) throws IOException {
 		try {
-		return ResponseEntity.ok(usuarioService.inserir(usuario, file));
+			return ResponseEntity.ok(usuarioService.inserir(usuario, file));
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		catch(IOException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		
-		}
-
+	}
 
 	@Operation(summary = "🔢 Atualiza o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -147,9 +140,9 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario,
 			@RequestHeader("Authorization") String token, @RequestPart MultipartFile file) {
 
-			UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
-			
-				return ResponseEntity.ok(usuarioDTO);	
+		UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
+
+		return ResponseEntity.ok(usuarioDTO);
 	}
 
 	@Operation(summary = "❌ Deleta o usuario pelo id", description = "Verifique se o id está correto :)")
