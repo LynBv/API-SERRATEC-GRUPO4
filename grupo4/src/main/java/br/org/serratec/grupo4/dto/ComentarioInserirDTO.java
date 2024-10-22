@@ -12,6 +12,9 @@ public class ComentarioInserirDTO {
 	@Size(max = 400, message = "Comentario não pode ultraprassar o limite de (max) caracteres!!")
 	private String texto;
 	
+	@NotNull(message = "ID do Postagem não pode estar vazio!!")
+	@NotBlank(message = "ID do Postagem não pode estar em branco!!")
+	@Size(max = 10, message = "ID da Postagem não pode ultraprassar o limite de (max) caracteres!!")
 	private Long idPostagem;
 
 	public String getTexto() {
