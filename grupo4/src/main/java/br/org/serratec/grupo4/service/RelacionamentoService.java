@@ -80,9 +80,6 @@ public class RelacionamentoService {
         relacionamentoRepository.deleteById(relacionamento.getId());
         usuario.getSeguidos().remove(relacionamento);
         usuarioRepository.save(usuario);
-        
-        
-        
        
     }
 }
