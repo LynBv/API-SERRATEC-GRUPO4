@@ -28,6 +28,7 @@ public class ComentarioDTO {
 		this.id = comentario.getId();
 		this.texto = comentario.getTexto();
 		this.dataCriacao = comentario.getDataCriacao();
+		this.usuarioNome = comentario.getUsuario().getNome();
 	}
 
 	public Long getId() {
