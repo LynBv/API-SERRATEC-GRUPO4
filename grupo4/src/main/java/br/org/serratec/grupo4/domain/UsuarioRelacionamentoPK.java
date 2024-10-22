@@ -17,10 +17,10 @@ public class UsuarioRelacionamentoPK implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_seguidor", nullable = false)
-	private Usuario seguidor;
+	private Usuario seguidor; // to chamando o seguidor 
 	
 	@ManyToOne
 	@JoinColumn(name = "id_seguido", nullable = false)
-	private Usuario seguido;
+	private Usuario seguido; //to chamando o seguido 
 
 }

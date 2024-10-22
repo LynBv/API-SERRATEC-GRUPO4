@@ -120,7 +120,7 @@ public class UsuarioController {
 		}
 	}
 
-	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<UsuarioDTO> inserir(@RequestPart(value = "file", required = false) MultipartFile file,
 			@RequestPart UsuarioInserirDTO usuario) throws IOException {
 		try {
@@ -137,10 +137,11 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 
 	@PutMapping(value = "/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario,
+	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestPart UsuarioInserirDTO usuario,
 			@RequestHeader("Authorization") String token, @RequestPart MultipartFile file) {
 
-		UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
 
 		return ResponseEntity.ok(usuarioDTO);
 	}
