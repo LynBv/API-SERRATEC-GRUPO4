@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.org.serratec.grupo4.domain.Relacionamento;
 import br.org.serratec.grupo4.domain.Usuario;
+import br.org.serratec.grupo4.dto.SeguidorDTO;
+import br.org.serratec.grupo4.dto.SeguindoDTO;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
 import br.org.serratec.grupo4.exception.EmailException;
@@ -56,7 +60,7 @@ public class UsuarioService {
         Usuario usuario = usuarioOpt.get();
         UsuarioDTO usuarioDto = new UsuarioDTO(usuario);
 
-        if (usuario.getFoto() == null){
+        if (usuario.getFoto() == null) {
             return usuarioDto;
         }
         usuarioDto = adicionarImagemUri(usuario);
@@ -75,8 +79,6 @@ public class UsuarioService {
         Optional<UsuarioDTO> usuariodto = Optional.ofNullable(new UsuarioDTO(usuario.get()));
         return usuariodto;
     }
-
-
 
     public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO, MultipartFile file)
             throws IOException, SenhaException, EmailException {
@@ -148,7 +150,7 @@ public class UsuarioService {
         } catch (IOException e) {
             throw new IOException("erro ao salvar imagem");
         }
-        
+
         usuarioRepository.save(usuario);
         usuarioDTO = adicionarImagemUri(usuario);
 
@@ -171,13 +173,30 @@ public class UsuarioService {
         return dto;
     }
 
+    public List<SeguidorDTO> ListarSeguidoresUsuario(Long id) {
 
-////////////////////////////////////////////////////////////////////////
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            throw new IdUsuarioInvalido("Id do usuario não encontrado");
+        }
+        Set<Relacionamento> seguidores = usuarioOpt.get().getSeguidores();
 
-    /* public List<Usuario> ListarSeguidoresUsuario(Long id) {
-	
-		List<Usuario> seguidores =  buscarPorId(id).get().getSeguidores();
-		List<UsuarioDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
-	} */
-    
+        List<SeguidorDTO> seguidoresDTO = seguidores.stream().map(SeguidorDTO::new).toList();
+
+        return seguidoresDTO;
+    }
+
+    public List<SeguindoDTO> ListarSeguindoUsuario(Long id) {
+
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            throw new IdUsuarioInvalido("Id do usuario não encontrado");
+        }
+        Set<Relacionamento> seguindo = usuarioOpt.get().getSeguidos();
+
+        List<SeguindoDTO> seguindoDTO = seguindo.stream().map(SeguindoDTO::new).toList();
+
+        return seguindoDTO;
+    }
+
 }
