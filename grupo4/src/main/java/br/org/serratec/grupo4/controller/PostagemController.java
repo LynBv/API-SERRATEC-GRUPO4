@@ -58,6 +58,7 @@ public class PostagemController {
 		return ResponseEntity.ok(postagemService.buscarTodos());
 	}
 	
+	///////////////////////////////////////////////////////////////////////
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(
 			value = {
@@ -75,9 +76,7 @@ public class PostagemController {
 		return ResponseEntity.ok(postagemDTO);
 	}
 
-	
 //////////////////////////////////////////////////////////////////
-	
 	
  	@Operation(summary = "🔎 Busca a postagem pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
@@ -121,7 +120,7 @@ public class PostagemController {
 		
 		return ResponseEntity.created(uri).body(postagemDTO);
 	}
-	//////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
 
 	@Operation(summary = "🔢 Atualiza a postagem pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(
