@@ -43,7 +43,6 @@ public class FotoService {
 	
 	@Transactional
 	public Foto atualizar(Usuario usuario, MultipartFile file) throws IOException {
-	    // Verifica se já existe uma foto para o usuário
 	    Optional<Foto> fotoOpt = fotoRepository.findByUsuario(usuario);
 	    
 	    Foto foto = new Foto();
