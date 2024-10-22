@@ -17,6 +17,7 @@ public class UsuarioDTO {
 	private String sobrenome;
 
 	private String email;
+	
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataNascimento;

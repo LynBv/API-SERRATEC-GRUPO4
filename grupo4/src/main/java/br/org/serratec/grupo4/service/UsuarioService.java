@@ -1,3 +1,4 @@
+
 package br.org.serratec.grupo4.service;
 
 import java.io.IOException;
@@ -98,19 +99,20 @@ public class UsuarioService {
         usuario.setUrl(usuarioInserirDTO.getUrl());
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 
+        usuarioRepository.save(usuario);
         if (file == null) {
-            usuarioRepository.save(usuario);
             return usuarioDTO;
+        }else {
+        	fotoService.inserir(usuario, file);
+        	
         }
-
-        usuario = usuarioRepository.save(usuario);
-    	fotoService.inserir(usuario, file);
+           
     	 
     	return adicionarImagemUri(usuario);
     }
 
     public UsuarioDTO atualizar(UsuarioInserirDTO usuarioInserirDTO, Long id, String bearerToken, MultipartFile file)
-            throws RuntimeException, SenhaException, EmailException, IdUsuarioInvalido, IOException {
+             {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
         if (usuarioOpt.isEmpty()) {
@@ -144,11 +146,10 @@ public class UsuarioService {
             return usuarioDTO;
         }
 
-        try {
-            usuario.setFoto(fotoService.inserir(usuario, file));
-        } catch (IOException e) {
-            throw new IOException("erro ao salvar imagem");
-        }
+        
+		//usuario.setFoto(fotoService.inserir(usuario, file));
+			
+        
         
         usuarioRepository.save(usuario);
         usuarioDTO = adicionarImagemUri(usuario);

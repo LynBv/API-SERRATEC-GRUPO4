@@ -1,3 +1,4 @@
+
 package br.org.serratec.grupo4.controller;
 
 import java.io.IOException;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +30,14 @@ import br.org.serratec.grupo4.domain.Foto;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.UsuarioDTO;
 import br.org.serratec.grupo4.dto.UsuarioInserirDTO;
+import br.org.serratec.grupo4.exception.IdUsuarioInvalido;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
 import br.org.serratec.grupo4.service.FotoService;
 import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuario")
@@ -56,19 +62,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.ListarUsuarios());
 	}
 
-	@GetMapping("/{id}/foto")
-	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
-		Foto foto = fotoService.buscarPorIdUsuario(id);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_TYPE, foto.getTipo());
-		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
-		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// comentando para o codigo continuar rodando pq mudei a classe service                               //
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	@Operation(summary = "📖 Lista Paginado", description = ":)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
@@ -80,9 +73,14 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// comentando para o codigo continuar rodando pq mudei a classe service
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	@GetMapping("/{id}/foto")
+	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
+		Foto foto = fotoService.buscarPorIdUsuario(id);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, foto.getTipo());
+		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
+		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
+	}
 
 	@Operation(summary = "🔎 Busca o usuario pelo Id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
@@ -92,9 +90,14 @@ public class UsuarioController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Long id) {
-		UsuarioDTO usuarioOpt = usuarioService.buscarPorId(id);
+		try {
+			UsuarioDTO usuarioOpt = usuarioService.buscarPorId(id);
+			return ResponseEntity.ok(usuarioOpt);
 
-		return ResponseEntity.notFound().build();
+		} catch (IdUsuarioInvalido e) {
+			return ResponseEntity.notFound().build();
+		}
+
 	}
 
 	@GetMapping("/email/{email}")
@@ -118,41 +121,29 @@ public class UsuarioController {
 	}
 
 	@PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-	public ResponseEntity<UsuarioDTO> inserirFoto(@RequestPart MultipartFile file,
+	public ResponseEntity<UsuarioDTO> inserir(@RequestPart(value = "file", required = false) MultipartFile file,
 			@RequestPart UsuarioInserirDTO usuario) throws IOException {
-		return ResponseEntity.ok(usuarioService.inserir(usuario, file));
+		try {
+			return ResponseEntity.ok(usuarioService.inserir(usuario, file));
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
-	/*
-	 * @Operation(summary = "🔢 Atualiza o usuario pelo id", description =
-	 * "Verifique se o id está correto :)")
-	 * 
-	 * @ApiResponses(value = { @ApiResponse(responseCode = "200", description =
-	 * "Operação efetuada com sucesso ｡◕‿◕｡"),
-	 * 
-	 * @ApiResponse(responseCode = "401", description =
-	 * "Erro na autenticação (•ิ_•ิ)"),
-	 * 
-	 * @ApiResponse(responseCode = "404", description =
-	 * "Recurso não encontrado ⊙▂⊙"),
-	 * 
-	 * @ApiResponse(responseCode = "505", description =
-	 * "Exceção interna da aplicação |˚–˚|") })
-	 * 
-	 * @PutMapping(value ="/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE
-	 * }) public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long
-	 * id, @Valid @RequestBody UsuarioInserirDTO usuario,
-	 * 
-	 * @RequestHeader("Authorization") String token, @RequestPart MultipartFile
-	 * file) {
-	 * 
-	 * UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
-	 * if(usuarioDTO == null) { return ResponseEntity.ok(usuarioDTO); }
-	 * 
-	 * else { return ResponseEntity.notFound().build(); }
-	 * 
-	 * }
-	 */
+	@Operation(summary = "🔢 Atualiza o usuario pelo id", description = "Verifique se o id está correto :)")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
+
+	@PutMapping(value = "/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDTO usuario,
+			@RequestHeader("Authorization") String token, @RequestPart MultipartFile file) {
+
+		UsuarioDTO usuarioDTO = usuarioService.atualizar(usuario, id, token, file);
+
+		return ResponseEntity.ok(usuarioDTO);
+	}
 
 	@Operation(summary = "❌ Deleta o usuario pelo id", description = "Verifique se o id está correto :)")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
