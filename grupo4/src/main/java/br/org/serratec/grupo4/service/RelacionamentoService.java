@@ -55,7 +55,7 @@ public class RelacionamentoService {
         usuario.getSeguidos().add(relacionamento);
         SeguindoDTO seguindoDTO = new SeguindoDTO(relacionamento);
 
-        return seguindoDTO;
+        return seguindoDTO ;
 
     }
 
@@ -79,5 +79,9 @@ public class RelacionamentoService {
         relacionamentoRepository.delete(relacionamento);
         usuario.getSeguidos().remove(relacionamento);
         usuarioRepository.save(usuario);
+        
+        
+        
+       
     }
 }
