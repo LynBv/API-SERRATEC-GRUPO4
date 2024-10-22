@@ -44,6 +44,9 @@ public class RelacionamentoService {
                 .anyMatch(relacionamento -> relacionamento.getId().getSeguido().equals(seguido))) {
             throw new RelacionamentoException("Você já segue o usuário");
         }
+        if (usuario.equals(seguido)) {
+            throw new RelacionamentoException("Não pode seguir a si mesmo");
+        }   
 
         UsuarioRelacionamentoPK relacionamentoPK = new UsuarioRelacionamentoPK();
         relacionamentoPK.setSeguidor(usuario);
@@ -53,6 +56,9 @@ public class RelacionamentoService {
         relacionamento.setDataInicioSeguimento(LocalDate.now());
         relacionamentoRepository.save(relacionamento);
         usuario.getSeguidos().add(relacionamento);
+        seguido.getSeguidores().add(relacionamento);
+        usuarioRepository.save(usuario);
+        usuarioRepository.save(seguido);
         SeguindoDTO seguindoDTO = new SeguindoDTO(relacionamento);
 
         return seguindoDTO ;
