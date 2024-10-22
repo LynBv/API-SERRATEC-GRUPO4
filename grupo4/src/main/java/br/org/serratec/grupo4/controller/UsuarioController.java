@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -68,9 +67,11 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 	@GetMapping("/pagina")
-	public ResponseEntity<Page<Usuario>> listarPaginado(
+	public ResponseEntity<Page<UsuarioDTO>> listarPaginado(
 			@PageableDefault(direction = Sort.Direction.ASC, page = 0, size = 8) Pageable pageable) {
-		return ResponseEntity.ok(usuarioRepository.findAll(pageable));
+		Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+		Page<UsuarioDTO> usuariosDTO = usuarios.map(usuario -> new UsuarioDTO(usuario));
+		return ResponseEntity.ok(usuariosDTO);
 	}
 
 	@GetMapping("/{id}/foto")
