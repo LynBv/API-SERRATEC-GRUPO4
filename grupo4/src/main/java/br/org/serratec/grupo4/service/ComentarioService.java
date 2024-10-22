@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.org.serratec.grupo4.domain.Comentario;
+import br.org.serratec.grupo4.domain.Postagem;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.dto.ComentarioDTO;
 import br.org.serratec.grupo4.dto.ComentarioInserirDTO;
@@ -16,6 +17,7 @@ import br.org.serratec.grupo4.exception.DadoNaoEncontradoException;
 import br.org.serratec.grupo4.exception.IdUsuarioInvalido;
 import br.org.serratec.grupo4.exception.ProprietarioIncompativelException;
 import br.org.serratec.grupo4.repository.ComentarioRepository;
+import br.org.serratec.grupo4.repository.PostagemRepository;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
 import br.org.serratec.grupo4.security.JwtUtil;
 
@@ -30,6 +32,9 @@ public class ComentarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private PostagemRepository postagemRepository;
 
     public List<ComentarioDTO> buscarTodos() {
     	List<Comentario> comentarios = comentarioRepository.findAll();
@@ -44,22 +49,31 @@ public class ComentarioService {
     }
 
 
-    public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken)throws IdUsuarioInvalido{
+    public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken) throws IdUsuarioInvalido {
         Comentario comentario = new Comentario();
-        //comentario.setPostagem(comentarioInserirDTO.getPostagem());
         comentario.setTexto(comentarioInserirDTO.getTexto());
         comentario.setDataCriacao(LocalDate.now());
 
-        Long id = jwtUtil.getId(bearerToken);
-        Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
+        Long idUsuario = jwtUtil.getId(bearerToken);
+        Optional<Usuario> usuarioOPT = usuarioRepository.findById(idUsuario);
         if (usuarioOPT.isEmpty()) {
-            throw new IdUsuarioInvalido("Usuário não encontrado");
+            throw new IdUsuarioInvalido("Usuário não encontrado");
         }
         comentario.setUsuario(usuarioOPT.get());
 
+        Long idPostagem = comentarioInserirDTO.getIdPostagem(); // Supondo que o ID da postagem esteja no DTO
+        Optional<Postagem> postagemOPT = postagemRepository.findById(idPostagem);
+        if (postagemOPT.isEmpty()) {
+            throw new DadoNaoEncontradoException("Postagem não encontrada");
+        }
+        comentario.setPostagem(postagemOPT.get()); // Aqui você associa a postagem ao comentário
+        
+        // Salva o comentário no banco de dados
         comentario = comentarioRepository.save(comentario);
+
+        // Converte para DTO e retorna
         ComentarioDTO comentarioDTO = new ComentarioDTO(comentario);
-        comentarioDTO.setUsuarioNome(comentario.getUsuario().getNome());
+        comentarioDTO.setUsuarioNome("mario");
         return comentarioDTO;
     }
 
