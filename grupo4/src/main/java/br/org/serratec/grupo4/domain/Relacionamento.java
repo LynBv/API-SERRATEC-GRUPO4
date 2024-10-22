@@ -28,14 +28,5 @@ public class Relacionamento {
 	    @Column(name="data_inicio_seguimento", nullable = false, updatable = false)
 	    private LocalDate dataInicioSeguimento;
 
-	
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "id_seguidor", insertable = false, updatable = false)
-	    private Usuario seguidor;  // Tô chamando o seguidor
-
-
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "id_seguido", insertable = false, updatable = false)
-	    private Usuario seguido;  //Chamando o seguido
 
 }
