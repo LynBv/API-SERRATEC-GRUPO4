@@ -68,9 +68,11 @@ public class PostagemController {
 			}
 		)
 	@GetMapping("/pagina")
-	public ResponseEntity<Page<Postagem>> listarPaginado(
+	public ResponseEntity<Page<PostagemDTO>> listarPaginado(
 			@PageableDefault(direction = Sort.Direction.ASC, page = 0, size = 8) Pageable pageable) {
-		return ResponseEntity.ok(postagemRepository.findAll(pageable));
+		Page<Postagem>postagem = postagemRepository.findAll(pageable);
+		Page<PostagemDTO> postagemDTO = postagem.map(post -> new PostagemDTO(post));
+		return ResponseEntity.ok(postagemDTO);
 	}
 
 	
