@@ -40,7 +40,6 @@ public class ConfigSeguranca {
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers.frameOptions().sameOrigin());
-;
 
     	JwtAuthenticationFilter jwtAuthenticationFilter = 
 				new JwtAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))
