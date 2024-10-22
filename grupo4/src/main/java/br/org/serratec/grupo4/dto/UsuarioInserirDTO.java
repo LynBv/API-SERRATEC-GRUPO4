@@ -2,7 +2,6 @@ package br.org.serratec.grupo4.dto;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +37,6 @@ public class UsuarioInserirDTO {
 	@NotNull(message = "Data de Nascimento não pode estar vazia!!")
 	private LocalDate dataNascimento;
 
-	@Column(name = "url", nullable = true)
 	private String url;
 
 	public String getNome() {
