@@ -97,6 +97,7 @@ public class UsuarioController {
 	    headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
 
 	    return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -199,12 +200,10 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<UsuarioDTO> deletar(@PathVariable Long id) {
-		if (usuarioRepository.existsById(id)) {
-			usuarioRepository.deleteById(id);
-			return ResponseEntity.noContent().build();
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+	public ResponseEntity<String> deletar(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+		usuarioService.deletar(id, token);
+		String mensagem = "Usuario deletado com sucesso!";
+		return ResponseEntity.ok(mensagem);
+
 	}
 }
