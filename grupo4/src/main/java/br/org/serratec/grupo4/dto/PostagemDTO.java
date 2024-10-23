@@ -4,13 +4,20 @@ package br.org.serratec.grupo4.dto;
 import java.util.List;
 
 import br.org.serratec.grupo4.domain.Postagem;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 public class PostagemDTO {
 
+	@Schema(description = "Nome_Usuario")
 	private String usuarioNome;
+	
+	@Schema(description = "Id_da_Postagem")
 	private Long id;
+	
+	@Schema(description = "Texto_do_Conteudo")
 	private String conteudo;
+	
 	private List<ComentarioDTO> comentarios;
 
 	public PostagemDTO() {

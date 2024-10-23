@@ -4,15 +4,20 @@ import java.time.LocalDate;
 
 import br.org.serratec.grupo4.domain.Comentario;
 import br.org.serratec.grupo4.domain.Postagem;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ComentarioDTO {
 
+	@Schema(description = "Dono do Comentario")
 	private String usuarioNome;
 
+	@Schema(description = "Id do Comentario")
 	private Long id;
 
+	@Schema(description = "Texto do Comentario")
 	private String texto;
 
+	@Schema(description = "Data_Criacao do Comentario")
 	private LocalDate dataCriacao;
 
 	public ComentarioDTO() {

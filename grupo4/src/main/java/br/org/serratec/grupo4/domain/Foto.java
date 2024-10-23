@@ -1,5 +1,6 @@
 package br.org.serratec.grupo4.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,10 +22,13 @@ public class Foto {
 	@NotNull(message = "Os dados da foto não podem ser nulos")
 	@Lob
 	@Column(columnDefinition = "BLOB")
+	@Schema(description = "Dados da Foto")
 	private byte[] dados;
 
+	@Schema(description = "Tipo de Foto")
 	private String tipo;
 
+	@Schema(description = "Nome da Foto")
 	private String nome;
 
 	@OneToOne
