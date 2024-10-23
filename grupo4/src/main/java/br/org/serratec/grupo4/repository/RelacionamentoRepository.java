@@ -15,7 +15,7 @@ import br.org.serratec.grupo4.domain.UsuarioRelacionamentoPK;
 public interface RelacionamentoRepository extends JpaRepository<Relacionamento, UsuarioRelacionamentoPK> {
 	
 	  @Query(value = """
-            SELECT SGD.NOME AS nome_Seguidor, SG.NOME AS nome_Seguido, R.DATA_INICIO_SEGUIMENTO
+            SELECT SGD.NOME AS nome_Seguidor, SG.NOME AS nome_Seguindo, R.DATA_INICIO_SEGUIMENTO
             FROM RELACIONAMENTO AS R
             INNER JOIN USUARIO AS SGD ON R.ID_SEGUIDOR = SGD.ID_USUARIO
             INNER JOIN USUARIO AS SG ON R.ID_SEGUIDO = SG.ID_USUARIO
@@ -25,11 +25,11 @@ public interface RelacionamentoRepository extends JpaRepository<Relacionamento, 
     List<Map<String, Object>> findSeguidoresPorUsuarioId(@Param("usuarioId") Long usuarioId);
     
     @Query(value = """
-    		SELECT SG.NOME AS nome_Seguidor, SGD.NOME AS nome_Seguido, R.DATA_INICIO_SEGUIMENTO
+    		SELECT SG.NOME AS nome_Seguidor, SGD.NOME AS nome_Seguindo, R.DATA_INICIO_SEGUIMENTO
             FROM RELACIONAMENTO AS R
             INNER JOIN USUARIO AS SG ON R.ID_SEGUIDOR = SG.ID_USUARIO
             INNER JOIN USUARIO AS SGD ON R.ID_SEGUIDO = SGD.ID_USUARIO
-            WHERE R.ID_SEGUIDOR = :usuarioId
+            WHERE R.ID_SEGUIDO = :usuarioId
             ORDER BY SGD.NOME
             """, nativeQuery = true)
     List<Map<String, Object>> findSeguindoPorUsuarioId(@Param("usuarioId") Long usuarioId);
