@@ -6,10 +6,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
+import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
@@ -20,6 +25,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI myOpenAPI() {
+    
         Server devServer = new Server();
         devServer.setUrl(devUrl);
         devServer.setDescription("URL do servidor do Grupo 4");
@@ -36,7 +42,20 @@ public class SwaggerConfig {
                 .description("Trabalho Final do Grupo 4.0").termsOfService("https://https://www.g4dominio.com.br/termos")
                 .license(apacheLicense);
 
+        SecurityScheme securityScheme = new SecurityScheme()
+                .type(Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT")
+                .in(In.HEADER)
+                .name("Authorization");
+
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
+        OpenAPI openAPI = new OpenAPI();
+		openAPI.addSecurityItem(securityRequirement);
+        
         return new OpenAPI().info(info).servers(List.of(devServer));
+        
+       
     }
 
 }
