@@ -7,29 +7,28 @@ import jakarta.validation.constraints.Size;
 
 public class ComentarioInserirDTO {
 
-	@NotBlank(message = "Comentário não pode estar em branco!!")
+    @NotBlank(message = "Comentário não pode estar em branco!!")
 
-	@Size(max = 400, message = "Comentario não pode ultraprassar o limite de (max) caracteres!!")
-	@Schema(description = "Conteúdo do comentario")
-	private String texto;
+    @Size(max = 400, message = "Comentario não pode ultraprassar o limite de (max) caracteres!!")
+    @Schema(description = "Conteúdo do comentario")
+    private String texto;
 
-	
-	@NotNull(message = "ID da Postagem não pode estar vazio!!")
-	private Long idPostagem;
+    @NotNull(message = "ID da Postagem não pode estar vazio!!")
+    private Long idPostagem;
 
-	public String getTexto() {
-		return texto;
-	}
+    public String getTexto() {
+        return texto;
+    }
 
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
 
-	public Long getIdPostagem() {
-		return idPostagem;
-	}
+    public Long getIdPostagem() {
+        return idPostagem;
+    }
 
-	public void setIdPostagem(Long idPostagem) {
-		this.idPostagem = idPostagem;
-	}
+    public void setIdPostagem(Long idPostagem) {
+        this.idPostagem = idPostagem;
+    }
 }

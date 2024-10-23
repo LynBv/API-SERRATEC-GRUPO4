@@ -32,22 +32,21 @@ public class ComentarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     @Autowired
     private PostagemRepository postagemRepository;
 
     public List<ComentarioDTO> buscarTodos() {
-    	List<Comentario> comentarios = comentarioRepository.findAll();
-    	List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
-    	return comentariosDTO;
+        List<Comentario> comentarios = comentarioRepository.findAll();
+        List<ComentarioDTO> comentariosDTO = comentarios.stream().map(ComentarioDTO::new).toList();
+        return comentariosDTO;
     }
-    
+
     public Optional<ComentarioDTO> buscarPorId(Long id) {
         Optional<Comentario> comentario = comentarioRepository.findById(id);
         Optional<ComentarioDTO> comentarioDTO = Optional.ofNullable(new ComentarioDTO(comentario.get()));
         return comentarioDTO;
     }
-
 
     public ComentarioDTO inserir(ComentarioInserirDTO comentarioInserirDTO, String bearerToken) throws IdUsuarioInvalido {
         Comentario comentario = new Comentario();
@@ -61,24 +60,22 @@ public class ComentarioService {
         }
         comentario.setUsuario(usuarioOPT.get());
 
-        Long idPostagem = comentarioInserirDTO.getIdPostagem(); // Supondo que o ID da postagem esteja no DTO
+        Long idPostagem = comentarioInserirDTO.getIdPostagem(); 
         Optional<Postagem> postagemOPT = postagemRepository.findById(idPostagem);
         if (postagemOPT.isEmpty()) {
             throw new DadoNaoEncontradoException("Postagem não encontrada");
         }
-        comentario.setPostagem(postagemOPT.get()); // Aqui você associa a postagem ao comentário
-        
-        // Salva o comentário no banco de dados
+        comentario.setPostagem(postagemOPT.get());
+
         comentario = comentarioRepository.save(comentario);
 
-        // Converte para DTO e retorna
         ComentarioDTO comentarioDTO = new ComentarioDTO(comentario);
         comentarioDTO.setUsuarioNome("mario");
         return comentarioDTO;
     }
 
     public ComentarioDTO atualizar(Long id, ComentarioInserirDTO comentarioInserirDTO, String bearerToken)
-    		throws DadoNaoEncontradoException,
+            throws DadoNaoEncontradoException,
             ProprietarioIncompativelException {
 
         Optional<Comentario> comentarioOPT = comentarioRepository.findById(id);
@@ -90,19 +87,18 @@ public class ComentarioService {
 
         if (!comentarioOPT.get().getUsuario().getId().equals(idtoken)) {
             throw new ProprietarioIncompativelException("Voce so pode alterar suas proprias postagens");
-        } 
+        }
 
         Comentario comentario = comentarioOPT.get();
         comentario.setId(id);
         comentario.setTexto(comentarioInserirDTO.getTexto());
-        //comentario.setUsuario(comentarioInserirDTO.getUsuario());
 
         comentario = comentarioRepository.save(comentario);
 
         ComentarioDTO comentarioDTO = new ComentarioDTO(comentario);
         return comentarioDTO;
     }
-    
+
     public List<Map<String, Object>> getNomeEDataComentarioByPostagemId(Long postagemId) {
         return comentarioRepository.findNomeEDataComentarioByPostagemId(postagemId);
     }

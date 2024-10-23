@@ -13,7 +13,7 @@ import br.org.serratec.grupo4.domain.Comentario;
 @Repository
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 
-	@Query(value = """
+    @Query(value = """
 			SELECT u.nome AS nome, c.data_criacao AS dataComentario, c.conteudo_coment AS conteudo
 			FROM usuario AS u
 			INNER JOIN
@@ -21,7 +21,6 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 			ON u.id_usuario = c.id_usuario
 			WHERE c.id_postagem=:postagemId """, nativeQuery = true)
 
-	List<Map<String, Object>> findNomeEDataComentarioByPostagemId(@Param("postagemId") Long postagemId);
+    List<Map<String, Object>> findNomeEDataComentarioByPostagemId(@Param("postagemId") Long postagemId);
 
 }
-	

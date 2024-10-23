@@ -15,49 +15,46 @@ import br.org.serratec.grupo4.repository.FotoRepository;
 @Service
 public class FotoService {
 
-	@Autowired
-	private FotoRepository fotoRepository;
+    @Autowired
+    private FotoRepository fotoRepository;
 
-	public Foto inserir(Usuario usuario, MultipartFile file) throws IOException {
-		
-		Foto foto = new Foto();
-		foto.setNome(file.getName());
-		foto.setTipo(file.getContentType());
-		foto.setDados(file.getBytes());
-		foto.setUsuario(usuario);
-		return fotoRepository.save(foto);
-		}
-		
-		
+    public Foto inserir(Usuario usuario, MultipartFile file) throws IOException {
 
-	@Transactional
-	public Foto buscarPorIdUsuario(Long id) {
-		Usuario usuario = new Usuario();
-		usuario.setId(id);
-		Optional<Foto> foto = fotoRepository.findByUsuario(usuario);
-		if (foto.isEmpty()) {
-			return null;
-		}
-		return foto.get();
-	}
-	
-	@Transactional
-	public Foto atualizar(Usuario usuario, MultipartFile file) throws IOException {
-	    Optional<Foto> fotoOpt = fotoRepository.findByUsuario(usuario);
-	    
-	    Foto foto = new Foto();
-	    
-	    if (fotoOpt.isPresent()) {
-	        foto = fotoOpt.get();
-	    } 
-	    else {
-	        foto.setUsuario(usuario);
-	    }
-	    foto.setNome(file.getOriginalFilename());
-	    foto.setTipo(file.getContentType());
-	    foto.setDados(file.getBytes());
+        Foto foto = new Foto();
+        foto.setNome(file.getName());
+        foto.setTipo(file.getContentType());
+        foto.setDados(file.getBytes());
+        foto.setUsuario(usuario);
+        return fotoRepository.save(foto);
+    }
 
-	    return fotoRepository.save(foto);
-	}
+    @Transactional
+    public Foto buscarPorIdUsuario(Long id) {
+        Usuario usuario = new Usuario();
+        usuario.setId(id);
+        Optional<Foto> foto = fotoRepository.findByUsuario(usuario);
+        if (foto.isEmpty()) {
+            return null;
+        }
+        return foto.get();
+    }
+
+    @Transactional
+    public Foto atualizar(Usuario usuario, MultipartFile file) throws IOException {
+        Optional<Foto> fotoOpt = fotoRepository.findByUsuario(usuario);
+
+        Foto foto = new Foto();
+
+        if (fotoOpt.isPresent()) {
+            foto = fotoOpt.get();
+        } else {
+            foto.setUsuario(usuario);
+        }
+        foto.setNome(file.getOriginalFilename());
+        foto.setTipo(file.getContentType());
+        foto.setDados(file.getBytes());
+
+        return fotoRepository.save(foto);
+    }
 
 }

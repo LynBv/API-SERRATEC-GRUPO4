@@ -14,13 +14,12 @@ public class SeguidorDTO {
 
     }
 
-    
     public SeguidorDTO(String nome, LocalDate dataDeSeguimento) {
         this.nome = nome;
         this.dataDeSeguimento = dataDeSeguimento;
     }
 
-    public SeguidorDTO( Relacionamento relacionamento) {
+    public SeguidorDTO(Relacionamento relacionamento) {
         this.nome = relacionamento.getId().getSeguidor().getNome();
         this.dataDeSeguimento = relacionamento.getDataInicioSeguimento();
     }

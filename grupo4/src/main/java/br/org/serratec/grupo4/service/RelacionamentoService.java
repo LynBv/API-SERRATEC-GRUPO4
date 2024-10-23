@@ -48,7 +48,7 @@ public class RelacionamentoService {
         }
         if (usuario.equals(seguido)) {
             throw new RelacionamentoException("Não pode seguir a si mesmo");
-        }   
+        }
 
         UsuarioRelacionamentoPK relacionamentoPK = new UsuarioRelacionamentoPK();
         relacionamentoPK.setSeguidor(usuario);
@@ -64,7 +64,7 @@ public class RelacionamentoService {
         usuarioRepository.save(seguido);
         SeguindoDTO seguindoDTO = new SeguindoDTO(relacionamento);
 
-        return seguindoDTO ;
+        return seguindoDTO;
 
     }
 
@@ -81,15 +81,14 @@ public class RelacionamentoService {
         Usuario seguido = seguidoOpt.get();
         Usuario usuario = usuarioOPT.get();
         Relacionamento relacionamento = usuario.getSeguidos().stream()
-            .filter(rel -> rel.getId().getSeguido().equals(seguido))
-            .findFirst()
-            .orElseThrow(() -> new RelacionamentoException("Você não segue esse usuário"));
-
+                .filter(rel -> rel.getId().getSeguido().equals(seguido))
+                .findFirst()
+                .orElseThrow(() -> new RelacionamentoException("Você não segue esse usuário"));
 
         relacionamentoRepository.deleteById(relacionamento.getId());
         usuario.getSeguidos().remove(relacionamento);
         usuarioRepository.save(usuario);
-       
+
     }
 
     public List<RelacionamentoDTO> ListarSeguindoUsuario(String bearerToken) {
@@ -99,7 +98,7 @@ public class RelacionamentoService {
             throw new IdUsuarioInvalido("Seu Usuário não foi encontrado");
         }
         List<RelacionamentoDTO> seguindo = relacionamentoRepository.findSeguindoPorUsuarioId(id);
-       return seguindo;
+        return seguindo;
     }
 
     public List<RelacionamentoDTO> ListarSeguidoresUsuario(String bearerToken) {
@@ -109,7 +108,7 @@ public class RelacionamentoService {
         if (usuarioOPT.isEmpty()) {
             throw new IdUsuarioInvalido("Seu Usuário não foi encontrado");
         }
-       List<RelacionamentoDTO> seguidores = relacionamentoRepository.findSeguidoresPorUsuarioId(id);
-       return seguidores;
+        List<RelacionamentoDTO> seguidores = relacionamentoRepository.findSeguidoresPorUsuarioId(id);
+        return seguidores;
     }
 }

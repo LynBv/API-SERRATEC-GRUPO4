@@ -14,76 +14,76 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Foto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_foto")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_foto")
+    private Long id;
 
-	@NotNull(message = "Os dados da foto não podem ser nulos")
-	@Lob
-	@Column(columnDefinition = "BLOB")
-	@Schema(description = "Dados da Foto")
-	private byte[] dados;
+    @NotNull(message = "Os dados da foto não podem ser nulos")
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    @Schema(description = "Dados da Foto")
+    private byte[] dados;
 
-	@Schema(description = "Tipo de Foto")
-	private String tipo;
+    @Schema(description = "Tipo de Foto")
+    private String tipo;
 
-	@Schema(description = "Nome da Foto")
-	private String nome;
+    @Schema(description = "Nome da Foto")
+    private String nome;
 
-	@OneToOne
-	@JoinColumn(name = "id_usuario")
-	private Usuario usuario;
+    @OneToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
-	public Foto() {
-	}
+    public Foto() {
+    }
 
-	public Foto(Long id, byte[] dados, String tipo, String nome, Usuario usuario) {
-		this.id = id;
-		this.dados = dados;
-		this.tipo = tipo;
-		this.nome = nome;
-		this.usuario = usuario;
-	}
+    public Foto(Long id, byte[] dados, String tipo, String nome, Usuario usuario) {
+        this.id = id;
+        this.dados = dados;
+        this.tipo = tipo;
+        this.nome = nome;
+        this.usuario = usuario;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public byte[] getDados() {
-		return dados;
-	}
+    public byte[] getDados() {
+        return dados;
+    }
 
-	public void setDados(byte[] dados) {
-		this.dados = dados;
-	}
+    public void setDados(byte[] dados) {
+        this.dados = dados;
+    }
 
-	public String getTipo() {
-		return tipo;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
 }

@@ -5,7 +5,9 @@ import java.time.LocalDate;
 public interface RelacionamentoDTO {
 
     public String getNomeSeguidor();
+
     public String getNomeSeguido();
+
     public LocalDate getDataInicioSeguimento();
 
 }

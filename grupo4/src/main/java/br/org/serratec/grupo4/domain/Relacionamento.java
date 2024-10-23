@@ -16,15 +16,14 @@ import lombok.Data;
 @Entity
 @Valid
 public class Relacionamento {
-	
-	
-	   @EmbeddedId
-	    private UsuarioRelacionamentoPK id; 
 
-	    @NotNull
-	    @CreationTimestamp
-	    @Column(name="data_inicio_seguimento", nullable = false, updatable = false)
-	    @Schema(description = "Data_Seguimento")
-	    private LocalDate dataInicioSeguimento;
+    @EmbeddedId
+    private UsuarioRelacionamentoPK id;
+
+    @NotNull
+    @CreationTimestamp
+    @Column(name = "data_inicio_seguimento", nullable = false, updatable = false)
+    @Schema(description = "Data_Seguimento")
+    private LocalDate dataInicioSeguimento;
 
 }
