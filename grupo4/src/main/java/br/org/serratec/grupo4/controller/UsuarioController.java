@@ -78,17 +78,26 @@ public class UsuarioController {
 	////////////////////////////////////////////////////////////////////////////////////////
 
 	@Operation(summary = "🔎 Busca a Foto do Usuario pelo Id 🤳", description = "Verifique se o id está correto :)")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
-			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
-			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
-			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
-	@GetMapping("/{id}/foto")
-	public ResponseEntity<byte[]> buscarFoto(@PathVariable Long id) {
-		Foto foto = fotoService.buscarPorIdUsuario(id);
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_TYPE, foto.getTipo());
-		headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
-		return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
+        @ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
+        @ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
+        @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|")})
+    @GetMapping("/{id}/foto")
+	public ResponseEntity<?> buscarFoto(@PathVariable Long id) {
+	    Foto foto = fotoService.buscarPorIdUsuario(id);
+	    if (foto == null) {
+	        return ResponseEntity
+	                .status(HttpStatus.NOT_FOUND)
+	                .body("A foto não foi encontrada.");
+	    }
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add(HttpHeaders.CONTENT_TYPE, foto.getTipo());
+	    headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
+
+	    return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -195,5 +204,6 @@ public class UsuarioController {
 		usuarioService.deletar(id, token);
 		String mensagem = "Usuario deletado com sucesso!";
 		return ResponseEntity.ok(mensagem);
+
 	}
 }
