@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI myOpenAPI() {
-    
+
         Server devServer = new Server();
         devServer.setUrl(devUrl);
         devServer.setDescription("URL do servidor do Grupo 4");
@@ -50,12 +50,13 @@ public class SwaggerConfig {
                 .name("Authorization");
 
         SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
-        OpenAPI openAPI = new OpenAPI();
-		openAPI.addSecurityItem(securityRequirement);
-        
-        return new OpenAPI().info(info).servers(List.of(devServer));
-        
-       
+
+        return new OpenAPI()
+                .info(info)
+                .servers(List.of(devServer))
+                .addSecurityItem(securityRequirement)
+                .components(new Components().addSecuritySchemes("bearerAuth", securityScheme));
+
     }
 
 }
