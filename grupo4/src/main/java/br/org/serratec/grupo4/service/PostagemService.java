@@ -59,7 +59,7 @@ public class PostagemService {
         Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
 
         if (usuarioOPT.isEmpty()) {
-            throw new IdUsuarioInvalido("Usuário não encontrado");
+            throw new IdUsuarioInvalido("Seu Usuário não foi encontrado");
         }
 
         Postagem postagem = new Postagem();
