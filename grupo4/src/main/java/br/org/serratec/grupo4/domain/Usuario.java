@@ -78,14 +78,14 @@ public class Usuario implements UserDetails, Serializable {
 	// Ajuste necessário para tornar mais claro a relação entre usuário e
 	// relacionamento
 	
-	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Relacionamento> seguidores = new HashSet<>();
 
 	// Seguidos (usuários que este usuário está seguindo)
 	// Ajuste necessário para tornar mais claro a relação entre usuário e
 	// relacionamento
 	
-	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Relacionamento> seguidos = new HashSet<>();
 
 	@Override
@@ -102,8 +102,6 @@ public class Usuario implements UserDetails, Serializable {
 	public String getUsername() {
 		return email;
 	}
-	
-	//testetest
 
 }
 

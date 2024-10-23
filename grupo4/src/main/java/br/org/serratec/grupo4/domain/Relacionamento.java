@@ -27,5 +27,4 @@ public class Relacionamento {
 	    @Schema(description = "Data_Seguimento")
 	    private LocalDate dataInicioSeguimento;
 
-
 }
