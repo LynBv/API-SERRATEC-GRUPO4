@@ -112,7 +112,6 @@ public class PostagemService {
 		}
 
 		postagemRepository.deleteById(id);
-		
 
 	}
 
