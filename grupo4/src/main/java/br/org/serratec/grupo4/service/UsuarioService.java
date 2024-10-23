@@ -37,7 +37,7 @@ public class UsuarioService {
     private FotoService fotoService;
 
     public List<UsuarioDTO> listarUsuarios() {
-        List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(f -> adicionarImagemUri(f)).toList();
+        List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(u -> adicionarImagemUri(u)).toList();
         return usuarios;
     }
 
@@ -146,7 +146,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO adicionarImagemUri(Usuario usuario) {
-        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuario/{id}/foto")
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuarios/{id}/foto")
                 .buildAndExpand(usuario.getId()).toUri();
         UsuarioDTO dto = new UsuarioDTO();
         dto.setId(usuario.getId());
