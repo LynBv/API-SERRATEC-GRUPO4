@@ -83,6 +83,10 @@ public class Usuario implements UserDetails, Serializable {
     @OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Relacionamento> seguidos = new HashSet<>();
 
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
+    @Schema(description = "Comentarios")
+    private List<Comentario> comentarios = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
