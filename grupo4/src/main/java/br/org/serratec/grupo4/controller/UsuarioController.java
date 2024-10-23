@@ -97,6 +97,7 @@ public class UsuarioController {
 	    headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(foto.getDados().length));
 
 	    return new ResponseEntity<>(foto.getDados(), headers, HttpStatus.OK);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -198,13 +199,9 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<UsuarioDTO> deletar(@PathVariable Long id) {
-		if (usuarioRepository.existsById(id)) {
-			usuarioRepository.deleteById(id);
-			return ResponseEntity.noContent().build();
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+ @DeleteMapping("/{id}")
+        public ResponseEntity<String> deletar(@PathVariable Long id) {
+            usuarioRepository.deleteById(id);
+            return ResponseEntity.ok("ok");
+        }
 }
