@@ -1,6 +1,7 @@
 package br.org.serratec.grupo4.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.org.serratec.grupo4.domain.Relacionamento;
 import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.domain.UsuarioRelacionamentoPK;
+import br.org.serratec.grupo4.dto.RelacionamentoDTO;
 import br.org.serratec.grupo4.dto.SeguindoDTO;
 import br.org.serratec.grupo4.exception.IdUsuarioInvalido;
 import br.org.serratec.grupo4.exception.RelacionamentoException;
@@ -56,6 +58,7 @@ public class RelacionamentoService {
         relacionamento.setDataInicioSeguimento(LocalDate.now());
         relacionamentoRepository.save(relacionamento);
         usuario.getSeguidos().add(relacionamento);
+
         seguido.getSeguidores().add(relacionamento);
         usuarioRepository.save(usuario);
         usuarioRepository.save(seguido);
@@ -87,5 +90,26 @@ public class RelacionamentoService {
         usuario.getSeguidos().remove(relacionamento);
         usuarioRepository.save(usuario);
        
+    }
+
+    public List<RelacionamentoDTO> ListarSeguindoUsuario(String bearerToken) {
+        Long id = jwtUtil.getId(bearerToken);
+        Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
+        if (usuarioOPT.isEmpty()) {
+            throw new IdUsuarioInvalido("Seu Usuário não foi encontrado");
+        }
+        List<RelacionamentoDTO> seguindo = relacionamentoRepository.findSeguindoPorUsuarioId(id);
+       return seguindo;
+    }
+
+    public List<RelacionamentoDTO> ListarSeguidoresUsuario(String bearerToken) {
+
+        Long id = jwtUtil.getId(bearerToken);
+        Optional<Usuario> usuarioOPT = usuarioRepository.findById(id);
+        if (usuarioOPT.isEmpty()) {
+            throw new IdUsuarioInvalido("Seu Usuário não foi encontrado");
+        }
+       List<RelacionamentoDTO> seguidores = relacionamentoRepository.findSeguidoresPorUsuarioId(id);
+       return seguidores;
     }
 }
