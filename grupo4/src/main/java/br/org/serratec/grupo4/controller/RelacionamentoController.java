@@ -30,7 +30,8 @@ public class RelacionamentoController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
-			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|"), 
+	 })
 	@GetMapping("/seguem")
 	public ResponseEntity<List<RelacionamentoDTO>> meusSeguidores(@RequestHeader("Authorization") String token) {
 		List<RelacionamentoDTO> seguidores = relacionamentoService.ListarSeguidoresUsuario(token);
@@ -42,7 +43,8 @@ public class RelacionamentoController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
-			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|"),
+	       })
 	@GetMapping("/sigo")
 	public ResponseEntity<List<RelacionamentoDTO>> Seguindo(@RequestHeader("Authorization") String token) {
 		List<RelacionamentoDTO> seguidores = relacionamentoService.ListarSeguindoUsuario(token);
@@ -54,7 +56,8 @@ public class RelacionamentoController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
-			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|"),
+			@ApiResponse(responseCode = "409", description = "Você ja segue este Usuario (>‿◠)✌ ")})
 
 	@PostMapping("/{idSeguido}")
 	public ResponseEntity<SeguindoDTO> seguirUsuario(@RequestHeader("Authorization") String token,
@@ -68,7 +71,8 @@ public class RelacionamentoController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
 			@ApiResponse(responseCode = "401", description = "Erro na autenticação (•ิ_•ิ)"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
-			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
+			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|"),
+	        @ApiResponse(responseCode = "409", description = "Você ja deixou de seguir este Usuário (>‿◠)✌")})
 	@DeleteMapping("/{idSeguido}")
 	public String deixarSeguir(@RequestHeader("Authorization") String token, @PathVariable Long idSeguido) {
 		relacionamentoService.deixarSeguir(token, idSeguido);

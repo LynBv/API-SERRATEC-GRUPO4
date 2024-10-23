@@ -49,10 +49,6 @@ public class UsuarioService {
 
         Usuario usuario = usuarioOpt.get();
         UsuarioDTO usuarioDto = new UsuarioDTO(usuario);
-        if (usuario.getFoto() == null) {
-            return usuarioDto;
-        }
-        usuarioDto = adicionarImagemUri(usuario);
 
         return usuarioDto;
     }
