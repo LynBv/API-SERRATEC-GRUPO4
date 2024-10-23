@@ -199,11 +199,9 @@ public class UsuarioController {
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado ⊙▂⊙"),
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação |˚–˚|") })
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deletar(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-		usuarioService.deletar(id, token);
-		String mensagem = "Usuario deletado com sucesso!";
-		return ResponseEntity.ok(mensagem);
-
-	}
+ @DeleteMapping("/{id}")
+        public ResponseEntity<String> deletar(@PathVariable Long id) {
+            usuarioRepository.deleteById(id);
+            return ResponseEntity.ok("ok");
+        }
 }
