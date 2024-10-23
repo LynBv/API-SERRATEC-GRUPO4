@@ -151,12 +151,8 @@ public class PostagemController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<PostagemDTO> deletar(@PathVariable Long id) {
-        if (postagemRepository.existsById(id)) {
-            postagemRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<PostagemDTO> deletar(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        postagemService.deletar(token, id);
+        return ResponseEntity.noContent().build();
     }
 }
