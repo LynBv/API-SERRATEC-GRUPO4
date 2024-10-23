@@ -37,7 +37,7 @@ public class UsuarioService {
     private FotoService fotoService;
 
     public List<UsuarioDTO> listarUsuarios() {
-        List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(u -> adicionarImagemUri(u)).toList();
+        List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(UsuarioDTO::new).toList();
         return usuarios;
     }
 
