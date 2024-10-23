@@ -33,6 +33,7 @@ import br.org.serratec.grupo4.repository.UsuarioRepository;
 import br.org.serratec.grupo4.service.FotoService;
 import br.org.serratec.grupo4.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -116,6 +117,8 @@ public class UsuarioController {
 
     }
 
+
+	
     ////////////////////////////////////////////////////////////////////////////////////
 	
 	@Operation(summary = "📧 Busca o usuario pelo Email", description = "Verifique se o id está correto :)")
