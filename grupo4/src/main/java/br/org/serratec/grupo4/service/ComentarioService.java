@@ -74,6 +74,7 @@ public class ComentarioService {
         comentario.setTexto(comentarioInserirDTO.getTexto());
         comentario.setDataCriacao(LocalDate.now());
         comentario.setUsuario(usuario);
+        comentario.setPostagem(postagem);
         
         comentario = comentarioRepository.save(comentario);
 
