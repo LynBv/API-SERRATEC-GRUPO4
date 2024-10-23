@@ -53,7 +53,8 @@ public class JwtUtil {
         }
         return null;
     }
-/* 
+
+    /* 
    public Long getId(String token) {
         Claims claims = getClaims(token);
         if (claims != null) {
@@ -61,7 +62,7 @@ public class JwtUtil {
         }
         return null;
     }  */
-    
+
     public Long getId(String bearerToken) {
 
         String token = bearerToken.startsWith("Bearer ")

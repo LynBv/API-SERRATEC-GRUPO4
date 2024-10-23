@@ -13,8 +13,8 @@ import br.org.serratec.grupo4.dto.RelacionamentoDTO;
 
 @Repository
 public interface RelacionamentoRepository extends JpaRepository<Relacionamento, UsuarioRelacionamentoPK> {
-	
-	  @Query(value = """
+
+    @Query(value = """
             SELECT SGD.NOME AS nome_seguido, SG.NOME AS nome_seguidor, R.DATA_INICIO_SEGUIMENTO AS data_inicio_seguimento
             FROM RELACIONAMENTO AS R
             INNER JOIN USUARIO AS SGD ON R.ID_SEGUIDOR = SGD.ID_USUARIO
@@ -23,7 +23,7 @@ public interface RelacionamentoRepository extends JpaRepository<Relacionamento, 
             ORDER BY SG.NOME
             """, nativeQuery = true)
     List<RelacionamentoDTO> findSeguidoresPorUsuarioId(@Param("usuarioId") Long usuarioId);
-    
+
     @Query(value = """
     		SELECT SG.NOME AS nome_seguidor, SGD.NOME AS nome_seguido, R.DATA_INICIO_SEGUIMENTO AS data_inicio_seguimento
             FROM RELACIONAMENTO AS R

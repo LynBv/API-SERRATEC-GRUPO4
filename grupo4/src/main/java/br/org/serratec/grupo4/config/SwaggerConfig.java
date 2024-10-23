@@ -14,31 +14,29 @@ import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
-	
-	@Value("${dominio.openapi.dev-url}")
-	private String devUrl;
-	
-	
-	
-	@Bean
-	public OpenAPI myOpenAPI() {
-		Server devServer = new Server();
-		devServer.setUrl(devUrl);
-		devServer.setDescription("URL do servidor do Grupo 4");
-		
-		Contact contact = new Contact();
-		contact.setEmail("contato@g4dominio.com.br 📧");
-		contact.setName("Grupo 4.0");
-		contact.setUrl("https://www.g4dominio.com.br");
-		
-		License apacheLicense = new License().name("Apache License")
-				.url("https://www.apache.org/license/LICENSE-2.0");
-		
-		Info info = new Info().title("Grupo 4 👨‍💻 👩‍💻").version("1.0").contact(contact)
-				.description("Trabalho Final do Grupo 4.0").termsOfService("https://https://www.g4dominio.com.br/termos")
-				.license(apacheLicense);
-		
-		return new OpenAPI().info(info).servers(List.of(devServer));
-	}
-	
+
+    @Value("${dominio.openapi.dev-url}")
+    private String devUrl;
+
+    @Bean
+    public OpenAPI myOpenAPI() {
+        Server devServer = new Server();
+        devServer.setUrl(devUrl);
+        devServer.setDescription("URL do servidor do Grupo 4");
+
+        Contact contact = new Contact();
+        contact.setEmail("contato@g4dominio.com.br 📧");
+        contact.setName("Grupo 4.0");
+        contact.setUrl("https://www.g4dominio.com.br");
+
+        License apacheLicense = new License().name("Apache License")
+                .url("https://www.apache.org/license/LICENSE-2.0");
+
+        Info info = new Info().title("Grupo 4 👨‍💻 👩‍💻").version("1.0").contact(contact)
+                .description("Trabalho Final do Grupo 4.0").termsOfService("https://https://www.g4dominio.com.br/termos")
+                .license(apacheLicense);
+
+        return new OpenAPI().info(info).servers(List.of(devServer));
+    }
+
 }

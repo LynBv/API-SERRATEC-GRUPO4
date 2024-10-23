@@ -14,16 +14,16 @@ import lombok.EqualsAndHashCode;
 @Embeddable
 public class UsuarioRelacionamentoPK implements Serializable {
 
-	private static final long serialVersionUID = 1L;	
-	
-	@ManyToOne
-	@JoinColumn(name = "id_seguidor", nullable = false)
-	@Schema(description = "Seguidor")
-	private Usuario seguidor; // to chamando o seguidor 
-	
-	@ManyToOne
-	@JoinColumn(name = "id_seguido", nullable = false)
-	@Schema(description = "Id_Seguido")
-	private Usuario seguido; //to chamando o seguido 
+    private static final long serialVersionUID = 1L;
+
+    @ManyToOne
+    @JoinColumn(name = "id_seguidor", nullable = false)
+    @Schema(description = "Seguidor")
+    private Usuario seguidor; // to chamando o seguidor 
+
+    @ManyToOne
+    @JoinColumn(name = "id_seguido", nullable = false)
+    @Schema(description = "Id_Seguido")
+    private Usuario seguido; //to chamando o seguido 
 
 }

@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,7 +36,7 @@ public class Postagem {
 	@Schema(description="Conteudo da Postagem")
 	private String conteudo;
 	
-	@UpdateTimestamp
+
 	@Column(name = "data_criacao", nullable = false, updatable = true)
 	@Schema(description="Data de Criação da Postagem")
 	private LocalDate dataCriacao;

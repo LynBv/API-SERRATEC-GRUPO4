@@ -33,75 +33,69 @@ import lombok.EqualsAndHashCode;
 @Valid
 public class Usuario implements UserDetails, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
-	@Column(name = "id_usuario")
-	@Schema(description = "Id do Usuário")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @Column(name = "id_usuario")
+    @Schema(description = "Id do Usuário")
+    private Long id;
 
-	@NotBlank
-	@Column(nullable = false, length = 100)
-	@Schema(description = "Nome do Usuário")
-	private String nome;
+    @NotBlank
+    @Column(nullable = false, length = 100)
+    @Schema(description = "Nome do Usuário")
+    private String nome;
 
-	@Column(nullable = false, length = 100)
-	@Schema(description = "Sobrenome do Usuário")
-	private String sobrenome;
+    @Column(nullable = false, length = 100)
+    @Schema(description = "Sobrenome do Usuário")
+    private String sobrenome;
 
-	@Column(nullable = false, length = 150, unique = true)
-	@Schema(description = "Email do Usuário")
-	private String email;
+    @Column(nullable = false, length = 150, unique = true)
+    @Schema(description = "Email do Usuário")
+    private String email;
 
-	@Column(nullable = false)
-	@Schema(description = "Senha do Usuário")
-	private String senha;
-	
-	@Column(name = "url", nullable = true)
-	private String url;
+    @Column(nullable = false)
+    @Schema(description = "Senha do Usuário")
+    private String senha;
 
-	
-	private LocalDate dataNascimento;
+    @Column(name = "url", nullable = true)
+    private String url;
 
-	
-	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Foto foto;
-	
+    private LocalDate dataNascimento;
 
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Schema(description = "Postagens")
-	private List<Postagem> postagens = new ArrayList<>();
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Foto foto;
 
-	// Seguidores (usuários que seguem este usuário)
-	// Ajuste necessário para tornar mais claro a relação entre usuário e
-	// relacionamento
-	
-	@OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<Relacionamento> seguidores = new HashSet<>();
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Schema(description = "Postagens")
+    private List<Postagem> postagens = new ArrayList<>();
 
-	// Seguidos (usuários que este usuário está seguindo)
-	// Ajuste necessário para tornar mais claro a relação entre usuário e
-	// relacionamento
-	
-	@OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<Relacionamento> seguidos = new HashSet<>();
+    // Seguidores (usuários que seguem este usuário)
+    // Ajuste necessário para tornar mais claro a relação entre usuário e
+    // relacionamento
+    @OneToMany(mappedBy = "id.seguido", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Relacionamento> seguidores = new HashSet<>();
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.emptyList();
-	}
+    // Seguidos (usuários que este usuário está seguindo)
+    // Ajuste necessário para tornar mais claro a relação entre usuário e
+    // relacionamento
+    @OneToMany(mappedBy = "id.seguidor", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Relacionamento> seguidos = new HashSet<>();
 
-	@Override
-	public String getPassword() {
-		return senha;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
 
-	@Override
-	public String getUsername() {
-		return email;
-	}
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
 }
-

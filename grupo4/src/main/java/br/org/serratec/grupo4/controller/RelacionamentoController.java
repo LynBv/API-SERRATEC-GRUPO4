@@ -20,33 +20,32 @@ import br.org.serratec.grupo4.service.RelacionamentoService;
 @RequestMapping("/relacionamentos")
 public class RelacionamentoController {
 
-	@Autowired
-	private RelacionamentoService relacionamentoService;
-	
-	@GetMapping("/seguem")
-	public ResponseEntity<List<RelacionamentoDTO>>meusSeguidores(@RequestHeader("Authorization") String token) {
+    @Autowired
+    private RelacionamentoService relacionamentoService;
+
+    @GetMapping("/seguem")
+    public ResponseEntity<List<RelacionamentoDTO>> meusSeguidores(@RequestHeader("Authorization") String token) {
         List<RelacionamentoDTO> seguidores = relacionamentoService.ListarSeguidoresUsuario(token);
         return ResponseEntity.ok(seguidores);
     }
-	
-	@GetMapping("/sigo")
-	public ResponseEntity<List<RelacionamentoDTO>>Seguindo(@RequestHeader("Authorization") String token ){
-		List<RelacionamentoDTO> seguidores = relacionamentoService.ListarSeguindoUsuario(token);
+
+    @GetMapping("/sigo")
+    public ResponseEntity<List<RelacionamentoDTO>> Seguindo(@RequestHeader("Authorization") String token) {
+        List<RelacionamentoDTO> seguidores = relacionamentoService.ListarSeguindoUsuario(token);
         return ResponseEntity.ok(seguidores);
     }
-	
-	
-	@PostMapping("/{idSeguido}")
-	public ResponseEntity<SeguindoDTO>seguirUsuario(@RequestHeader("Authorization") String token, @PathVariable Long idSeguido) {
+
+    @PostMapping("/{idSeguido}")
+    public ResponseEntity<SeguindoDTO> seguirUsuario(@RequestHeader("Authorization") String token, @PathVariable Long idSeguido) {
         SeguindoDTO seguindo = relacionamentoService.seguirUsuario(token, idSeguido);
         return ResponseEntity.ok(seguindo);
     }
-	
-	@DeleteMapping("/{idSeguido}")
-	public String deixarSeguir(@RequestHeader("Authorization") String token, @PathVariable Long idSeguido) {
+
+    @DeleteMapping("/{idSeguido}")
+    public String deixarSeguir(@RequestHeader("Authorization") String token, @PathVariable Long idSeguido) {
         relacionamentoService.deixarSeguir(token, idSeguido);
         String mensagem = "Voce deixou de seguir essa pessoa!";
         return mensagem;
-	}
-	
+    }
+
 }
