@@ -10,8 +10,7 @@ import br.org.serratec.grupo4.domain.Usuario;
 import br.org.serratec.grupo4.repository.UsuarioRepository;
 
 @Service
-public class UsuarioDetalheImpl implements UserDetailsService{
-
+public class UsuarioDetalheImpl implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -25,6 +24,5 @@ public class UsuarioDetalheImpl implements UserDetailsService{
         }
         return usuario;
     }
-
 
 }

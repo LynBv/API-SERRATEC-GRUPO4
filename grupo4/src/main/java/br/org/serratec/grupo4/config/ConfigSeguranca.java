@@ -27,33 +27,33 @@ import br.org.serratec.grupo4.security.JwtUtil;
 public class ConfigSeguranca {
 
     @Autowired
-	UserDetailsService userDetailsService;
-	
-	@Autowired
-	JwtUtil jwtUtil;
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    JwtUtil jwtUtil;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-            .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
-            .httpBasic(Customizer.withDefaults())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .headers(headers -> headers.frameOptions().sameOrigin());
+                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers.frameOptions().sameOrigin());
 
-    	JwtAuthenticationFilter jwtAuthenticationFilter = 
-				new JwtAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))
-						, jwtUtil);
+        JwtAuthenticationFilter jwtAuthenticationFilter
+                = new JwtAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
+                        jwtUtil);
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
-        JwtAuthorizationFilter jwtAuthorizationFilter = 
-				new JwtAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
-						jwtUtil, userDetailsService);
-		
-		http.addFilter(jwtAuthenticationFilter);
-		http.addFilter(jwtAuthorizationFilter);
-		
-		return http.build();
+        JwtAuthorizationFilter jwtAuthorizationFilter
+                = new JwtAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)),
+                        jwtUtil, userDetailsService);
+
+        http.addFilter(jwtAuthenticationFilter);
+        http.addFilter(jwtAuthorizationFilter);
+
+        return http.build();
     }
 
     @Bean

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -15,14 +16,14 @@ import lombok.Data;
 @Entity
 @Valid
 public class Relacionamento {
-	
-	
-	   @EmbeddedId
-	    private UsuarioRelacionamentoPK id; 
 
-	    @NotNull
-	    @CreationTimestamp
-	    @Column(name="data_inicio_seguimento", nullable = false, updatable = false)
-	    private LocalDate dataInicioSeguimento;
+    @EmbeddedId
+    private UsuarioRelacionamentoPK id;
+
+    @NotNull
+    @CreationTimestamp
+    @Column(name = "data_inicio_seguimento", nullable = false, updatable = false)
+    @Schema(description = "Data_Seguimento")
+    private LocalDate dataInicioSeguimento;
 
 }

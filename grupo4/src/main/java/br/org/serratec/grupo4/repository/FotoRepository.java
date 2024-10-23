@@ -11,6 +11,6 @@ import br.org.serratec.grupo4.domain.Usuario;
 @Repository
 public interface FotoRepository extends JpaRepository<Foto, Long> {
 
-	Optional<Foto> findByUsuario(Usuario usuario);
+    Optional<Foto> findByUsuario(Usuario usuario);
 
 }

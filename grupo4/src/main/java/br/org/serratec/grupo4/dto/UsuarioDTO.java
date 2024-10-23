@@ -5,94 +5,96 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.org.serratec.grupo4.domain.Usuario;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 
-
 public class UsuarioDTO {
-	
-	private Long id;
-	
-	private String nome;
-	
-	private String sobrenome;
 
-	private String email;
-	
+    @Schema(description = "Id")
+    private Long id;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dataNascimento;
-	
-	@Column(name = "url")
-	private String url;
+    @Schema(description = "Nome")
+    private String nome;
 
-	public UsuarioDTO() {
-	}
+    @Schema(description = "Sobrenome")
+    private String sobrenome;
 
-	public UsuarioDTO(Long id, String nome, String sobrenome, String email, LocalDate dataNascimento, String url) {
-		this.id = id;
-		this.nome = nome;
-		this.sobrenome = sobrenome;
-		this.email = email;
-		this.dataNascimento = dataNascimento;
-		this.url = url;
-	}
+    @Schema(description = "Email")
+    private String email;
 
-	public UsuarioDTO(Usuario usuario) {
-		this.id = usuario.getId();
-		this.nome = usuario.getNome();
-		this.sobrenome = usuario.getSobrenome();
-		this.email = usuario.getEmail();
-		this.dataNascimento = usuario.getDataNascimento();
-		this.url = usuario.getUrl();
-	}
-	
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataNascimento;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "url")
+    private String url;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public UsuarioDTO() {
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public UsuarioDTO(Long id, String nome, String sobrenome, String email, LocalDate dataNascimento, String url) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.url = url;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public UsuarioDTO(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.sobrenome = usuario.getSobrenome();
+        this.email = usuario.getEmail();
+        this.dataNascimento = usuario.getDataNascimento();
+        this.url = usuario.getUrl();
+    }
 
-	public String getSobrenome() {
-		return sobrenome;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setSobrenome(String sobrenome) {
-		this.sobrenome = sobrenome;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
-	}
+    public String getSobrenome() {
+        return sobrenome;
+    }
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
 }
