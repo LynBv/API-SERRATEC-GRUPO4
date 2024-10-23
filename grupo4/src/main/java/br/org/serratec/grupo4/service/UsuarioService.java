@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,6 +37,7 @@ public class UsuarioService {
 
     @Autowired
     private FotoService fotoService;
+    
 
     public List<UsuarioDTO> listarUsuarios() {
         List<UsuarioDTO> usuarios = usuarioRepository.findAll().stream().map(UsuarioDTO::new).toList();
@@ -156,4 +159,19 @@ public class UsuarioService {
 
         return dto;
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deletar(Long id, String bearerToken) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            throw new IdUsuarioInvalido("Id do usuario não encontrado");
+        }
+        Long idtoken = jwtUtil.getId(bearerToken);
+        if (!id.equals(idtoken)) {
+            throw new ProprietarioIncompativelException("Voce so pode excluir seu usuario");
+        }
+        
+    }
+
+
 }
