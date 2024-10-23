@@ -5,17 +5,22 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.org.serratec.grupo4.domain.Usuario;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 
 
 public class UsuarioDTO {
 	
+	@Schema(description = "Id")
 	private Long id;
 	
+	@Schema(description = "Nome")
 	private String nome;
 	
+	@Schema(description = "Sobrenome")
 	private String sobrenome;
 
+	@Schema(description = "Email")
 	private String email;
 	
 
