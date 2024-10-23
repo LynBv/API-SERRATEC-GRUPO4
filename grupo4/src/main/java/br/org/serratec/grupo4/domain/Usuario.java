@@ -67,7 +67,7 @@ public class Usuario implements UserDetails, Serializable {
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Foto foto;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
     @Schema(description = "Postagens")
     private List<Postagem> postagens = new ArrayList<>();
 
