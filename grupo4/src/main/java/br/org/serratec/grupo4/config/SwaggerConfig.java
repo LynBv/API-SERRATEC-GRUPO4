@@ -24,7 +24,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI myOpenAPI() {
-    
+
         Server devServer = new Server();
         devServer.setUrl(devUrl);
         devServer.setDescription("URL do servidor do Grupo 4");
@@ -54,9 +54,7 @@ public class SwaggerConfig {
         
         return new OpenAPI().info(info).servers(List.of(devServer));
          
-        
     }
-    
     
 }
 

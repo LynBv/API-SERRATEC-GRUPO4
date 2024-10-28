@@ -50,7 +50,7 @@ public class FotoService {
         } else {
             foto.setUsuario(usuario);
         }
-        foto.setNome(file.getOriginalFilename());
+        foto.setNome(file.getName());
         foto.setTipo(file.getContentType());
         foto.setDados(file.getBytes());
 

@@ -59,6 +59,8 @@ public class ComentarioController {
         return ResponseEntity.ok(comentarioService.buscarTodos());
     }
 
+    ////////////////////////////////////////////////////////////////////////
+
     @Operation(summary = "📖 Lista Paginado", description = ":)")
     @ApiResponses(
             value = {
@@ -98,7 +100,7 @@ public class ComentarioController {
 
     /////////////////////////////////////////////////////////////////////////
 
-	 @Operation(summary = "👀 Busca a postagem do comentário pelo Id", description = "Verifique se o id está correto :)")
+	@Operation(summary = "👀 Busca a postagem do comentário pelo Id", description = "Verifique se o id está correto :)")
     @ApiResponses(
             value = {
                 @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso ｡◕‿◕｡"),
